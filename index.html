@@ -624,15 +624,25 @@
              let gameTimerInterval = null;
              let itemSpawnInterval = null;
              let gameActive = false;
-             let itemsSpawnedThisRound = 0;
-             const maxItemsPerRound = 50;
-             const totalMiceAllowed = 15;
-             const totalGreenAllowed = 30;
-             let miceSpawnedTotal = 0;
-             let greenSpawnedTotal = 0;
+             let itemsSpawnedThisRound = 0; // Total items spawned this round (safety cap)
+             const maxItemsPerRound = 50; // Overall safety cap per round
+
+             // NEW: Per-round item counters and limits
+             let hongbaoSpawnedThisRound = 0;
+             let miceSpawnedThisRound = 0;
+             let greenSpawnedThisRound = 0;
+             const maxHongbaoPerRound = 30;
+             const maxMicePerRound = 30;
+             const maxGreenPerRound = 30;
+
+             // REMOVED: Global counters and limits are no longer needed
+             // const totalMiceAllowed = 15;
+             // const totalGreenAllowed = 30;
+             // let miceSpawnedTotal = 0;
+             // let greenSpawnedTotal = 0;
 
              const ITEM_SPAWN_INTERVAL = 400;
-             const ITEM_FALL_DURATION = 7000; // Increased from 4000 to 7000ms for slower fall
+             const ITEM_FALL_DURATION = 7000;
 
              // --- Draggable Elements Variables ---
              let dragTarget = null; let isDragging = false; let offsetX, offsetY; let isDragAction = false;
@@ -646,32 +656,23 @@
              function stopFallingItems(intervalId, container) { /* Keep original */ if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
 
              // --- View Switching Logic ---
-             function hideAllViews() {
-                 // Hide all potential views
-                 [birthdayView, loveLetterView, gameView, loveWarningMessage, gameStartWarning, passwordPromptView].forEach(view => {
-                     if (view) view.style.display = 'none';
-                 });
-                 // Stop effects specific to views
-                 birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView);
-                 loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView);
-                 stopGame(); // Stop game if active
-             }
-             function showLoveLetter() { hideAllViews(); if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showBirthday() { hideAllViews(); if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
-             function showPasswordPrompt() { hideAllViews(); if (passwordPromptView) passwordPromptView.style.display = 'flex'; if (passwordInput) passwordInput.value = ''; if (passwordErrorMessage) passwordErrorMessage.textContent = ''; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showGameStartWarning() { hideAllViews(); if (gameStartWarning) gameStartWarning.style.display = 'flex'; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showGame() { hideAllViews(); if(gameView) { gameView.style.display = 'flex'; if (gameResultDisplay) gameResultDisplay.style.display = 'none'; if (gameArea) gameArea.style.display = 'block'; if (gameInfo) gameInfo.style.display = 'block'; } startGame(); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function hideAllViews() { /* Keep original */ [birthdayView, loveLetterView, gameView, loveWarningMessage, gameStartWarning, passwordPromptView].forEach(view => { if (view) view.style.display = 'none'; }); birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView); loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView); stopGame(); }
+             function showLoveLetter() { /* Keep original */ hideAllViews(); if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showBirthday() { /* Keep original */ hideAllViews(); if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
+             function showPasswordPrompt() { /* Keep original */ hideAllViews(); if (passwordPromptView) passwordPromptView.style.display = 'flex'; if (passwordInput) passwordInput.value = ''; if (passwordErrorMessage) passwordErrorMessage.textContent = ''; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showGameStartWarning() { /* Keep original */ hideAllViews(); if (gameStartWarning) gameStartWarning.style.display = 'flex'; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showGame() { /* Keep original */ hideAllViews(); if(gameView) { gameView.style.display = 'flex'; if (gameResultDisplay) gameResultDisplay.style.display = 'none'; if (gameArea) gameArea.style.display = 'block'; if (gameInfo) gameInfo.style.display = 'block'; } startGame(); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
 
-             // --- Event Listeners for View Switching ---
+             // --- Event Listeners for View Switching --- (Keep original)
              if (cakeLink) { cakeLink.addEventListener('click', (event) => { event.preventDefault(); if (isDragAction) return; if (loveWarningMessage) { loveWarningMessage.style.display = 'block'; setTimeout(() => { if (loveWarningMessage) loveWarningMessage.style.display = 'none'; showLoveLetter(); tryPlayAudio(); }, 2500); } else { showLoveLetter(); tryPlayAudio(); } }); }
              if (backButton) { backButton.addEventListener('click', showBirthday); }
-             if (gotoGameButton) { gotoGameButton.addEventListener('click', showPasswordPrompt); } // Shows password first
-             if (confirmStartGameButton) { confirmStartGameButton.addEventListener('click', showGame); } // Game starts after warning confirmation
+             if (gotoGameButton) { gotoGameButton.addEventListener('click', showPasswordPrompt); }
+             if (confirmStartGameButton) { confirmStartGameButton.addEventListener('click', showGame); }
              if (backFromGameButton) { backFromGameButton.addEventListener('click', showLoveLetter); }
              if (continueGameButton) { continueGameButton.addEventListener('click', showGame); }
              if (redeemEarlyButton) { redeemEarlyButton.addEventListener('click', showFinalResult); }
 
-             // --- Password Check Logic ---
+             // --- Password Check Logic --- (Keep original)
              if (passwordSubmitButton && passwordInput && passwordErrorMessage) { passwordSubmitButton.addEventListener('click', () => { const enteredPassword = passwordInput.value.trim(); if (enteredPassword === "0610") { showGameStartWarning(); } else { passwordErrorMessage.textContent = '不对哦，再想想！提示：4位数字'; passwordInput.value = ''; passwordInput.focus(); } }); passwordInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); passwordSubmitButton.click(); } }); }
 
              // --- Pointer Trail Heart Logic --- (Keep Original)
@@ -702,19 +703,126 @@
              // --- Font Toggle Logic --- (Keep Original)
              if (fontToggleButton && loveLetterView) { fontToggleButton.addEventListener('click', () => { if (isDragAction) return; loveLetterView.classList.toggle('love-letter-default-font'); }); }
 
-            // --- Game Logic --- (Keep Original)
-             function startGame() { /* Keep original */ console.log("Starting game..."); if (!gameArea || !scoreDisplay || !timerDisplay || !gameResultDisplay || !roundDisplay || !gameInfo) { console.error("Critical game elements not found at startGame!"); return; } currentRound++; console.log(`Starting Round ${currentRound}`); if (currentRound > maxRounds) { console.log("Max rounds reached, showing final result."); showFinalResult(); return; } stopGame(); itemsSpawnedThisRound = 0; timeLeft = 30; gameActive = true; try { if(roundDisplay) roundDisplay.textContent = `第 ${currentRound} / ${maxRounds} 局`; if(scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; if(timerDisplay) timerDisplay.textContent = timeLeft; if(gameResultDisplay) gameResultDisplay.style.display = 'none'; if(gameArea) gameArea.style.display = 'block'; if(gameInfo) gameInfo.style.display = 'block'; } catch(e) { console.error("Error resetting display:", e); } try { if (gameTimerInterval) clearInterval(gameTimerInterval); gameTimerInterval = setInterval(() => { if (!gameActive) { clearInterval(gameTimerInterval); return; } timeLeft--; if (timerDisplay) timerDisplay.textContent = timeLeft; if (timeLeft <= 0) { gameOver(); } }, 1000); } catch(e) { console.error("Error starting timer:", e); gameActive = false; return; } try { if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = setInterval(spawnRandomItem, ITEM_SPAWN_INTERVAL); } catch(e) { console.error("Error starting item spawn:", e); stopGame(); return; } try { if (gameArea) gameArea.removeEventListener('click', handleGameAreaClick); if (gameArea) gameArea.addEventListener('click', handleGameAreaClick); } catch(e) { console.error("Error adding click listener:", e); stopGame(); return; } console.log(`Round ${currentRound} started successfully.`); }
+            // --- ========================== ---
+            // ---    MODIFIED GAME LOGIC     ---
+            // --- ========================== ---
+
+             function startGame() {
+                 console.log("Starting game...");
+                 if (!gameArea || !scoreDisplay || !timerDisplay || !gameResultDisplay || !roundDisplay || !gameInfo) {
+                     console.error("Critical game elements not found at startGame!"); return;
+                 }
+                 currentRound++;
+                 console.log(`Starting Round ${currentRound}`);
+                 if (currentRound > maxRounds) { console.log("Max rounds reached, showing final result."); showFinalResult(); return; }
+                 stopGame(); // Clear previous round elements and timers
+
+                 // *** MODIFIED: Reset per-round counters ***
+                 itemsSpawnedThisRound = 0; // Reset total counter (safety cap)
+                 hongbaoSpawnedThisRound = 0;
+                 miceSpawnedThisRound = 0;
+                 greenSpawnedThisRound = 0;
+                 timeLeft = 30;
+                 gameActive = true;
+
+                 // Update Displays (Keep original)
+                 try { if(roundDisplay) roundDisplay.textContent = `第 ${currentRound} / ${maxRounds} 局`; if(scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; if(timerDisplay) timerDisplay.textContent = timeLeft; if(gameResultDisplay) gameResultDisplay.style.display = 'none'; if(gameArea) gameArea.style.display = 'block'; if(gameInfo) gameInfo.style.display = 'block'; } catch(e) { console.error("Error resetting display:", e); }
+                 // Start Timer (Keep original)
+                 try { if (gameTimerInterval) clearInterval(gameTimerInterval); gameTimerInterval = setInterval(() => { if (!gameActive) { clearInterval(gameTimerInterval); return; } timeLeft--; if (timerDisplay) timerDisplay.textContent = timeLeft; if (timeLeft <= 0) { gameOver(); } }, 1000); } catch(e) { console.error("Error starting timer:", e); gameActive = false; return; }
+                 // Start Spawner (Keep original)
+                 try { if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = setInterval(spawnRandomItem, ITEM_SPAWN_INTERVAL); } catch(e) { console.error("Error starting item spawn:", e); stopGame(); return; }
+                 // Add Click Listener (Keep original)
+                 try { if (gameArea) gameArea.removeEventListener('click', handleGameAreaClick); if (gameArea) gameArea.addEventListener('click', handleGameAreaClick); } catch(e) { console.error("Error adding click listener:", e); stopGame(); return; }
+                 console.log(`Round ${currentRound} started successfully.`);
+             }
+
              function stopGame() { /* Keep original */ console.log("Stopping game elements..."); gameActive = false; try { clearInterval(gameTimerInterval); clearInterval(itemSpawnInterval); } catch(e) { console.error("Error clearing intervals:", e); } gameTimerInterval = null; itemSpawnInterval = null; try { if(gameArea) { gameArea.removeEventListener('click', handleGameAreaClick); const remainingItems = gameArea.querySelectorAll('.game-item'); remainingItems.forEach(item => { const tid = item.dataset.removalTimeoutId; if(tid) clearTimeout(parseInt(tid)); item.remove(); }); } } catch(e) { console.error("Error cleaning up game area:", e); } console.log("Game elements stopped."); }
-             function spawnRandomItem() { /* Keep original */ if (!gameArea || !gameActive || itemsSpawnedThisRound >= maxItemsPerRound) { if (itemsSpawnedThisRound >= maxItemsPerRound) { console.log(`Max items (${maxItemsPerRound}) spawned for round ${currentRound}.`); if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = null; } return; } itemsSpawnedThisRound++; const canSpawnMouse = miceSpawnedTotal < totalMiceAllowed; const canSpawnGreen = greenSpawnedTotal < totalGreenAllowed; let itemType = 'hongbao'; const rand = Math.random(); if (canSpawnMouse && rand < 0.15) { itemType = 'mouse'; } else if (canSpawnGreen && rand < 0.40) { itemType = 'green'; } switch (itemType) { case 'mouse': miceSpawnedTotal++; createMouse(); break; case 'green': greenSpawnedTotal++; createGreenEnvelope(); break; default: createHongbao(); break; } }
-             function createGameItem(className, content) { /* Keep original */ if (!gameArea || !gameActive) return; try { const item = document.createElement('div'); item.classList.add('game-item', className); if (content) item.innerHTML = content; const gameAreaWidth = gameArea.offsetWidth; const itemWidth = 50; item.style.left = Math.max(0, Math.random() * (gameAreaWidth - itemWidth)) + 'px'; const durationVariation = Math.random() * 1000 - 500; const actualDuration = Math.max(3000, ITEM_FALL_DURATION + durationVariation); item.style.animationDuration = actualDuration / 1000 + 's'; gameArea.appendChild(item); const removalTimeout = setTimeout(() => { if (item.parentNode) { item.remove(); } }, actualDuration + 200); item.dataset.removalTimeoutId = removalTimeout; } catch(e) { console.error(`Error creating ${className}:`, e); } }
-             function createHongbao() { createGameItem('hongbao'); } function createGreenEnvelope() { createGameItem('green-envelope'); } function createMouse() { createGameItem('mouse-item'); }
-             function handleGameAreaClick(event) { /* Keep original */ if (!gameActive || !event.target) return; const clickedItem = event.target.closest('.game-item'); if (!clickedItem) return; try { let scoreChange = 0; if (clickedItem.classList.contains('hongbao')) { scoreChange = 1; } else if (clickedItem.classList.contains('green-envelope')) { scoreChange = -1; } else if (clickedItem.classList.contains('mouse-item')) { scoreChange = -3; } if (scoreChange !== 0) { totalScore += scoreChange; if (scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; } const removalTimeoutId = clickedItem.dataset.removalTimeoutId; if (removalTimeoutId) { clearTimeout(parseInt(removalTimeoutId)); } clickedItem.remove(); } catch(e) { console.error("Error handling game item click:", e); } }
-             function gameOver() { /* Keep original */ console.log(`Round ${currentRound} Over. Total Score: ${totalScore}`); stopGame(); if (currentRound >= maxRounds) { showFinalResult(); } else { showEndOfRoundOptions(); } }
-             function showEndOfRoundOptions() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons || !gameArea || !gameInfo) return; console.log("Showing end of round options."); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.textContent = `第 ${currentRound} 局结束！当前总分：${totalScore} 元`; gameResultButtons.style.display = 'flex'; gameResultDisplay.style.display = 'block'; }
-             function showFinalResult() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons) return; console.log("Showing final game result."); stopGame(); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.innerHTML = `游戏结束！<br>珊珊一共抢到了人民币 <span class="prize-code">${totalScore}</span> 元！<br>请截图找章大少兑换奖励！`; gameResultButtons.style.display = 'none'; gameResultDisplay.style.display = 'block'; currentRound = 0; totalScore = 0; miceSpawnedTotal = 0; greenSpawnedTotal = 0; }
+
+             function spawnRandomItem() {
+                 // Check overall safety cap first
+                 if (!gameArea || !gameActive || itemsSpawnedThisRound >= maxItemsPerRound) {
+                      if (itemsSpawnedThisRound >= maxItemsPerRound) {
+                          console.log(`Max items (${maxItemsPerRound}) safety cap reached for round ${currentRound}.`);
+                          // Optionally stop the spawner if the safety cap is hit
+                          // if (itemSpawnInterval) clearInterval(itemSpawnInterval);
+                          // itemSpawnInterval = null;
+                      }
+                      return;
+                 }
+
+                 // *** MODIFIED: Random selection logic with per-round limits ***
+                 const rand = Math.random();
+                 let itemType = null; // Type to potentially spawn
+                 let canSpawn = false; // Flag to check if spawning should occur
+
+                 // 1. Randomly choose a potential type (equal chance initially)
+                 if (rand < 0.333) {
+                     itemType = 'hongbao';
+                 } else if (rand < 0.666) {
+                     itemType = 'mouse';
+                 } else {
+                     itemType = 'green';
+                 }
+
+                 // 2. Check if the chosen type is within its per-round limit
+                 switch (itemType) {
+                     case 'hongbao':
+                         if (hongbaoSpawnedThisRound < maxHongbaoPerRound) {
+                             canSpawn = true;
+                             hongbaoSpawnedThisRound++;
+                         }
+                         break;
+                     case 'mouse':
+                         if (miceSpawnedThisRound < maxMicePerRound) {
+                             canSpawn = true;
+                             miceSpawnedThisRound++;
+                         }
+                         break;
+                     case 'green':
+                         if (greenSpawnedThisRound < maxGreenPerRound) {
+                             canSpawn = true;
+                             greenSpawnedThisRound++;
+                         }
+                         break;
+                 }
+
+                 // 3. If spawn allowed for the chosen type, create it and increment overall counter
+                 if (canSpawn && itemType) {
+                     itemsSpawnedThisRound++; // Increment safety cap counter only if an item is actually spawned
+                     switch (itemType) {
+                         case 'hongbao': createHongbao(); break;
+                         case 'mouse': createMouse(); break;
+                         case 'green': createGreenEnvelope(); break;
+                     }
+                 } else {
+                     // If the chosen type hit its limit, do nothing this interval.
+                     // console.log(`Skipping spawn: ${itemType} limit reached (${eval(itemType+'SpawnedThisRound')}/${eval('max'+itemType.charAt(0).toUpperCase() + itemType.slice(1)+'PerRound')}).`);
+                 }
+             }
+
+            function createGameItem(className, content) { /* Keep original */ if (!gameArea || !gameActive) return; try { const item = document.createElement('div'); item.classList.add('game-item', className); if (content) item.innerHTML = content; const gameAreaWidth = gameArea.offsetWidth; const itemWidth = 50; item.style.left = Math.max(0, Math.random() * (gameAreaWidth - itemWidth)) + 'px'; const durationVariation = Math.random() * 1000 - 500; const actualDuration = Math.max(3000, ITEM_FALL_DURATION + durationVariation); item.style.animationDuration = actualDuration / 1000 + 's'; gameArea.appendChild(item); const removalTimeout = setTimeout(() => { if (item.parentNode) { item.remove(); } }, actualDuration + 200); item.dataset.removalTimeoutId = removalTimeout; } catch(e) { console.error(`Error creating ${className}:`, e); } }
+            function createHongbao() { createGameItem('hongbao'); }
+            function createGreenEnvelope() { createGameItem('green-envelope'); }
+            function createMouse() { createGameItem('mouse-item'); }
+            function handleGameAreaClick(event) { /* Keep original */ if (!gameActive || !event.target) return; const clickedItem = event.target.closest('.game-item'); if (!clickedItem) return; try { let scoreChange = 0; if (clickedItem.classList.contains('hongbao')) { scoreChange = 1; } else if (clickedItem.classList.contains('green-envelope')) { scoreChange = -1; } else if (clickedItem.classList.contains('mouse-item')) { scoreChange = -3; } if (scoreChange !== 0) { totalScore += scoreChange; if (scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; } const removalTimeoutId = clickedItem.dataset.removalTimeoutId; if (removalTimeoutId) { clearTimeout(parseInt(removalTimeoutId)); } clickedItem.remove(); } catch(e) { console.error("Error handling game item click:", e); } }
+            function gameOver() { /* Keep original */ console.log(`Round ${currentRound} Over. Total Score: ${totalScore}`); stopGame(); if (currentRound >= maxRounds) { showFinalResult(); } else { showEndOfRoundOptions(); } }
+            function showEndOfRoundOptions() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons || !gameArea || !gameInfo) return; console.log("Showing end of round options."); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.textContent = `第 ${currentRound} 局结束！当前总分：${totalScore} 元`; gameResultButtons.style.display = 'flex'; gameResultDisplay.style.display = 'block'; }
+            function showFinalResult() { /* Keep original, but reset global counters here too */ if (!gameResultDisplay || !gameResultText || !gameResultButtons) return; console.log("Showing final game result."); stopGame(); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.innerHTML = `游戏结束！<br>珊珊一共抢到了人民币 <span class="prize-code">${totalScore}</span> 元！<br>请截图找章大少兑换奖励！`; gameResultButtons.style.display = 'none'; gameResultDisplay.style.display = 'block'; currentRound = 0; totalScore = 0; /* Resetting global counters here is no longer needed as they are removed */ }
 
              // --- Initial Setup ---
-             try { /* Keep original setup */ totalScore = 0; currentRound = 0; miceSpawnedTotal = 0; greenSpawnedTotal = 0; hideAllViews(); if (birthdayView) { birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); } else { console.error("Birthday view not found!"); } if (audioElement) { if (!isNaN(audioElement.duration) && audioElement.duration > 0) { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(0); } else { if(seekBar) seekBar.max = 100; if(durationDisplay) durationDisplay.textContent = "0:00"; if(currentTimeDisplay) currentTimeDisplay.textContent = "0:00"; } if (playIcon) { updatePlayPauseIcon(); } else { console.error("Play icon element not found during init."); } } else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; } if (slideshow && slideCount > 0) { createDots(); showSlide(0); startSlideshowAutoplay(); } else { if (slideshowContainer) slideshowContainer.style.display = 'none'; } console.log("Initial setup complete."); } catch (error) { console.error("Error during initial setup:", error); }
+             try {
+                 // Reset scores but not round/spawn counters (done in startGame)
+                 totalScore = 0;
+                 currentRound = 0;
+                 // miceSpawnedTotal = 0; // Removed
+                 // greenSpawnedTotal = 0; // Removed
+
+                 hideAllViews();
+                 if (birthdayView) { birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); } else { console.error("Birthday view not found!"); }
+                 if (audioElement) { /* Keep original audio setup */ if (!isNaN(audioElement.duration) && audioElement.duration > 0) { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(0); } else { if(seekBar) seekBar.max = 100; if(durationDisplay) durationDisplay.textContent = "0:00"; if(currentTimeDisplay) currentTimeDisplay.textContent = "0:00"; } if (playIcon) { updatePlayPauseIcon(); } else { console.error("Play icon element not found during init."); } } else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; }
+                 if (slideshow && slideCount > 0) { /* Keep original slideshow setup */ createDots(); showSlide(0); startSlideshowAutoplay(); } else { if (slideshowContainer) slideshowContainer.style.display = 'none'; }
+                 console.log("Initial setup complete.");
+             } catch (error) { console.error("Error during initial setup:", error); }
 
          }); // End of DOMContentLoaded listener
      </script>

@@ -1,565 +1,723 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>张珊珊生日快乐！</title>
+ <html lang="zh-CN">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+     <title>张珊珊女士，生日快乐！</title>
 
-    <link rel="preload" href="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf" as="font" type="font/ttf" crossorigin>
+     <link rel="preload" href="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf" as="font" type="font/ttf" crossorigin>
 
-    <style>
-        /* --- Web Font Definition --- */
-        @font-face {
-            font-family: 'MyCustomLetterFont';
-            src: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        /* --- General Styles --- */
-        *, *::before, *::after { box-sizing: border-box; }
-        body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; line-height: 1.6; margin: 0; padding-bottom: 80px; background-color: #f8f0f8; overflow-x: hidden; font-size: 16px; min-height: 100vh; position: relative; -webkit-overflow-scrolling: touch; }
-        body, div, p, h1, button, img { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-
-        /* --- Background Layers --- */
-        #background-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background-image: url("https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/background-placeholder.jpg");
-            background-size: cover;
-            background-position: top center;
-        }
-        #background-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: rgba(255, 255, 255, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-
-        /* --- Views --- */
-        #birthday-view, #love-letter-view { padding: 15px; position: relative; z-index: 1; }
-        #birthday-view {
-            background-color: transparent;
-            cursor: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/Aero_arrow.cur') 16 16, auto;
-            display: block; min-height: 100vh;
-        }
-        #love-letter-view { display: none; background-color: rgba(255, 250, 240, 0.88); color: #5a463a; max-width: 95%; margin: 40px auto; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 20px; padding-top: 60px; padding-bottom: 80px; position: relative; z-index: 10; }
-        #love-letter-view::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 0; border-style: solid; border-width: 60px 0 0 calc(50vw - 15px); border-color: rgba(254, 202, 202, 0.8) transparent transparent rgba(254, 202, 202, 0.8); z-index: 1; border-top-left-radius: 8px; }
-        #love-letter-view::after { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 0; border-style: solid; border-width: 0 0 60px calc(50vw - 15px); border-color: transparent rgba(254, 202, 202, 0.8) rgba(254, 202, 202, 0.8) transparent; z-index: 1; border-top-right-radius: 8px; }
-
-        /* --- Birthday View Content Styles --- */
-        #birthday-view .birthday-container { z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 30px; position: relative; padding: 0 30px;}
-        #birthday-view #birthday-cake-link { display: flex; justify-content: center; width: 100%; text-decoration: none; cursor: inherit; position: relative; -webkit-tap-highlight-color: transparent; }
-        #birthday-view #birthday-cake { display: block; max-width: 100%; max-height: 280px; height: auto; width: auto; object-fit: contain; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s ease-in-out; }
-        #birthday-view #birthday-cake-link:hover #birthday-cake { transform: scale(1.05); }
-        #birthday-message { font-size: 1.4em; font-weight: bold; color: #e83e8c; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); margin-top: 0; padding: 0 10px; margin-bottom: 30px; position: relative; z-index: 10; text-align: center; }
-        #birthday-view h1 { font-size: 1.8em; color: #6f42c1; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); text-align: center; position: relative; z-index: 10; margin-bottom: 15px; overflow: hidden; }
-        #birthday-view h1::after { content: '✨'; position: absolute; top: -5px; right: -10px; font-size: 0.8em; opacity: 0; animation: sparkle 2.5s infinite ease-in-out; animation-delay: 0.5s; z-index: 11; }
-        @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); } 25%, 75% { opacity: 0.8; transform: scale(1) rotate(15deg); } 50% { opacity: 0.5; transform: scale(0.8) rotate(-10deg); } }
-        #birthday-view hr { position: relative; z-index: 10; margin-top: 30px; border: 0; height: 1px; background: #ccc; }
-        #birthday-view .footer-text { text-align: center; color: #333; text-shadow: 0 0 3px rgba(255,255,255,0.6); position: relative; z-index: 10; padding-bottom: 20px; font-size: 0.9em; }
-
-        /* --- Love Letter View Styles --- */
-        #love-letter-view h1 { font-size: 1.6em; color: #d9534f; text-align: center; margin-bottom: 25px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; position: relative; padding: 0 30px; z-index: 2; }
-        #love-letter-view h1::before { content: '🎂'; position: absolute; left: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
-        #love-letter-view h1::after { content: '❤️'; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
-        /* 默认使用自定义字体 */
-        #love-letter-view p {
-            font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif;
-            margin-bottom: 1.3em; text-indent: 2em; font-size: 1em; position: relative; z-index: 2;
-            overflow-wrap: break-word; word-wrap: break-word;
-            transition: font-family 0.3s ease; /* 添加过渡效果 */
-        }
-        #love-letter-view .signature {
-            font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif;
-            text-align: right; margin-top: 30px; font-style: italic; line-height: 1.6; font-size: 0.95em; position: relative; z-index: 2;
-            word-break: break-word;
-            transition: font-family 0.3s ease; /* 添加过渡效果 */
-        }
-        /* --- MODIFIED: 添加类以切换到默认字体 --- */
-        #love-letter-view.love-letter-default-font p,
-        #love-letter-view.love-letter-default-font .signature {
-             font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; /* 使用后备字体 */
-        }
-        /* --- MODIFIED: 字体切换按钮样式 --- */
-        #font-toggle-button {
-            display: inline-block; /* 或者 block 看布局需要 */
-            margin: 15px 10px 0 10px; /* 调整与其他按钮的间距 */
-            padding: 8px 15px;
-            background-color: #ff75ac; /* 粉色按钮 */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.2s ease;
-        }
-        #font-toggle-button:hover {
-            background-color: #ff5c9a;
-        }
-        /* --- MODIFIED: 让两个按钮在同一行显示 (如果需要) --- */
-        .love-letter-buttons {
-            text-align: center; /* 让按钮居中 */
-            margin-top: 30px;
-        }
-        .love-letter-buttons button {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-
-        #love-letter-view .back-button { display: inline-block; margin: 15px 10px 0 10px; padding: 12px 25px; background-color: #6f42c1; color: white; text-decoration: none; border-radius: 8px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; cursor: pointer; border: none; font-size: 1.1em; width: fit-content; position: relative; z-index: 10; -webkit-tap-highlight-color: transparent; }
-        #love-letter-view .back-button:hover { background-color: #5a349a; }
-
-
-        /* --- Falling Items Styles --- */
-        .falling-item { position: absolute; top: -60px; font-size: 22px; user-select: none; pointer-events: none; animation: fall linear forwards; opacity: 0.75; z-index: 5; will-change: transform, opacity; }
-        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.75; } 100% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--random-rotate, 0) * 1deg)); opacity: 0; } }
-
-        /* --- Pointer Trail Heart Styles --- */
-        .pointer-heart {
-            position: absolute;
-            font-size: 18px; color: #ff4d6d; pointer-events: none; user-select: none;
-            z-index: 9999;
-            animation: fade-move-out-quick 0.6s ease-out forwards;
-            text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-        }
-        @keyframes fade-move-out-quick { 0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -120%) scale(0.3); } }
-
-        /* --- Slideshow Styles --- */
-        #photo-slideshow-container { position: relative; z-index: 10; max-width: 500px; margin: 20px auto; padding: 20px; background-color: rgba(255, 240, 245, 0.85); border-radius: 25px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); border: 10px solid transparent; border-image: linear-gradient(45deg, #ffc2d1, #ff8fab, #fecaca) 1; }
-        #slideshow-wrapper { position: relative; overflow: hidden; border-radius: 15px; aspect-ratio: 4 / 3; background-color: #eee; }
-        #slideshow { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
-        .slide { min-width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        .slideshow-nav { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 194, 209, 0.7); border: none; color: #fff; font-size: 1.5em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 15; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.2); -webkit-tap-highlight-color: transparent; }
-        .slideshow-nav:hover { background-color: rgba(255, 127, 171, 0.9); }
-        .slideshow-nav.prev { left: -15px; }
-        .slideshow-nav.next { right: -15px; }
-        .dots-container { text-align: center; margin-top: 10px; position: relative; z-index: 15; }
-        .dot { display: inline-block; width: 10px; height: 10px; background-color: #ffc2d1; border-radius: 50%; margin: 0 5px; cursor: pointer; transition: background-color 0.3s ease; }
-        .dot.active { background-color: #ff75ac; }
-        #slideshow-caption { text-align: center; margin-top: 12px; font-size: 0.95em; color: #665; padding: 5px; min-height: 1.5em; font-style: italic; background-color: rgba(255, 255, 255, 0.3); border-radius: 5px; }
-
-        /* --- Click Arrow Styles --- */
-        .click-arrow { width: 0; height: 0; border-style: solid; position: absolute; z-index: 11; pointer-events: none; animation: bounce-arrow 1.5s infinite ease-in-out; opacity: 0.8; }
-        .arrow-tr { border-width: 15px 15px 0 0; border-color: #ff75ac transparent transparent transparent; top: 10px; left: 10px; transform: rotate(135deg); animation-delay: 0s; }
-        .arrow-tl { border-width: 15px 15px 0 0; border-color: #ff75ac transparent transparent transparent; top: 10px; right: 10px; transform: rotate(225deg); animation-delay: 0.5s; }
-        .arrow-br { border-width: 15px 15px 0 0; border-color: #ff75ac transparent transparent transparent; bottom: 10px; left: 10px; transform: rotate(45deg); animation-delay: 1s; }
-        @keyframes bounce-arrow { 0%, 100% { transform: translateY(0) rotate(var(--rotate-angle)); opacity: 0.8; } 50% { transform: translateY(-8px) rotate(var(--rotate-angle)); opacity: 0.6; } }
-        .arrow-tr { --rotate-angle: 135deg; }
-        .arrow-tl { --rotate-angle: 225deg; }
-        .arrow-br { --rotate-angle: 45deg; }
-
-        /* --- Custom Audio Player Styles --- */
-        #audio-player-container { position: fixed; bottom: 10px; right: 10px; left: auto; transform: none; width: 85%; max-width: 320px; z-index: 10000; background: rgba(255, 222, 233, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 12px; box-shadow: 0 -1px 8px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; cursor: move; touch-action: none; }
-        #play-pause-button { background-color: #ff75ac; border: none; color: white; font-size: 1.3em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; flex-shrink: 0; padding: 0; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.15); -webkit-tap-highlight-color: transparent; }
-        #play-pause-button:hover { background-color: #ff5c9a; }
-        #play-pause-button .play-icon::before { content: '▶️'; }
-        #play-pause-button .pause-icon::before { content: '⏸️'; }
-        .audio-controls-right { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
-        #song-title { font-size: 0.8em; color: #7a4f68; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-        #seek-bar { width: 100%; height: 6px; cursor: pointer; appearance: none; background: #ffc2d1; border-radius: 3px; outline: none; }
-        #seek-bar::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; background: #ff75ac; border-radius: 50%; cursor: pointer; box-shadow: 0 0 2px rgba(0,0,0,0.2); }
-        #seek-bar::-moz-range-thumb { width: 14px; height: 14px; background: #ff75ac; border-radius: 50%; cursor: pointer; border: none; box-shadow: 0 0 2px rgba(0,0,0,0.2); }
-        .time-display { display: flex; justify-content: space-between; font-size: 0.75em; color: #8c5f6f; margin-top: 0px; padding: 0 2px; }
-        #audio-element { display: none; }
-
-        /* --- Cat Pendant Styles --- */
-        #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; overflow: visible; background-color: transparent; transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; }
-        #cat-pendant:hover { transform: scale(1.1); }
-        #cat-pendant img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        #cat-pendant.rolling { animation: cat-roll 0.7s linear; }
-        @keyframes cat-roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        /* Cat Dialog Box Styles */
-        #cat-dialog { position: absolute; top: 50%; left: 110%; transform: translateY(-50%); min-width: 180px; max-width: 220px; padding: 10px 15px; border-radius: 8px; background-color: rgba(255, 192, 203, 0.75); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); box-shadow: 0 2px 8px rgba(0,0,0,0.2); color: #444; font-size: 0.9em; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; z-index: 1; pointer-events: none; }
-        #cat-dialog::after { content: ''; position: absolute; top: 50%; right: 100%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 8px 8px 8px 0; border-color: transparent rgba(255, 192, 203, 0.75) transparent transparent; }
-        #cat-dialog.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease-out, visibility 0s linear 0s; }
-
-        /* Media Query Adjustments */
-        @media (max-width: 600px) {
-             #photo-slideshow-container { max-width: 95%; padding: 10px; border-width: 8px; }
-             .slideshow-nav { width: 35px; height: 35px; font-size: 1.3em; }
-             .slideshow-nav.prev { left: -10px; } .slideshow-nav.next { right: -10px; }
-             .dot { width: 8px; height: 8px; margin: 0 4px;}
-             #audio-player-container { max-width: 280px; }
-             #love-letter-view::before { border-width: 45px 0 0 calc(50vw - 10px); }
-             #love-letter-view::after { border-width: 0 0 45px calc(50vw - 10px); }
-             #love-letter-view { padding-top: 45px; margin-top: 30px;}
-             .click-arrow { border-width: 10px 10px 0 0; }
-             .arrow-tr { top: 5px; left: 5px;} .arrow-tl { top: 5px; right: 5px;} .arrow-br { bottom: 5px; left: 5px;}
-             #cat-pendant { width: 50px; height: 50px; top: 10px; left: 10px; }
-             #cat-dialog { font-size: 0.8em; min-width: 150px; left: 115%; }
-             #slideshow-caption { font-size: 0.9em;}
-             #love-letter-view .signature { font-size: 0.9em; }
-             /* --- MODIFIED: 调整按钮间距 for small screens --- */
-             .love-letter-buttons button { font-size: 0.9em; padding: 10px 15px; }
-             #font-toggle-button { padding: 6px 10px; font-size: 0.8em;}
-
-        }
-        @media (max-width: 360px) {
-             #birthday-view h1, #love-letter-view h1 { font-size: 1.5em; }
-             #love-letter-view h1 { padding: 0 25px; }
-             #love-letter-view h1::before, #love-letter-view h1::after { font-size: 0.8em; }
-             #birthday-message { font-size: 1.3em; }
-             #love-letter-view p { font-size: 0.92em; text-indent: 1.5em; }
-             #love-letter-view .signature { font-size: 0.8em; /* Further adjust */ }
-             .falling-item { font-size: 20px; } .pointer-heart { font-size: 18px; }
-             #audio-player-container { width: 95%; gap: 5px; padding: 5px 8px; max-width: 95%; }
-             #play-pause-button { width: 35px; height: 35px; font-size: 1.1em; }
-             .time-display { font-size: 0.7em; } #song-title { font-size: 0.7em; }
-             #seek-bar::-webkit-slider-thumb { width: 12px; height: 12px; }
-             #seek-bar::-moz-range-thumb { width: 12px; height: 12px; }
-             #cat-pendant { width: 45px; height: 45px; }
-             #cat-dialog { left: 120%; }
-             /* --- MODIFIED: 调整按钮间距 for extra small screens --- */
-             .love-letter-buttons { margin-top: 20px; }
-             .love-letter-buttons button { font-size: 0.85em; padding: 8px 12px; margin-left: 5px; margin-right: 5px;}
-             #font-toggle-button { padding: 5px 8px; font-size: 0.75em;}
-        }
-
-    </style>
-</head>
-<body>
-    <div id="cat-pendant">
-        <img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/static-cat-placeholder.png" alt="猫咪挂件 (点击打滚)">
-        <div id="cat-dialog"></div>
-    </div>
-
-    <div id="background-layer"></div>
-    <div id="background-overlay"></div>
-
-    <div id="birthday-view">
-        <h1>✨ 生日快乐 ✨</h1>
-        <div class="birthday-container">
-            <a id="birthday-cake-link" href="#">
-                <div class="click-arrow arrow-tr"></div>
-                <div class="click-arrow arrow-tl"></div>
-                <div class="click-arrow arrow-br"></div>
-                <img id="birthday-cake" src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/cake-placeholder.jpg" alt="生日蛋糕 (点击有惊喜)">
-            </a>
-            <p id="birthday-message">本少爷祝你简简单单，快快乐乐，幸幸福福的过完21岁。</p>
-            <p class="footer-text">祝你拥有美好的一天！ (点击蛋糕有惊喜哦!)</p>
-        </div>
-        <div id="photo-slideshow-container">
-            <div id="slideshow-wrapper">
-                <div id="slideshow">
-                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder1.jpg" alt="珊珊的照片 1"></div>
-                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder2.jpg" alt="珊珊的照片 2"></div>
-                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder3.png" alt="珊珊的照片 3"></div>
-                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder4.jpg" alt="珊珊的照片 4"></div>
-                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder5.png" alt="珊珊的照片 5"></div>
-                </div>
-            </div>
-            <button class="slideshow-nav prev" aria-label="上一张">🎂</button>
-            <button class="slideshow-nav next" aria-label="下一张">🎂</button>
-            <div class="dots-container"></div>
-            <div id="slideshow-caption">照片描述会显示在这里</div>
-        </div>
-        <hr>
-        <p class="footer-text">珊珊，生日快乐！</p>
-        <p class="footer-text">🐒小猴子又长大一岁啦。愿这一年，温暖和好运都奔你而来，所有的付出都有回报，所有的笑容都发自真心。希望你能感受到，一直有人在默默关心和祝福着你。未来的日子，无论晴雨，希望能有机会继续分享彼此的风景~</p>
-    </div>
-
-    <div id="love-letter-view">
-        <h1>致 我独一无二的、最特别的珊珊 ❤️</h1>
-        <p>提笔想给你写点什么，尤其是在你生日将近的日子，心情有点像那次和你线下见面时——既期待又紧张，还带着点我们之间特有的“癫”。快一年了，时间好像过得飞快，又好像每一天的聊天都值得被细细回味。</p>
-        <p>还记得吗？从最初那个叫我“小屁孩”怼得我差点拉黑你的“张三”（当然是玩笑，我哪里舍得拉黑皇后娘娘），到后来那个会发搞怪表情包、会在语音里偷笑的“皇后娘娘”，再到那个嘴上说着“不谈恋爱”、“我就是渣女”，却会因为担心我而退回红包、会因为我需要而用花呗买鼠标、会在我“发癫”后依然主动问早的“傻姑娘”……你身上这种矛盾又真实的可爱，就像拆盲盒，总能给我意想不到的惊喜。</p>
-        <p>以前总觉得世事纷扰，人心复杂难测，直到遇见你，才明白那句“众里寻他千百度，蓦然回首，那人却在，灯火阑珊处”或许是真的。 你的出现，像一道光，照亮了我之前可能有些灰暗和充满“精神内耗”的世界。是你用你的“癫”、你的善良、你的原则，还有你那面对生活不易时的韧性，让我觉得这个世界原来还可以这么有趣和值得期待。和你聊天成了我每天雷打不动的习惯和最大的乐趣，你分享的日常琐碎，在我这里都变成了值得珍藏的风景。</p>
-        <p>我知道，我们之间这种“羁绊”很特别，深到有时连我们自己都难以简单定义。没关系，“身无彩凤双飞翼，心有灵犀一点通”，很多时候，我觉得你懂我内心那些未说出口的焦虑和期盼，我也在努力去理解你那句“慢慢来吧”背后可能隐藏的顾虑和需要。感谢你愿意向我敞开那么多，信任我这么多。</p>
-        <p>我也知道，你心里可能装着对过去的担忧，对未来的不确定，对“关系”本身的恐惧。我不会再像以前那样，急切地逼你给一个答案，也不会再开那些不合时宜的玩笑了（如果我又“癫”了，记得用表情包提醒我哦）。你的生日，我最大的、也是唯一的心愿，就是你能真正地、毫无负担地开心。你想怎么过，我都支持。</p>
-        <p>这封信，不是为了在生日这天给你压力，真的。它就是一份迟来的感谢信——感谢缘分让我们相遇，感谢你陪我度过这么多时光，分享这么多欢笑和 emo 的瞬间。它也是一份心意书——告诉你，在我心里，你有多么重要和独一无二。</p>
-        <p>至于未来，我们继续“走一步看一步”吧。“人生到处知何似，应似飞鸿踏雪泥。” 未来不可预知，但重要的是，我希望能继续陪在你身边，和你一起面对路上的风景，无论是晴是雨。愿如此缘，能续经年。</p>
-        <p>生日快乐，我最珍视的珊珊。</p>
-        <div class="signature">那个越来越懂得珍惜你的“癫公”，哥哥或者少爷，<br>章啸宇</div>
-
-            <div class="love-letter-buttons">
-            <button id="font-toggle-button">切换字体</button> 
-            <button class="back-button">返回生日主页面</button>
-        </div>
-    </div>
-
-    <div id="audio-player-container">
-        <audio id="audio-element" loop>
-            <source src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/M5000044Nr9A4ZiFFQ.mp3" type="audio/mpeg">
-            你的浏览器不支持播放音频。
-        </audio>
-        <button id="play-pause-button" aria-label="播放"><span class="play-icon"></span></button>
-        <div class="audio-controls-right">
-            <div id="song-title">生日快乐歌</div>
-            <input type="range" id="seek-bar" value="0" aria-label="进度条">
-            <div class="time-display">
-                <span id="current-time">0:00</span>
-                <span id="duration">0:00</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- Existing Variables and Setup ---
-        const birthdayView = document.getElementById('birthday-view');
-        const loveLetterView = document.getElementById('love-letter-view');
-        const cakeLink = document.getElementById('birthday-cake-link');
-        const backButton = loveLetterView.querySelector('.back-button');
-        const audioElement = document.getElementById('audio-element');
-        const audioPlayerContainer = document.getElementById('audio-player-container');
-        const playPauseButton = document.getElementById('play-pause-button');
-        const playIcon = playPauseButton ? playPauseButton.querySelector('.play-icon') : null;
-        const seekBar = document.getElementById('seek-bar');
-        const currentTimeDisplay = document.getElementById('current-time');
-        const durationDisplay = document.getElementById('duration');
-        const slideshowContainer = document.getElementById('photo-slideshow-container');
-        const catPendant = document.getElementById('cat-pendant');
-        const catDialog = document.getElementById('cat-dialog');
-        const fontToggleButton = document.getElementById('font-toggle-button'); // --- MODIFIED: 获取新按钮 ---
-
-        let birthdayIntervalId = null;
-        let loveLetterIntervalId = null;
-        const birthdayItems = ['🎂', '🌸'];
-        const loveLetterItems = ['❤️', '🎂'];
-        const BIRTHDAY_INTERVAL_TIME = 550;
-        const LOVE_LETTER_INTERVAL_TIME = 500;
-
-        const slideshow = document.getElementById('slideshow');
-        const slides = document.querySelectorAll('.slide');
-        const prevButton = document.querySelector('.slideshow-nav.prev');
-        const nextButton = document.querySelector('.slideshow-nav.next');
-        const dotsContainer = document.querySelector('.dots-container');
-        const slideshowCaption = document.getElementById('slideshow-caption');
-        let currentSlideIndex = 0;
-        let slideInterval = null;
-        const slideCount = slides.length;
-        const SLIDESHOW_INTERVAL_TIME = 5000;
-
-        let catDialogTimeout = null;
-        const slideCaptions = ["冬日暖意，围巾和你。🧣", "在逃公主の婚礼实录👑", "关于主播上播后被疯狂截屏这件事📸", "三月捕捉到的‘捣蛋鬼’！这个调皮又可爱的表情，犯规了哦~😋", "替章老板好好陪着姐姐哦，史迪奇！🤪"];
-        let firstCatClick = true;
-        const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
-        const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀"];
-        const rateLimitDialog = "喵的，女人，别撸了，快被你耗成和你一样的秃头猫咪了😡";
-        let recentCatClicks = [];
-        const CAT_CLICK_LIMIT = 20;
-        const CAT_CLICK_WINDOW = 60000;
-
-        let isSeeking = false;
-
-        // --- 尝试播放音乐的函数 ---
-        function tryPlayAudio() {
-            if (audioElement && audioElement.paused) {
-                audioElement.play().then(() => {
-                    updatePlayPauseIcon();
-                }).catch(error => {
-                    console.error("尝试播放音频失败:", error);
-                });
-            }
-        }
-
-        // --- Falling Items Functions ---
-        function createFallingItem(itemType, container) { if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
-        function startFallingItems(intervalId, itemArray, container, intervalTime) { if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
-        function stopFallingItems(intervalId, container) { if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
-
-        // --- View Switching Logic ---
-        if (cakeLink) {
-             cakeLink.addEventListener('click', (event) => {
-                 event.preventDefault();
-                 showLoveLetter();
-                 tryPlayAudio(); // 点击蛋糕尝试播放
-             });
+     <style>
+         /* --- Web Font Definition --- */
+         @font-face {
+             font-family: 'MyCustomLetterFont';
+             src: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf');
+             font-weight: normal;
+             font-style: normal;
+             font-display: swap;
          }
-        if (backButton) { backButton.addEventListener('click', showBirthday); }
-        function showLoveLetter() { birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView); if(birthdayView) birthdayView.style.display = 'none'; if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-        function showBirthday() { loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView); if(loveLetterView) loveLetterView.style.display = 'none'; if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
 
-        // --- Pointer Trail Heart Logic ---
-        function throttle(func, limit) { let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
-        function createPointerHeart(x, y) { if (!document.body) return; const heart = document.createElement('div'); heart.classList.add('pointer-heart'); heart.innerHTML = '❤️'; heart.style.left = `${x}px`; heart.style.top = `${y}px`; document.body.appendChild(heart); setTimeout(() => { if (heart && heart.parentNode) { heart.remove(); } }, 600); }
-        const throttledCreateHeart = throttle(createPointerHeart, 100);
-        document.body.addEventListener('mousemove', (event) => { throttledCreateHeart(event.pageX, event.pageY); });
-        document.body.addEventListener('touchmove', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
-        document.body.addEventListener('touchstart', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
+         /* --- General Styles --- */
+         *, *::before, *::after { box-sizing: border-box; }
+         html { -webkit-tap-highlight-color: transparent; }
+         body {
+             font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
+             line-height: 1.6; margin: 0;
+             padding-bottom: 80px; /* Space for audio player */
+             background-color: #f8f0f8; /* Fallback background */
+             overflow-x: hidden; font-size: 16px; min-height: 100vh; position: relative; -webkit-overflow-scrolling: touch;
+             /* Add padding for safe areas */
+             padding-top: env(safe-area-inset-top, 0px);
+             padding-left: env(safe-area-inset-left, 0px);
+             padding-right: env(safe-area-inset-right, 0px);
+             padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+         }
+         body, div, p, h1, button, img, input { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
-        // --- Custom Audio Player Logic ---
-        function formatTime(seconds) {
-            const secs = Math.floor(seconds || 0);
-            const minutes = Math.floor(secs / 60);
-            const remainingSeconds = secs % 60;
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-        }
-        function updatePlayPauseIcon() {
-             if (!playIcon || !audioElement || !playPauseButton) return;
-             playIcon.classList.remove('play-icon', 'pause-icon');
-             if (audioElement.paused || audioElement.ended) {
-                 playIcon.classList.add('play-icon');
-                 playPauseButton.setAttribute('aria-label', '播放');
-             } else {
-                 playIcon.classList.add('pause-icon');
-                 playPauseButton.setAttribute('aria-label', '暂停');
+         /* --- Background Layers --- */
+         #background-layer {
+             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+             background-image: url("https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/background-placeholder.jpg");
+             background-size: cover;
+             background-position: center center; /* Center the background image */
+         }
+         /* Removed media query for background-position, centering is better */
+         #background-overlay {
+             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+             /* Adjusted background for frosted glass effect */
+             background-color: rgba(255, 255, 255, 0.4); /* Lighter, more transparent */
+             backdrop-filter: blur(12px); /* Increased blur */
+             -webkit-backdrop-filter: blur(12px);
+         }
+         /* Fallback for browsers not supporting backdrop-filter */
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+             #background-overlay {
+                 background-color: rgba(248, 240, 248, 0.85); /* More opaque fallback */
              }
          }
-        if (playPauseButton && audioElement) {
-            playPauseButton.addEventListener('click', () => {
-                if (audioElement.paused || audioElement.ended) {
-                    audioElement.play().catch(e => console.error("Error playing audio:", e));
-                } else {
-                    audioElement.pause();
-                }
-            });
-        }
-        if (audioElement) {
-            audioElement.addEventListener('timeupdate', () => {
-                if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) {
-                    try {
-                        seekBar.value = audioElement.currentTime;
-                        currentTimeDisplay.textContent = formatTime(audioElement.currentTime);
-                    } catch (e) { console.error("Error updating time:", e) }
-                }
-            });
-            audioElement.addEventListener('loadedmetadata', () => {
-                if (!isNaN(audioElement.duration) && seekBar && durationDisplay) {
-                    try {
-                        seekBar.max = audioElement.duration;
-                        durationDisplay.textContent = formatTime(audioElement.duration);
-                        updatePlayPauseIcon();
-                    } catch (e) { console.error("Error on loadedmetadata:", e) }
-                }
-            });
-            audioElement.addEventListener('play', updatePlayPauseIcon);
-            audioElement.addEventListener('pause', updatePlayPauseIcon);
-            audioElement.addEventListener('ended', updatePlayPauseIcon);
-        }
-        if (seekBar && currentTimeDisplay && audioElement) {
-            seekBar.addEventListener('input', () => {
-                isSeeking = true;
-                try {
-                    currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0);
-                } catch (e) { console.error("Error updating seek bar display:", e) }
-            });
-            seekBar.addEventListener('change', () => {
-                if (!isNaN(audioElement.duration)) {
-                    try {
-                        audioElement.currentTime = parseFloat(seekBar.value) || 0;
-                    } catch (e) { console.error("Error setting audio time:", e) }
-                }
-                isSeeking = false;
-            });
-        }
 
-        // --- Slideshow Logic ---
-        function updateDots() { if (!dotsContainer || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
-        function showSlide(index) { if (slideCount <= 0 || !slideshow) return; if (index >= slideCount) { currentSlideIndex = 0; } else if (index < 0) { currentSlideIndex = slideCount - 1; } else { currentSlideIndex = index; } const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
-        function nextSlide() { showSlide(currentSlideIndex + 1); }
-        function startSlideshowAutoplay() { stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } }
-        function stopSlideshowAutoplay() { clearInterval(slideInterval); slideInterval = null; }
-        if (prevButton && nextButton) {
-             prevButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); });
-             nextButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); });
+         /* --- Views --- */
+         /* Common style for full-screen overlay views */
+         .overlay-view {
+             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             display: none; /* Hidden initially */
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             padding: 20px;
+             text-align: center;
+             /* Apply frosted glass to the overlay itself */
+             background-color: rgba(245, 245, 245, 0.2); /* Very subtle light background */
+             backdrop-filter: blur(15px);
+             -webkit-backdrop-filter: blur(15px);
          }
-        function createDots() { if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); }
-        if (slideshowContainer) {
-            slideshowContainer.addEventListener('click', () => {
-                tryPlayAudio(); // 点击照片区域尝试播放
-            });
-        }
+         /* Fallback for overlay views */
+          @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+             .overlay-view {
+                 background-color: rgba(0, 0, 0, 0.75); /* Darker fallback */
+             }
+         }
 
-        // --- Draggable Elements Logic ---
-        let dragTarget = null; let isDragging = false; let offsetX, offsetY;
-        function makeDraggable(element) { if (!element) return; element.style.cursor = 'move'; function dragStartHandler(event) { dragTarget = element; isDragging = true; dragTarget.style.transition = 'none'; let clientX, clientY; if (event.type === 'touchstart') { clientX = event.touches[0].clientX; clientY = event.touches[0].clientY; } else { clientX = event.clientX; clientY = event.clientY; event.preventDefault(); } const rect = dragTarget.getBoundingClientRect(); offsetX = clientX - rect.left; offsetY = clientY - rect.top; if (dragTarget.style.left === 'auto' || dragTarget.style.top === 'auto' || !dragTarget.style.left || !dragTarget.style.top) { dragTarget.style.left = `${rect.left}px`; dragTarget.style.top = `${rect.top}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; } document.addEventListener('mousemove', draggingHandler); document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('mouseup', dragEndHandler); document.addEventListener('touchend', dragEndHandler); } function draggingHandler(event) { if (!isDragging || !dragTarget) return; let currentX, currentY; if (event.type === 'touchmove') { event.preventDefault(); currentX = event.touches[0].clientX; currentY = event.touches[0].clientY; } else { currentX = event.clientX; currentY = event.clientY; } let newLeft = currentX - offsetX; let newTop = currentY - offsetY; const containerWidth = dragTarget.offsetWidth; const containerHeight = dragTarget.offsetHeight; const viewportWidth = window.innerWidth; const viewportHeight = window.innerHeight; if (newLeft < 0) newLeft = 0; if (newTop < 0) newTop = 0; if (newLeft + containerWidth > viewportWidth) newLeft = viewportWidth - containerWidth; if (newTop + containerHeight > viewportHeight) newTop = viewportHeight - containerHeight; dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; } function dragEndHandler() { if (isDragging) { isDragging = false; if(dragTarget) dragTarget.style.transition = ''; dragTarget = null; document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); document.removeEventListener('touchend', dragEndHandler); } } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: false }); }
-        if (audioPlayerContainer) makeDraggable(audioPlayerContainer);
-        if (catPendant) makeDraggable(catPendant);
+         #birthday-view, #love-letter-view {
+              padding: 15px; position: relative; z-index: 1; display: none; /* Hide all initially */
+         }
+         #birthday-view {
+             display: block; /* Show birthday view initially */
+             background-color: transparent; /* Let body background show through */
+             cursor: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/Aero_arrow.cur') 16 16, auto;
+             min-height: 100vh;
+         }
+         #love-letter-view {
+             /* Keep original love letter style for distinction */
+             background-color: rgba(255, 250, 240, 0.92); /* Slightly more opaque */
+             color: #5a463a; max-width: 95%; margin: 40px auto;
+             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Material-like shadow */
+             border-radius: 16px; /* Larger radius */
+             padding: 20px; padding-top: 60px; padding-bottom: 80px; position: relative; z-index: 10;
+         }
+         #love-letter-view::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 0; border-style: solid; border-width: 60px 0 0 calc(50vw - 15px); border-color: rgba(254, 202, 202, 0.8) transparent transparent rgba(254, 202, 202, 0.8); z-index: 1; border-top-left-radius: 16px; } /* Match radius */
+         #love-letter-view::after { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 0; border-style: solid; border-width: 0 0 60px calc(50vw - 15px); border-color: transparent rgba(254, 202, 202, 0.8) rgba(254, 202, 202, 0.8) transparent; z-index: 1; border-top-right-radius: 16px; } /* Match radius */
 
-        // --- Cat Pendant Logic ---
-        if (catPendant && catDialog) {
-             catPendant.addEventListener('click', () => {
-                 try {
-                     const now = Date.now();
-                     recentCatClicks.push(now);
-                     recentCatClicks = recentCatClicks.filter(timestamp => now - timestamp < CAT_CLICK_WINDOW);
-                     let dialogText = "";
-                     let isRateLimited = recentCatClicks.length >= CAT_CLICK_LIMIT;
-                     let canShowDialog = false;
+         /* --- Birthday View Content Styles --- */
+         #birthday-view .birthday-container { z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 30px; position: relative; padding: 0 30px;}
+         #birthday-view #birthday-cake-link { display: flex; justify-content: center; width: 100%; text-decoration: none; cursor: inherit; position: relative; -webkit-tap-highlight-color: transparent; }
+         #birthday-view #birthday-cake { display: block; max-width: 100%; max-height: 280px; height: auto; width: auto; object-fit: contain; margin-bottom: 15px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: transform 0.2s ease-in-out; }
+         #birthday-view #birthday-cake-link:hover #birthday-cake { transform: scale(1.05); }
+         #birthday-message { font-size: 1.4em; font-weight: bold; color: #e83e8c; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9); margin-top: 0; padding: 0 10px; margin-bottom: 30px; position: relative; z-index: 10; text-align: center; }
+         #birthday-view h1 { font-size: 1.8em; color: #6f42c1; text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); text-align: center; position: relative; z-index: 10; margin-bottom: 15px; overflow: hidden; }
+         #birthday-view h1::after { content: '✨'; position: absolute; top: -5px; right: -10px; font-size: 0.8em; opacity: 0; animation: sparkle 2.5s infinite ease-in-out; animation-delay: 0.5s; z-index: 11; }
+         @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); } 25%, 75% { opacity: 0.8; transform: scale(1) rotate(15deg); } 50% { opacity: 0.5; transform: scale(0.8) rotate(-10deg); } }
+         #birthday-view hr { position: relative; z-index: 10; margin-top: 30px; border: 0; height: 1px; background: #ccc; }
+         #birthday-view .footer-text { text-align: center; color: #333; text-shadow: 0 0 5px rgba(255,255,255,0.8); position: relative; z-index: 10; padding-bottom: 20px; font-size: 0.9em; }
 
-                     if (isRateLimited) {
-                         dialogText = rateLimitDialog;
-                         canShowDialog = true;
-                     } else {
-                          if (!firstCatClick && (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible'))) {
-                              return;
-                          }
-                          if (firstCatClick) {
-                              dialogText = initialDialog[0];
-                              firstCatClick = false;
-                          } else {
-                              const randomIndex = Math.floor(Math.random() * randomDialogs.length);
-                              dialogText = randomDialogs[randomIndex];
-                          }
-                          canShowDialog = true;
-                     }
+         /* --- Love Letter View Styles --- */
+         #love-letter-view h1 { font-size: 1.6em; color: #d9534f; text-align: center; margin-bottom: 25px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; position: relative; padding: 0 30px; z-index: 2; }
+         #love-letter-view h1::before { content: '🎂'; position: absolute; left: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
+         #love-letter-view h1::after { content: '❤️'; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
+         #love-letter-view p { font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif; margin-bottom: 1.3em; text-indent: 2em; font-size: 1em; position: relative; z-index: 2; overflow-wrap: break-word; word-wrap: break-word; transition: font-family 0.3s ease; }
+         #love-letter-view .signature { font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif; text-align: right; margin-top: 30px; font-style: italic; line-height: 1.6; font-size: 0.95em; position: relative; z-index: 2; word-break: break-word; transition: font-family 0.3s ease; }
+         #love-letter-view.love-letter-default-font p,
+         #love-letter-view.love-letter-default-font .signature { font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; }
 
-                     tryPlayAudio(); // 点击猫咪尝试播放
+         /* --- Buttons --- */
+         .styled-button {
+             display: inline-block;
+             margin: 8px; /* Slightly increased margin */
+             padding: 10px 20px; /* Increased padding */
+             border: none;
+             border-radius: 8px; /* Increased radius */
+             cursor: pointer;
+             font-size: 1em; /* Standardized font size */
+             font-weight: 500; /* Material-like weight */
+             font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
+             -webkit-tap-highlight-color: transparent;
+             transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+             text-decoration: none;
+             color: white;
+             text-align: center;
+             line-height: 1.4;
+             box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* Subtle shadow */
+         }
+         .styled-button:hover {
+             box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Increased shadow on hover */
+         }
+         .styled-button:active {
+             transform: scale(0.97);
+             box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Less shadow when pressed */
+         }
 
-                     if (canShowDialog && catDialog) {
-                         catDialog.textContent = dialogText;
-                         clearTimeout(catDialogTimeout);
-                         catDialog.classList.remove('visible');
-                         void catDialog.offsetWidth;
-                         catDialog.classList.add('visible');
-                         catDialogTimeout = setTimeout(() => {
-                            if(catDialog) catDialog.classList.remove('visible');
-                         }, 4000);
+         #font-toggle-button, #back-from-game, #continue-game-button, #password-submit-button { background-color: #ff75ac; }
+         #font-toggle-button:hover, #back-from-game:hover, #continue-game-button:hover, #password-submit-button:hover { background-color: #ff5c9a; }
 
-                         if (!isRateLimited && catPendant && !catPendant.classList.contains('rolling')) {
-                            catPendant.classList.add('rolling');
-                            catPendant.addEventListener('animationend', () => {
-                                if(catPendant) catPendant.classList.remove('rolling');
-                            }, { once: true });
-                         } else if (isRateLimited && catPendant) {
-                              catPendant.classList.remove('rolling');
-                         }
-                     } else if (!catDialog) {
-                         console.error("Cat dialog element not found!");
-                     }
+         .back-button { padding: 12px 25px; font-size: 1.1em; background-color: #6f42c1; }
+         .back-button:hover { background-color: #5a349a; }
 
-                 } catch (error) {
-                      console.error("Error in cat pendant click handler:", error);
-                      if (catPendant) catPendant.classList.remove('rolling');
-                      if (catDialog) catDialog.classList.remove('visible');
-                      clearTimeout(catDialogTimeout);
-                 }
-             });
-             const catImg = catPendant.querySelector('img');
-             if(catImg) { catImg.onerror = () => { if (catPendant) catPendant.style.display = 'none'; }; }
-             else { if (catPendant) catPendant.style.display = 'none'; }
-        } else { if (catPendant) catPendant.style.display = 'none'; }
+         #goto-game-button, #confirm-start-game { background-color: #ff9800; }
+         #goto-game-button:hover, #confirm-start-game:hover { background-color: #f57c00; }
+
+         #redeem-early-button { background-color: #4CAF50; }
+         #redeem-early-button:hover { background-color: #45a049; }
+
+         .love-letter-buttons {
+             text-align: center; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+         }
+
+         /* --- Falling Items Styles --- */
+         .falling-item { position: absolute; top: -60px; font-size: 22px; user-select: none; pointer-events: none; animation: fall linear forwards; opacity: 0.75; z-index: 5; will-change: transform, opacity; }
+         @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.75; } 100% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--random-rotate, 0) * 1deg)); opacity: 0; } }
+
+         /* --- Pointer Trail Heart Styles --- */
+         .pointer-heart { position: absolute; font-size: 18px; color: #ff4d6d; pointer-events: none; user-select: none; z-index: 9999; animation: fade-move-out-quick 0.6s ease-out forwards; text-shadow: 0 0 4px rgba(0, 0, 0, 0.2); }
+         @keyframes fade-move-out-quick { 0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -120%) scale(0.3); } }
+
+         /* --- Slideshow Styles --- */
+         #photo-slideshow-container { position: relative; z-index: 10; max-width: 500px; margin: 20px auto; padding: 15px; background-color: rgba(255, 255, 255, 0.8); border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); border: none; /* Remove border image */ backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } /* Added subtle glass effect */
+         #slideshow-wrapper { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 4 / 3; background-color: #eee; }
+         #slideshow { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
+         .slide { min-width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+         .slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+         .slideshow-nav { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.3); border: none; color: #fff; font-size: 1.5em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 15; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; line-height: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2); -webkit-tap-highlight-color: transparent; }
+         .slideshow-nav:hover { background-color: rgba(0, 0, 0, 0.5); }
+         .slideshow-nav.prev { left: 10px; } /* Adjusted position */
+         .slideshow-nav.next { right: 10px; } /* Adjusted position */
+         .dots-container { text-align: center; margin-top: 15px; position: relative; z-index: 15; }
+         .dot { display: inline-block; width: 8px; height: 8px; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; margin: 0 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; }
+         .dot.active { background-color: #ff75ac; transform: scale(1.3); }
+         #slideshow-caption { text-align: center; margin-top: 15px; font-size: 0.95em; color: #555; padding: 8px; min-height: 1.5em; font-style: italic; background-color: rgba(255, 255, 255, 0.5); border-radius: 8px; }
+
+         /* --- Click Arrow Styles --- */
+         .click-arrow { display: none; } /* Removing arrows for cleaner look, can be re-enabled if needed */
+
+         /* --- Custom Audio Player Styles --- */
+         #audio-player-container {
+             position: fixed; bottom: 10px; right: 10px; left: auto; transform: none; width: 85%; max-width: 320px; z-index: 10000;
+             background: rgba(255, 255, 255, 0.65); /* Adjusted transparency */
+             backdrop-filter: blur(10px) saturate(120%); /* Increased blur/saturation */
+             -webkit-backdrop-filter: blur(10px) saturate(120%);
+             border-radius: 16px; /* Increased radius */
+             padding: 10px 15px; /* Adjusted padding */
+             box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Refined shadow */
+             border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+             display: flex; align-items: center; gap: 10px; cursor: move; touch-action: none;
+         }
+         /* Fallback for audio player */
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+             #audio-player-container {
+                 background-color: rgba(255, 222, 233, 0.9); /* More opaque fallback */
+             }
+         }
+         #play-pause-button { background-color: #ff75ac; border: none; color: white; font-size: 1.3em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; flex-shrink: 0; padding: 0; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.15); -webkit-tap-highlight-color: transparent; }
+         #play-pause-button:hover { background-color: #ff5c9a; }
+         #play-pause-button .play-icon::before { content: '▶️'; }
+         #play-pause-button .pause-icon::before { content: '⏸️'; }
+         .audio-controls-right { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+         #song-title { font-size: 0.8em; color: #555; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; font-weight: 500; }
+         #seek-bar { width: 100%; height: 6px; cursor: pointer; appearance: none; background: rgba(255, 194, 209, 0.5); border-radius: 3px; outline: none; }
+         #seek-bar::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; background: #ff75ac; border-radius: 50%; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+         #seek-bar::-moz-range-thumb { width: 14px; height: 14px; background: #ff75ac; border-radius: 50%; cursor: pointer; border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+         .time-display { display: flex; justify-content: space-between; font-size: 0.75em; color: #666; margin-top: 2px; padding: 0 2px; }
+         #audio-element { display: none; }
+
+         /* --- Cat Pendant Styles --- */
+         #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; overflow: visible; background-color: transparent; transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); } /* Added drop shadow */
+         #cat-pendant:hover { transform: scale(1.1); }
+         #cat-pendant img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+         #cat-pendant.rolling { animation: cat-roll 0.7s linear; }
+         @keyframes cat-roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+         #cat-dialog {
+             position: absolute; top: 50%; left: 110%; transform: translateY(-50%); min-width: 180px; max-width: 220px; padding: 12px 18px;
+             border-radius: 12px; /* Increased radius */
+             background-color: rgba(255, 255, 255, 0.7); /* Lighter background */
+             backdrop-filter: blur(8px) saturate(110%); /* Glass effect */
+             -webkit-backdrop-filter: blur(8px) saturate(110%);
+             box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Refined shadow */
+             border: 1px solid rgba(255, 255, 255, 0.25); /* Subtle border */
+             color: #333; font-size: 0.9em; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; z-index: 1; pointer-events: none;
+         }
+         #cat-dialog::after {
+             content: ''; position: absolute; top: 50%; right: 100%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 8px 8px 8px 0;
+             border-color: transparent rgba(255, 255, 255, 0.7) transparent transparent; /* Match background */
+         }
+         #cat-dialog.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease-out, visibility 0s linear 0s; }
+         /* Fallback for cat dialog */
+          @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+             #cat-dialog { background-color: rgba(255, 192, 203, 0.9); }
+             #cat-dialog::after { border-color: transparent rgba(255, 192, 203, 0.9) transparent transparent; }
+         }
 
 
-        // --- MODIFIED: 字体切换逻辑 ---
-        if (fontToggleButton && loveLetterView) {
-            fontToggleButton.addEventListener('click', () => {
-                loveLetterView.classList.toggle('love-letter-default-font');
-                // 可选：根据状态更新按钮文字
-                /*
-                if (loveLetterView.classList.contains('love-letter-default-font')) {
-                    fontToggleButton.textContent = '切换为自定义字体';
-                } else {
-                    fontToggleButton.textContent = '切换为默认字体';
-                }
-                */
-            });
-        }
+         /* --- Warning Message Styles --- */
+         #love-warning-message {
+             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 30px 45px;
+             background-color: rgba(255, 105, 135, 0.3); /* Pinkish, more transparent */
+             color: #fff; /* White text for contrast */
+             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+             font-size: 1.6em; font-weight: bold; text-align: center;
+             border-radius: 16px; /* Larger radius */
+             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+             z-index: 11000; display: none;
+             backdrop-filter: blur(12px) saturate(130%); /* Stronger blur/saturation */
+             -webkit-backdrop-filter: blur(12px) saturate(130%);
+             border: 1px solid rgba(255, 255, 255, 0.2);
+             max-width: 90%;
+         }
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+             #love-warning-message { background-color: rgba(229, 57, 53, 0.9); color: white; }
+         }
+
+         /* --- Shared Box Style for Modal Content --- */
+         .modal-content-box {
+             background-color: rgba(255, 255, 255, 0.85); /* Consistent background */
+             padding: 25px 35px;
+             border-radius: 16px; /* Consistent radius */
+             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Consistent shadow */
+             color: #333;
+             max-width: 90%;
+             border: 1px solid rgba(255, 255, 255, 0.1);
+             /* No backdrop-filter here, applied on parent overlay */
+         }
+
+         /* --- Game Start Warning Styles --- */
+         #game-start-warning { /* Inherits from .overlay-view */
+             z-index: 90;
+         }
+
+         #game-start-warning-box p {
+             margin-bottom: 25px; /* Increased spacing */
+             font-size: 1.1em;
+             line-height: 1.6; /* Increased line height */
+         }
+
+        /* --- Password Prompt Styles --- */
+         #password-prompt-view { /* Inherits from .overlay-view */
+             z-index: 95;
+         }
+
+         #password-prompt-box h2 {
+             margin-top: 0; margin-bottom: 20px; font-size: 1.3em; color: #e83e8c;
+         }
+         #password-input {
+             padding: 12px; /* Increased padding */
+             margin-bottom: 20px; /* Increased margin */
+             border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
+             border-radius: 8px; /* Match button radius */
+             font-size: 1.1em;
+             width: 120px; /* Wider input */
+             text-align: center;
+             background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent input */
+             box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+             -moz-appearance: textfield; appearance: textfield;
+         }
+         #password-input:focus {
+            outline: 2px solid #ffc2d1;
+            outline-offset: 2px;
+            border-color: rgba(0, 0, 0, 0.2);
+         }
+         #password-error-message {
+             color: #d9534f; /* Softer red */
+             font-size: 0.95em;
+             min-height: 1.3em;
+             margin-top: 5px; /* Reduced margin */
+         }
+
+         /* --- Game View Styles --- */
+         #game-view { /* Inherits from .overlay-view */
+             z-index: 100;
+             padding-top: env(safe-area-inset-top, 20px);
+             padding-bottom: env(safe-area-inset-bottom, 20px);
+         }
+         #game-info { /* Inherits from .modal-content-box */
+             padding: 12px 25px; /* Adjusted padding */
+             margin-bottom: 20px; /* Increased margin */
+             font-size: 1.1em;
+             font-weight: 500;
+             min-width: 280px; /* Increased min-width */
+             background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque for readability */
+         }
+          #game-info span { display: inline-block; margin: 0 8px; }
+         #game-area {
+             width: 100%; max-width: 600px; height: 65%;
+             background-color: rgba(255, 255, 255, 0.15); /* Slightly more visible */
+             border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter dashed border */
+             position: relative; overflow: hidden;
+             border-radius: 16px; /* Match modal boxes */
+             margin-bottom: 20px; /* Increased margin */
+             box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Subtle inner shadow */
+         }
+         /* Base style for falling items in game */
+         .game-item {
+             position: absolute; width: 50px; height: 70px;
+             border-radius: 8px; /* Increased radius */
+             cursor: pointer; top: -80px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;
+             box-shadow: 0 3px 8px rgba(0,0,0,0.25); /* Enhanced shadow */
+             animation: fall-game-item linear forwards; user-select: none; -webkit-user-select: none;
+             text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for depth */
+         }
+         @keyframes fall-game-item {
+             0% { transform: translateY(0) rotate(0deg); }
+             100% { transform: translateY(calc(100vh + 80px)) rotate(720deg); }
+         }
+
+         .hongbao { background-color: #e53935; border: 2px solid #ffeb3b; color: #ffeb3b; }
+         .hongbao::before { content: '福'; }
+         .green-envelope { background-color: #4CAF50; border: 2px solid #C8E6C9; color: #C8E6C9; font-size: 28px; }
+         .green-envelope::before { content: '💚'; }
+         .mouse-item { background-color: #795548; border: 2px solid #A1887F; color: #A1887F; font-size: 30px; height: 55px; }
+         .mouse-item::before { content: '🐀'; }
+
+         #game-result { /* Inherits from .modal-content-box */
+             margin-top: 20px; padding: 25px 35px; font-size: 1.2em; text-align: center;
+             display: none; max-width: 90%;
+             background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque */
+         }
+          #game-result-text { margin-bottom: 25px; }
+         #game-result .prize-code { margin-top: 10px; font-weight: bold; color: #e53935; word-break: break-all; font-size: 1.1em; }
+         #game-result-buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+         #back-from-game { margin-top: 25px; }
 
 
-        // --- Initial Setup ---
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                if (birthdayView) birthdayView.style.position = 'relative';
-                if (loveLetterView) loveLetterView.style.position = 'relative';
-                if (birthdayView) { birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); }
-                if (audioElement) { updatePlayPauseIcon(); }
-                else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; }
-                if (slideshow && slideCount > 0) { createDots(); showSlide(0); startSlideshowAutoplay(); }
-                else { if (slideshowContainer) slideshowContainer.style.display = 'none'; }
+         /* Media Query Adjustments */
+         @media (max-width: 600px) {
+              .modal-content-box { padding: 20px 25px; }
+              #love-warning-message { font-size: 1.3em; padding: 20px 30px; }
+              #game-start-warning-box p { font-size: 1em; }
+              #password-prompt-box h2 { font-size: 1.1em; }
+              #password-input { padding: 10px; margin-bottom: 15px; width: 100px; }
+              #game-info { font-size: 1em; min-width: 220px; padding: 10px 20px;}
+              #game-result { font-size: 1.1em; padding: 20px 25px;}
 
-            } catch (error) { console.error("Error during initial setup:", error); }
-        });
+              #photo-slideshow-container { max-width: 95%; padding: 10px; }
+              .slideshow-nav { width: 35px; height: 35px; font-size: 1.3em; }
+              .slideshow-nav.prev { left: 5px; } .slideshow-nav.next { right: 5px; }
+              .dot { width: 8px; height: 8px; margin: 0 4px;}
+              #audio-player-container { max-width: 280px; padding: 8px 12px; gap: 8px; border-radius: 12px;}
+              #love-letter-view { padding-top: 45px; margin-top: 30px; border-radius: 12px; }
+              #love-letter-view::before { border-width: 45px 0 0 calc(50vw - 10px); border-top-left-radius: 12px;}
+              #love-letter-view::after { border-width: 0 0 45px calc(50vw - 10px); border-top-right-radius: 12px;}
+              #cat-pendant { width: 50px; height: 50px; top: 10px; left: 10px; }
+              #cat-dialog { font-size: 0.8em; min-width: 150px; left: 115%; padding: 10px 15px; border-radius: 10px;}
+              #slideshow-caption { font-size: 0.9em;}
+              #love-letter-view .signature { font-size: 0.9em; }
 
-    </script>
+              .styled-button { font-size: 0.9em; padding: 10px 15px; }
+              .back-button { padding: 10px 15px; font-size: 0.9em; }
+              #font-toggle-button { padding: 6px 10px; font-size: 0.8em;}
 
-</body>
-</html>
+         }
+         @media (max-width: 360px) {
+              .modal-content-box { padding: 15px 20px; }
+              #love-warning-message { font-size: 1.1em; padding: 15px 20px; }
+              #game-start-warning-box p { font-size: 0.9em; }
+              #password-prompt-box h2 { font-size: 1em; }
+              #password-input { padding: 8px; margin-bottom: 12px; width: 90px; font-size: 1em;}
+              #game-info { font-size: 0.9em; min-width: 180px; padding: 8px 15px;}
+              #game-result { font-size: 1em; padding: 15px 20px;}
+
+              #birthday-view h1, #love-letter-view h1 { font-size: 1.5em; }
+              #love-letter-view h1 { padding: 0 25px; }
+              #love-letter-view h1::before, #love-letter-view h1::after { font-size: 0.8em; }
+              #birthday-message { font-size: 1.3em; }
+              #love-letter-view p { font-size: 0.92em; text-indent: 1.5em; }
+              #love-letter-view .signature { font-size: 0.8em; }
+              .falling-item { font-size: 20px; } .pointer-heart { font-size: 18px; }
+              #audio-player-container { width: 95%; gap: 5px; padding: 6px 10px; max-width: 95%; border-radius: 10px;}
+              #play-pause-button { width: 35px; height: 35px; font-size: 1.1em; }
+              .time-display { font-size: 0.7em; } #song-title { font-size: 0.7em; }
+              #seek-bar::-webkit-slider-thumb { width: 12px; height: 12px; }
+              #seek-bar::-moz-range-thumb { width: 12px; height: 12px; }
+              #cat-pendant { width: 45px; height: 45px; }
+              #cat-dialog { left: 120%; padding: 8px 12px; border-radius: 8px;}
+
+              .love-letter-buttons { margin-top: 20px; }
+              .styled-button { font-size: 0.85em; padding: 8px 12px; margin: 4px; border-radius: 6px;}
+              .back-button { padding: 8px 12px; font-size: 0.85em; }
+              #font-toggle-button { padding: 5px 8px; font-size: 0.75em;}
+         }
+
+     </style>
+ </head>
+ <body>
+     <div id="love-warning-message">警告！你已进入湖南第一深情的唯一偏爱名单！</div>
+
+     <div id="password-prompt-view" class="overlay-view">
+         <div id="password-prompt-box" class="modal-content-box">
+             <h2>我们认识的时间是？</h2>
+             <input type="text" id="password-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="4位数字">
+             <button id="password-submit-button" class="styled-button">确认</button>
+             <div id="password-error-message"></div>
+         </div>
+     </div>
+
+     <div id="game-start-warning" class="overlay-view">
+         <div id="game-start-warning-box" class="modal-content-box">
+             <p>游戏说明：<br>您抢完红包以后截图找少爷兑换，一共可以玩三局，一局30秒，每局最多投放50个物品（红包、绿包、老鼠）。<br>❤️ 红包(+1元) 💚 绿包(-1元) 🐀 老鼠(-3元)</p>
+             <button id="confirm-start-game" class="styled-button">开始游戏</button>
+         </div>
+     </div>
+
+     <div id="cat-pendant">
+         <img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/static-cat-placeholder.png" alt="猫咪挂件 (点击打滚)">
+         <div id="cat-dialog"></div>
+     </div>
+
+     <div id="background-layer"></div>
+     <div id="background-overlay"></div>
+
+     <div id="birthday-view">
+         <h1>✨ 珊珊宝宝生日快乐 ✨</h1>
+         <div class="birthday-container">
+             <a id="birthday-cake-link" href="#">
+                 <img id="birthday-cake" src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/cake-placeholder.jpg" alt="生日蛋糕 (点击有惊喜)">
+             </a>
+             <p id="birthday-message">本少爷祝你简简单单，快快乐乐，幸幸福福的过完21岁。</p>
+             <p class="footer-text">祝你拥有美好的一天！ (点击蛋糕有惊喜哦!)</p>
+         </div>
+         <div id="photo-slideshow-container">
+             <div id="slideshow-wrapper">
+                 <div id="slideshow">
+                     <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder1.jpg" alt="珊珊的照片 1"></div>
+                     <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder2.jpg" alt="珊珊的照片 2"></div>
+                     <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder3.png" alt="珊珊的照片 3"></div>
+                     <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder4.jpg" alt="珊珊的照片 4"></div>
+                     <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder5.png" alt="珊珊的照片 5"></div>
+                 </div>
+             </div>
+             <button class="slideshow-nav prev styled-button" aria-label="上一张">🎂</button>
+             <button class="slideshow-nav next styled-button" aria-label="下一张">🎂</button>
+             <div class="dots-container"></div>
+             <div id="slideshow-caption">照片描述会显示在这里</div>
+         </div>
+         <hr>
+         <p class="footer-text">珊珊，生日快乐！</p>
+         <p class="footer-text">🐒小猴子又长大一岁啦。愿这一年，温暖和好运都奔你而来，所有的付出都有回报，所有的笑容都发自真心。希望你能感受到，一直有人在默默关心和祝福着你。未来的日子，无论晴雨，希望能有机会继续分享彼此的风景~</p>
+     </div>
+
+     <div id="love-letter-view">
+         <h1>致 我独一无二的、最特别的珊珊 ❤️</h1>
+         <p>提笔想给你写点什么，尤其是在你生日将近的日子，心情有点像那次和你线下见面时——既期待又紧张，还带着点我们之间特有的“癫”。快一年了，时间好像过得飞快，又好像每一天的聊天都值得被细细回味。</p>
+         <p>还记得吗？从最初那个叫我“小屁孩”怼得我差点拉黑你的“张三”（当然是玩笑，我哪里舍得拉黑皇后娘娘），到后来那个会发搞怪表情包、会在语音里偷笑的“皇后娘娘”，再到那个嘴上说着“不谈恋爱”、“我就是渣女”，却会因为担心我而退回红包、会因为我需要而用花呗买鼠标、会在我“发癫”后依然主动问早的“傻姑娘”……你身上这种矛盾又真实的可爱，就像拆盲盒，总能给我意想不到的惊喜。</p>
+         <p>以前总觉得世事纷扰，人心复杂难测，直到遇见你，才明白那句“众里寻他千百度，蓦然回首，那人却在，灯火阑珊处”或许是真的。 你的出现，像一道光，照亮了我之前可能有些灰暗和充满“精神内耗”的世界。是你用你的“癫”、你的善良、你的原则，还有你那面对生活不易时的韧性，让我觉得这个世界原来还可以这么有趣和值得期待。和你聊天成了我每天雷打不动的习惯和最大的乐趣，你分享的日常琐碎，在我这里都变成了值得珍藏的风景。</p>
+         <p>我知道，我们之间这种“羁绊”很特别，深到有时连我们自己都难以简单定义。没关系，“身无彩凤双飞翼，心有灵犀一点通”，很多时候，我觉得你懂我内心那些未说出口的焦虑和期盼，我也在努力去理解你那句“慢慢来吧”背后可能隐藏的顾虑和需要。感谢你愿意向我敞开那么多，信任我这么多。</p>
+         <p>我也知道，你心里可能装着对过去的担忧，对未来的不确定，对“关系”本身的恐惧。我不会再像以前那样，急切地逼你给一个答案，也不会再开那些不合时宜的玩笑了（如果我又“癫”了，记得用表情包提醒我哦）。你的生日，我最大的、也是唯一的心愿，就是你能真正地、毫无负担地开心。你想怎么过，我都支持。</p>
+         <p>这封信，不是为了在生日这天给你压力，真的。它就是一份迟来的感谢信——感谢缘分让我们相遇，感谢你陪我度过这么多时光，分享这么多欢笑和 emo 的瞬间。它也是一份心意书——告诉你，在我心里，你有多么重要和独一无二。</p>
+         <p>至于未来，我们继续“走一步看一步”吧。“人生到处知何似，应似飞鸿踏雪泥。” 未来不可预知，但重要的是，我希望能继续陪在你身边，和你一起面对路上的风景，无论是晴是雨。愿如此缘，能续经年。</p>
+         <p>生日快乐，我最珍视的珊珊。</p>
+         <div class="signature">那个越来越懂得珍惜你的“癫公”，哥哥或者少爷，<br>章啸宇</div>
+
+         <div class="love-letter-buttons">
+             <button id="font-toggle-button" class="styled-button">切换字体</button>
+             <button class="back-button styled-button">返回主页面</button>
+             <button id="goto-game-button" class="styled-button">去抢红包</button>
+         </div>
+     </div>
+
+     <div id="game-view" class="overlay-view">
+         <div id="game-info" class="modal-content-box"> <span id="round-display">第 1 局</span> |
+             <span id="score-display">珊珊抢到了人民币 0 元</span> |
+             时间: <span id="timer-display">30</span>s
+         </div>
+         <div id="game-area"></div>
+         <div id="game-result" class="modal-content-box"> <div id="game-result-text"></div>
+             <div id="game-result-buttons">
+                 <button id="continue-game-button" class="styled-button">继续下一局</button>
+                 <button id="redeem-early-button" class="styled-button">直接兑换</button>
+             </div>
+         </div>
+         <button id="back-from-game" class="styled-button">返回情书</button>
+     </div>
+     
+     <div id="audio-player-container">
+         <audio id="audio-element" loop>
+             <source src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/M5000044Nr9A4ZiFFQ.mp3" type="audio/mpeg">
+             你的浏览器不支持播放音频。
+         </audio>
+         <button id="play-pause-button" aria-label="播放"><span class="play-icon"></span></button>
+         <div class="audio-controls-right">
+             <div id="song-title">生日快乐歌</div>
+             <input type="range" id="seek-bar" value="0" max="100" step="1" aria-label="进度条">
+             <div class="time-display">
+                 <span id="current-time">0:00</span>
+                 <span id="duration">0:00</span>
+             </div>
+         </div>
+     </div>
+
+     <script>
+         // --- Wait for the DOM to be fully loaded before running the script ---
+         document.addEventListener('DOMContentLoaded', () => {
+             console.log("DOM Loaded. Initializing...");
+
+             // --- Get Elements ---
+             const birthdayView = document.getElementById('birthday-view');
+             const loveLetterView = document.getElementById('love-letter-view');
+             const cakeLink = document.getElementById('birthday-cake-link');
+             const backButton = loveLetterView.querySelector('.back-button');
+             const audioElement = document.getElementById('audio-element');
+             const audioPlayerContainer = document.getElementById('audio-player-container');
+             const playPauseButton = document.getElementById('play-pause-button');
+             const playIcon = playPauseButton ? playPauseButton.querySelector('.play-icon') : null;
+             const seekBar = document.getElementById('seek-bar');
+             const currentTimeDisplay = document.getElementById('current-time');
+             const durationDisplay = document.getElementById('duration');
+             const slideshowContainer = document.getElementById('photo-slideshow-container');
+             const catPendant = document.getElementById('cat-pendant');
+             const catDialog = document.getElementById('cat-dialog');
+             const fontToggleButton = document.getElementById('font-toggle-button');
+             const slideshow = document.getElementById('slideshow');
+             const slides = document.querySelectorAll('.slide');
+             const prevButton = document.querySelector('.slideshow-nav.prev');
+             const nextButton = document.querySelector('.slideshow-nav.next');
+             const dotsContainer = document.querySelector('.dots-container');
+             const slideshowCaption = document.getElementById('slideshow-caption');
+             const loveWarningMessage = document.getElementById('love-warning-message');
+
+             // --- Get Game Elements ---
+             const gameView = document.getElementById('game-view');
+             const gotoGameButton = document.getElementById('goto-game-button');
+             const backFromGameButton = document.getElementById('back-from-game');
+             const gameArea = document.getElementById('game-area');
+             const roundDisplay = document.getElementById('round-display');
+             const scoreDisplay = document.getElementById('score-display');
+             const timerDisplay = document.getElementById('timer-display');
+             const gameResultDisplay = document.getElementById('game-result');
+             const gameResultText = document.getElementById('game-result-text');
+             const gameResultButtons = document.getElementById('game-result-buttons');
+             const continueGameButton = document.getElementById('continue-game-button');
+             const redeemEarlyButton = document.getElementById('redeem-early-button');
+             const gameStartWarning = document.getElementById('game-start-warning');
+             const confirmStartGameButton = document.getElementById('confirm-start-game');
+             const gameInfo = document.getElementById('game-info');
+
+             // --- Get Password Prompt Elements ---
+             const passwordPromptView = document.getElementById('password-prompt-view');
+             const passwordInput = document.getElementById('password-input');
+             const passwordSubmitButton = document.getElementById('password-submit-button');
+             const passwordErrorMessage = document.getElementById('password-error-message');
+
+             // --- Variables ---
+             let birthdayIntervalId = null;
+             let loveLetterIntervalId = null;
+             const birthdayItems = ['🎂', '🌸'];
+             const loveLetterItems = ['❤️', '🎂'];
+             const BIRTHDAY_INTERVAL_TIME = 550;
+             const LOVE_LETTER_INTERVAL_TIME = 500;
+             let currentSlideIndex = 0;
+             let slideInterval = null;
+             const slideCount = slides ? slides.length : 0;
+             const SLIDESHOW_INTERVAL_TIME = 5000;
+             let catDialogTimeout = null;
+             const slideCaptions = ["冬日暖意，围巾和你。🧣", "在逃公主の婚礼实录👑", "关于主播上播后被疯狂截屏这件事📸", "三月捕捉到的‘捣蛋鬼’！这个调皮又可爱的表情，犯规了哦~😋", "替章老板好好陪着姐姐哦，史迪奇！🤪"];
+             let firstCatClick = true;
+             const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
+             const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀"];
+             const rateLimitDialog = "喵的，女人，别撸了，快被你耗成和你一样的秃头猫咪了😡";
+             let recentCatClicks = [];
+             const CAT_CLICK_LIMIT = 20;
+             const CAT_CLICK_WINDOW = 60000;
+             let isSeeking = false;
+
+             // --- Game State Variables ---
+             let totalScore = 0;
+             let currentRound = 0;
+             const maxRounds = 3;
+             let timeLeft = 30;
+             let gameTimerInterval = null;
+             let itemSpawnInterval = null;
+             let gameActive = false;
+             let itemsSpawnedThisRound = 0;
+             const maxItemsPerRound = 50;
+             const totalMiceAllowed = 15;
+             const totalGreenAllowed = 30;
+             let miceSpawnedTotal = 0;
+             let greenSpawnedTotal = 0;
+
+             const ITEM_SPAWN_INTERVAL = 400;
+             const ITEM_FALL_DURATION = 7000; // Increased from 4000 to 7000ms for slower fall
+
+             // --- Draggable Elements Variables ---
+             let dragTarget = null; let isDragging = false; let offsetX, offsetY; let isDragAction = false;
+
+             // --- 尝试播放音乐的函数 ---
+             function tryPlayAudio() { /* Keep original */ if (audioElement && audioElement.paused) { audioElement.play().then(() => { updatePlayPauseIcon(); }).catch(error => { if (error.name !== 'NotAllowedError') { console.error("尝试播放音频失败:", error); } }); } }
+
+             // --- Falling Items Functions (Generic) ---
+             function createFallingItem(itemType, container) { /* Keep original */ if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
+             function startFallingItems(intervalId, itemArray, container, intervalTime) { /* Keep original */ if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container && container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
+             function stopFallingItems(intervalId, container) { /* Keep original */ if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
+
+             // --- View Switching Logic ---
+             function hideAllViews() {
+                 // Hide all potential views
+                 [birthdayView, loveLetterView, gameView, loveWarningMessage, gameStartWarning, passwordPromptView].forEach(view => {
+                     if (view) view.style.display = 'none';
+                 });
+                 // Stop effects specific to views
+                 birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView);
+                 loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView);
+                 stopGame(); // Stop game if active
+             }
+             function showLoveLetter() { hideAllViews(); if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showBirthday() { hideAllViews(); if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
+             function showPasswordPrompt() { hideAllViews(); if (passwordPromptView) passwordPromptView.style.display = 'flex'; if (passwordInput) passwordInput.value = ''; if (passwordErrorMessage) passwordErrorMessage.textContent = ''; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showGameStartWarning() { hideAllViews(); if (gameStartWarning) gameStartWarning.style.display = 'flex'; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+             function showGame() { hideAllViews(); if(gameView) { gameView.style.display = 'flex'; if (gameResultDisplay) gameResultDisplay.style.display = 'none'; if (gameArea) gameArea.style.display = 'block'; if (gameInfo) gameInfo.style.display = 'block'; } startGame(); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+
+             // --- Event Listeners for View Switching ---
+             if (cakeLink) { cakeLink.addEventListener('click', (event) => { event.preventDefault(); if (isDragAction) return; if (loveWarningMessage) { loveWarningMessage.style.display = 'block'; setTimeout(() => { if (loveWarningMessage) loveWarningMessage.style.display = 'none'; showLoveLetter(); tryPlayAudio(); }, 2500); } else { showLoveLetter(); tryPlayAudio(); } }); }
+             if (backButton) { backButton.addEventListener('click', showBirthday); }
+             if (gotoGameButton) { gotoGameButton.addEventListener('click', showPasswordPrompt); } // Shows password first
+             if (confirmStartGameButton) { confirmStartGameButton.addEventListener('click', showGame); } // Game starts after warning confirmation
+             if (backFromGameButton) { backFromGameButton.addEventListener('click', showLoveLetter); }
+             if (continueGameButton) { continueGameButton.addEventListener('click', showGame); }
+             if (redeemEarlyButton) { redeemEarlyButton.addEventListener('click', showFinalResult); }
+
+             // --- Password Check Logic ---
+             if (passwordSubmitButton && passwordInput && passwordErrorMessage) { passwordSubmitButton.addEventListener('click', () => { const enteredPassword = passwordInput.value.trim(); if (enteredPassword === "0610") { showGameStartWarning(); } else { passwordErrorMessage.textContent = '不对哦，再想想！提示：4位数字'; passwordInput.value = ''; passwordInput.focus(); } }); passwordInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); passwordSubmitButton.click(); } }); }
+
+             // --- Pointer Trail Heart Logic --- (Keep Original)
+             function throttle(func, limit) { /* Keep original */ let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
+             function createPointerHeart(x, y) { /* Keep original */ if (!document.body) return; const heart = document.createElement('div'); heart.classList.add('pointer-heart'); heart.innerHTML = '❤️'; heart.style.left = `${x}px`; heart.style.top = `${y}px`; document.body.appendChild(heart); setTimeout(() => { if (heart && heart.parentNode) { heart.remove(); } }, 600); }
+             const throttledCreateHeart = throttle(createPointerHeart, 100); document.body.addEventListener('mousemove', (event) => { throttledCreateHeart(event.pageX, event.pageY); }); document.body.addEventListener('touchmove', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true }); document.body.addEventListener('touchstart', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
+
+             // --- Custom Audio Player Logic --- (Keep Original)
+             function formatTime(seconds) { const secs = Math.floor(seconds || 0); if (isNaN(secs) || secs < 0) return "0:00"; const minutes = Math.floor(secs / 60); const remainingSeconds = secs % 60; return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; }
+             function updatePlayPauseIcon() { if (!playIcon || !audioElement || !playPauseButton) return; playIcon.classList.remove('play-icon', 'pause-icon'); if (audioElement.paused || audioElement.ended) { playIcon.classList.add('play-icon'); playPauseButton.setAttribute('aria-label', '播放'); } else { playIcon.classList.add('pause-icon'); playPauseButton.setAttribute('aria-label', '暂停'); } }
+             if (playPauseButton && audioElement) { playPauseButton.addEventListener('click', () => { if (isDragAction) return; if (audioElement.paused || audioElement.ended) { audioElement.play().catch(e => console.error("Error playing audio:", e)); } else { audioElement.pause(); } }); }
+             if (audioElement) { audioElement.addEventListener('timeupdate', () => { if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) { try { if(seekBar) seekBar.value = audioElement.currentTime; if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } catch (e) { console.error("Error updating time:", e) } } }); audioElement.addEventListener('loadedmetadata', () => { if (!isNaN(audioElement.duration) && seekBar && durationDisplay) { try { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); updatePlayPauseIcon(); } catch (e) { console.error("Error on loadedmetadata:", e) } } else { if(seekBar) seekBar.max = 0; if(durationDisplay) durationDisplay.textContent = "0:00"; } }); audioElement.addEventListener('play', updatePlayPauseIcon); audioElement.addEventListener('pause', updatePlayPauseIcon); audioElement.addEventListener('ended', updatePlayPauseIcon); }
+             if (seekBar && currentTimeDisplay && audioElement) { seekBar.addEventListener('input', () => { isSeeking = true; try { if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0); } catch (e) { console.error("Error updating seek bar display:", e) } }); seekBar.addEventListener('change', () => { if (!isNaN(audioElement.duration)) { try { audioElement.currentTime = parseFloat(seekBar.value) || 0; } catch (e) { console.error("Error setting audio time:", e) } } isSeeking = false; if (!isSeeking && !isNaN(audioElement.duration) && currentTimeDisplay) { currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } }); }
+
+             // --- Slideshow Logic --- (Keep Original)
+             function updateDots() { /* Keep original */ if (!dotsContainer || !slides || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { if(dotsContainer.children[i]) dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
+             function showSlide(index) { /* Keep original */ if (slideCount <= 0 || !slideshow) return; currentSlideIndex = (index + slideCount) % slideCount; const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
+             function nextSlide() { /* Keep original */ showSlide(currentSlideIndex + 1); } function startSlideshowAutoplay() { /* Keep original */ stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } } function stopSlideshowAutoplay() { /* Keep original */ clearInterval(slideInterval); slideInterval = null; } if (prevButton && nextButton) { prevButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); }); nextButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); }); } function createDots() { /* Keep original */ if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { if (isDragAction) return; stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); } if (slideshowContainer) { slideshowContainer.addEventListener('click', (event) => { if (isDragAction) return; if (!event.target.closest('.slideshow-nav') && !event.target.closest('.dot')) { console.log("Slideshow area clicked (audio trigger removed)."); } }); }
+
+             // --- Draggable Elements Logic --- (Keep Original)
+             function makeDraggable(element) { /* Keep original */ if (!element) return; element.style.cursor = 'move'; element.addEventListener('dragstart', (e) => e.preventDefault()); element.style.touchAction = 'none'; let startX, startY, elementStartX, elementStartY, pointerId = null, dragThreshold = 5; function getPointerCoords(event) { let touch = null; if (event.touches && event.touches.length > 0) { for (let i = 0; i < event.touches.length; i++) { if (event.touches[i].identifier === pointerId) { touch = event.touches[i]; break; } } if (!touch) touch = event.touches[0]; } else if (event.changedTouches && event.changedTouches.length > 0) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { touch = event.changedTouches[i]; break; } } if (!touch) touch = event.changedTouches[0]; } if (touch) return { x: touch.clientX, y: touch.clientY }; if (event.clientX !== undefined) return { x: event.clientX, y: event.clientY }; return null; } function dragStartHandler(event) { if (event.target !== element && event.target.closest('button, input, a, select, textarea')) { return; } if ((event.type === 'mousedown' && event.button !== 0) || (event.touches && event.touches.length > 1)) { return; } const coords = getPointerCoords(event); if (!coords) return; isDragging = false; isDragAction = false; dragTarget = element; dragTarget.style.transition = 'none'; startX = coords.x; startY = coords.y; const rect = dragTarget.getBoundingClientRect(); elementStartX = rect.left; elementStartY = rect.top; const computedStyle = getComputedStyle(dragTarget); if (computedStyle.position !== 'fixed' && computedStyle.position !== 'absolute') { console.warn("Draggable element is not positioned (fixed/absolute). Dragging might be unexpected.", dragTarget); dragTarget.style.position = 'fixed'; } if (!dragTarget.style.left || dragTarget.style.left === 'auto') { dragTarget.style.left = `${elementStartX}px`; } if (!dragTarget.style.top || dragTarget.style.top === 'auto') { dragTarget.style.top = `${elementStartY}px`; } dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; if (event.type === 'mousedown') { pointerId = -1; document.addEventListener('mousemove', draggingHandler); document.addEventListener('mouseup', dragEndHandler); } else if (event.type === 'touchstart') { pointerId = event.touches[0].identifier; document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('touchend', dragEndHandler); document.addEventListener('touchcancel', dragEndHandler); } document.body.style.userSelect = 'none'; document.body.style.webkitUserSelect = 'none'; document.body.style.msUserSelect = 'none'; } function draggingHandler(event) { if (!dragTarget) return; const coords = getPointerCoords(event); if (!coords) { dragEndHandler(event); return; } let currentX = coords.x; let currentY = coords.y; const deltaX = currentX - startX; const deltaY = currentY - startY; if (!isDragging && (Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold)) { isDragging = true; isDragAction = true; } if (isDragging) { if (event.cancelable && event.type === 'touchmove') { event.preventDefault(); } let newLeft = elementStartX + deltaX; let newTop = elementStartY + deltaY; const parentWidth = window.innerWidth; const parentHeight = window.innerHeight; const elemWidth = dragTarget.offsetWidth; const elemHeight = dragTarget.offsetHeight; newLeft = Math.max(0, Math.min(newLeft, parentWidth - elemWidth)); newTop = Math.max(0, Math.min(newTop, parentHeight - elemHeight)); dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; } } function dragEndHandler(event) { if (!dragTarget) return; let endPointerMatch = false; if (event.type === 'mouseup' && pointerId === -1) { endPointerMatch = true; } else if ((event.type === 'touchend' || event.type === 'touchcancel') && event.changedTouches) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { endPointerMatch = true; break; } } } if (!endPointerMatch && event.type !== 'touchcancel' && event.type !== 'mouseup') { return; } if (pointerId === -1) { document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); } else { document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('touchend', dragEndHandler); document.removeEventListener('touchcancel', dragEndHandler); } dragTarget.style.transition = ''; document.body.style.userSelect = ''; document.body.style.webkitUserSelect = ''; document.body.style.msUserSelect = ''; if (isDragAction) { const finalRect = dragTarget.getBoundingClientRect(); const finalPosToSave = { x: finalRect.left, y: finalRect.top }; if (element.id === 'audio-player-container') { try { localStorage.setItem('audioPlayerPos', JSON.stringify(finalPosToSave)); console.log("Saved player pos:", finalPosToSave); } catch (e) { console.error("Failed to save player position:", e); } } else if (element.id === 'cat-pendant') { try { localStorage.setItem('catPosition', JSON.stringify(finalPosToSave)); console.log("Saved cat pos:", finalPosToSave); } catch (e) { console.error("Failed to save cat position:", e); } } } isDragging = false; pointerId = null; dragTarget = null; setTimeout(() => { isDragAction = false; }, 0); } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: true }); }
+             if (audioPlayerContainer) { /* Keep original load/init */ const savedPlayerPos = localStorage.getItem('audioPlayerPos'); if (savedPlayerPos) { try { const pos = JSON.parse(savedPlayerPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ audioPlayerContainer.style.left = `${pos.x}px`; audioPlayerContainer.style.top = `${pos.y}px`; audioPlayerContainer.style.right = 'auto'; audioPlayerContainer.style.bottom = 'auto'; audioPlayerContainer.style.transform = 'none'; } } catch(e){ console.error("Failed to load player position:", e); } } makeDraggable(audioPlayerContainer); }
+             if (catPendant) { /* Keep original load/init */ const savedCatPos = localStorage.getItem('catPosition'); if (savedCatPos) { try { const pos = JSON.parse(savedCatPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ catPendant.style.left = `${pos.x}px`; catPendant.style.top = `${pos.y}px`; catPendant.style.right = 'auto'; catPendant.style.bottom = 'auto'; catPendant.style.transform = 'none'; } } catch(e){ console.error("Failed to load cat position:", e); } } makeDraggable(catPendant); }
+
+             // --- Cat Pendant Logic --- (Keep Original)
+             if (catPendant && catDialog) { catPendant.addEventListener('click', () => { if (isDragAction) { console.log("Cat click ignored due to drag."); return; } try { tryPlayAudio(); const now = Date.now(); recentCatClicks = recentCatClicks.filter(timestamp => now - timestamp < CAT_CLICK_WINDOW); let dialogText = ""; let isRateLimited = recentCatClicks.length >= CAT_CLICK_LIMIT; let canShowDialog = false; if (isRateLimited) { dialogText = rateLimitDialog; canShowDialog = true; } else { if (!firstCatClick && (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible'))) { return; } recentCatClicks.push(now); if (firstCatClick) { dialogText = initialDialog[0]; firstCatClick = false; } else { const randomIndex = Math.floor(Math.random() * randomDialogs.length); dialogText = randomDialogs[randomIndex]; } canShowDialog = true; } if (canShowDialog && catDialog) { catDialog.textContent = dialogText; clearTimeout(catDialogTimeout); catDialog.classList.remove('visible'); void catDialog.offsetWidth; catDialog.classList.add('visible'); catDialogTimeout = setTimeout(() => { if(catDialog) catDialog.classList.remove('visible'); }, 4000); if (!isRateLimited && !catPendant.classList.contains('rolling')) { const currentLeft = catPendant.style.left; const currentTop = catPendant.style.top; catPendant.classList.add('rolling'); catPendant.addEventListener('animationend', () => { if(catPendant) { catPendant.classList.remove('rolling'); catPendant.style.left = currentLeft; catPendant.style.top = currentTop; catPendant.style.transform = 'none'; } }, { once: true }); } } else if (!catDialog) { console.error("Cat dialog element not found!"); } } catch (error) { console.error("Error in cat pendant click handler:", error); if (catPendant) catPendant.classList.remove('rolling'); if (catDialog) catDialog.classList.remove('visible'); clearTimeout(catDialogTimeout); } }); const catImg = catPendant.querySelector('img'); if(catImg) { catImg.onerror = () => { if (catPendant) catPendant.style.display = 'none'; }; } else { if (catPendant) catPendant.style.display = 'none'; } } else { if (catPendant) catPendant.style.display = 'none'; }
+
+             // --- Font Toggle Logic --- (Keep Original)
+             if (fontToggleButton && loveLetterView) { fontToggleButton.addEventListener('click', () => { if (isDragAction) return; loveLetterView.classList.toggle('love-letter-default-font'); }); }
+
+            // --- Game Logic --- (Keep Original)
+             function startGame() { /* Keep original */ console.log("Starting game..."); if (!gameArea || !scoreDisplay || !timerDisplay || !gameResultDisplay || !roundDisplay || !gameInfo) { console.error("Critical game elements not found at startGame!"); return; } currentRound++; console.log(`Starting Round ${currentRound}`); if (currentRound > maxRounds) { console.log("Max rounds reached, showing final result."); showFinalResult(); return; } stopGame(); itemsSpawnedThisRound = 0; timeLeft = 30; gameActive = true; try { if(roundDisplay) roundDisplay.textContent = `第 ${currentRound} / ${maxRounds} 局`; if(scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; if(timerDisplay) timerDisplay.textContent = timeLeft; if(gameResultDisplay) gameResultDisplay.style.display = 'none'; if(gameArea) gameArea.style.display = 'block'; if(gameInfo) gameInfo.style.display = 'block'; } catch(e) { console.error("Error resetting display:", e); } try { if (gameTimerInterval) clearInterval(gameTimerInterval); gameTimerInterval = setInterval(() => { if (!gameActive) { clearInterval(gameTimerInterval); return; } timeLeft--; if (timerDisplay) timerDisplay.textContent = timeLeft; if (timeLeft <= 0) { gameOver(); } }, 1000); } catch(e) { console.error("Error starting timer:", e); gameActive = false; return; } try { if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = setInterval(spawnRandomItem, ITEM_SPAWN_INTERVAL); } catch(e) { console.error("Error starting item spawn:", e); stopGame(); return; } try { if (gameArea) gameArea.removeEventListener('click', handleGameAreaClick); if (gameArea) gameArea.addEventListener('click', handleGameAreaClick); } catch(e) { console.error("Error adding click listener:", e); stopGame(); return; } console.log(`Round ${currentRound} started successfully.`); }
+             function stopGame() { /* Keep original */ console.log("Stopping game elements..."); gameActive = false; try { clearInterval(gameTimerInterval); clearInterval(itemSpawnInterval); } catch(e) { console.error("Error clearing intervals:", e); } gameTimerInterval = null; itemSpawnInterval = null; try { if(gameArea) { gameArea.removeEventListener('click', handleGameAreaClick); const remainingItems = gameArea.querySelectorAll('.game-item'); remainingItems.forEach(item => { const tid = item.dataset.removalTimeoutId; if(tid) clearTimeout(parseInt(tid)); item.remove(); }); } } catch(e) { console.error("Error cleaning up game area:", e); } console.log("Game elements stopped."); }
+             function spawnRandomItem() { /* Keep original */ if (!gameArea || !gameActive || itemsSpawnedThisRound >= maxItemsPerRound) { if (itemsSpawnedThisRound >= maxItemsPerRound) { console.log(`Max items (${maxItemsPerRound}) spawned for round ${currentRound}.`); if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = null; } return; } itemsSpawnedThisRound++; const canSpawnMouse = miceSpawnedTotal < totalMiceAllowed; const canSpawnGreen = greenSpawnedTotal < totalGreenAllowed; let itemType = 'hongbao'; const rand = Math.random(); if (canSpawnMouse && rand < 0.15) { itemType = 'mouse'; } else if (canSpawnGreen && rand < 0.40) { itemType = 'green'; } switch (itemType) { case 'mouse': miceSpawnedTotal++; createMouse(); break; case 'green': greenSpawnedTotal++; createGreenEnvelope(); break; default: createHongbao(); break; } }
+             function createGameItem(className, content) { /* Keep original */ if (!gameArea || !gameActive) return; try { const item = document.createElement('div'); item.classList.add('game-item', className); if (content) item.innerHTML = content; const gameAreaWidth = gameArea.offsetWidth; const itemWidth = 50; item.style.left = Math.max(0, Math.random() * (gameAreaWidth - itemWidth)) + 'px'; const durationVariation = Math.random() * 1000 - 500; const actualDuration = Math.max(3000, ITEM_FALL_DURATION + durationVariation); item.style.animationDuration = actualDuration / 1000 + 's'; gameArea.appendChild(item); const removalTimeout = setTimeout(() => { if (item.parentNode) { item.remove(); } }, actualDuration + 200); item.dataset.removalTimeoutId = removalTimeout; } catch(e) { console.error(`Error creating ${className}:`, e); } }
+             function createHongbao() { createGameItem('hongbao'); } function createGreenEnvelope() { createGameItem('green-envelope'); } function createMouse() { createGameItem('mouse-item'); }
+             function handleGameAreaClick(event) { /* Keep original */ if (!gameActive || !event.target) return; const clickedItem = event.target.closest('.game-item'); if (!clickedItem) return; try { let scoreChange = 0; if (clickedItem.classList.contains('hongbao')) { scoreChange = 1; } else if (clickedItem.classList.contains('green-envelope')) { scoreChange = -1; } else if (clickedItem.classList.contains('mouse-item')) { scoreChange = -3; } if (scoreChange !== 0) { totalScore += scoreChange; if (scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; } const removalTimeoutId = clickedItem.dataset.removalTimeoutId; if (removalTimeoutId) { clearTimeout(parseInt(removalTimeoutId)); } clickedItem.remove(); } catch(e) { console.error("Error handling game item click:", e); } }
+             function gameOver() { /* Keep original */ console.log(`Round ${currentRound} Over. Total Score: ${totalScore}`); stopGame(); if (currentRound >= maxRounds) { showFinalResult(); } else { showEndOfRoundOptions(); } }
+             function showEndOfRoundOptions() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons || !gameArea || !gameInfo) return; console.log("Showing end of round options."); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.textContent = `第 ${currentRound} 局结束！当前总分：${totalScore} 元`; gameResultButtons.style.display = 'flex'; gameResultDisplay.style.display = 'block'; }
+             function showFinalResult() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons) return; console.log("Showing final game result."); stopGame(); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.innerHTML = `游戏结束！<br>珊珊一共抢到了人民币 <span class="prize-code">${totalScore}</span> 元！<br>请截图找章大少兑换奖励！`; gameResultButtons.style.display = 'none'; gameResultDisplay.style.display = 'block'; currentRound = 0; totalScore = 0; miceSpawnedTotal = 0; greenSpawnedTotal = 0; }
+
+             // --- Initial Setup ---
+             try { /* Keep original setup */ totalScore = 0; currentRound = 0; miceSpawnedTotal = 0; greenSpawnedTotal = 0; hideAllViews(); if (birthdayView) { birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); } else { console.error("Birthday view not found!"); } if (audioElement) { if (!isNaN(audioElement.duration) && audioElement.duration > 0) { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(0); } else { if(seekBar) seekBar.max = 100; if(durationDisplay) durationDisplay.textContent = "0:00"; if(currentTimeDisplay) currentTimeDisplay.textContent = "0:00"; } if (playIcon) { updatePlayPauseIcon(); } else { console.error("Play icon element not found during init."); } } else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; } if (slideshow && slideCount > 0) { createDots(); showSlide(0); startSlideshowAutoplay(); } else { if (slideshowContainer) slideshowContainer.style.display = 'none'; } console.log("Initial setup complete."); } catch (error) { console.error("Error during initial setup:", error); }
+
+         }); // End of DOMContentLoaded listener
+     </script>
+
+ </body>
+ </html>

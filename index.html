@@ -3,30 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>张珊珊的生日快乐！</title>
+    <title>张珊珊生日快乐！</title>
+
+    <link rel="preload" href="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf" as="font" type="font/ttf" crossorigin>
+
     <style>
+        /* --- Web Font Definition --- */
+        @font-face {
+            font-family: 'MyCustomLetterFont';
+            src: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/pfsg.ttf');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         /* --- General Styles --- */
         *, *::before, *::after { box-sizing: border-box; }
         body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; line-height: 1.6; margin: 0; padding-bottom: 80px; background-color: #f8f0f8; overflow-x: hidden; font-size: 16px; min-height: 100vh; position: relative; -webkit-overflow-scrolling: touch; }
         body, div, p, h1, button, img { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
         /* --- Background Layers --- */
-        #background-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background-image: url("background-placeholder.jpg"); /* <<< 替换背景图片! */ background-size: cover; background-position: center center; }
+        #background-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: url("https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/background-placeholder.jpg");
+            background-size: cover;
+            background-position: top center;
+        }
         #background-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: rgba(255, 255, 255, 0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 
         /* --- Views --- */
         #birthday-view, #love-letter-view { padding: 15px; position: relative; z-index: 1; }
         #birthday-view {
             background-color: transparent;
-            /* UPDATED: Changed cursor to cake */
-            /* --- 蛋糕鼠标指针 --- */
-            /* 1. 准备一个 32x32px 的蛋糕图标文件 (cake-cursor.png 或 .cur) */
-            /* 2. 放入与 HTML 文件相同的文件夹 */
-            /* 3. 如果用了不同文件名，请修改下面的 url() 中的名字 */
-            cursor: url('cake-cursor.png') 16 16, auto; /* <<< 修改这里! */
+            cursor: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/Aero_arrow.cur') 16 16, auto;
             display: block; min-height: 100vh;
         }
-        #love-letter-view { display: none; font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; background-color: rgba(255, 250, 240, 0.88); color: #5a463a; max-width: 95%; margin: 40px auto; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 20px; padding-top: 60px; padding-bottom: 80px; position: relative; z-index: 10; }
+        #love-letter-view { display: none; background-color: rgba(255, 250, 240, 0.88); color: #5a463a; max-width: 95%; margin: 40px auto; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); border-radius: 8px; padding: 20px; padding-top: 60px; padding-bottom: 80px; position: relative; z-index: 10; }
         #love-letter-view::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 0; border-style: solid; border-width: 60px 0 0 calc(50vw - 15px); border-color: rgba(254, 202, 202, 0.8) transparent transparent rgba(254, 202, 202, 0.8); z-index: 1; border-top-left-radius: 8px; }
         #love-letter-view::after { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 0; border-style: solid; border-width: 0 0 60px calc(50vw - 15px); border-color: transparent rgba(254, 202, 202, 0.8) rgba(254, 202, 202, 0.8) transparent; z-index: 1; border-top-right-radius: 8px; }
 
@@ -46,18 +58,63 @@
         #love-letter-view h1 { font-size: 1.6em; color: #d9534f; text-align: center; margin-bottom: 25px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; position: relative; padding: 0 30px; z-index: 2; }
         #love-letter-view h1::before { content: '🎂'; position: absolute; left: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
         #love-letter-view h1::after { content: '❤️'; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
-        #love-letter-view p { font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; margin-bottom: 1.3em; text-indent: 2em; font-size: 1em; position: relative; z-index: 2; }
-        #love-letter-view .signature { font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; text-align: right; margin-top: 30px; font-style: italic; line-height: 1.6; font-size: 0.95em; position: relative; z-index: 2; }
-        #love-letter-view .back-button { display: block; text-align: center; margin: 30px auto 0 auto; padding: 12px 25px; background-color: #6f42c1; color: white; text-decoration: none; border-radius: 8px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; cursor: pointer; border: none; font-size: 1.1em; width: fit-content; position: relative; z-index: 10; -webkit-tap-highlight-color: transparent; }
+        /* 默认使用自定义字体 */
+        #love-letter-view p {
+            font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif;
+            margin-bottom: 1.3em; text-indent: 2em; font-size: 1em; position: relative; z-index: 2;
+            overflow-wrap: break-word; word-wrap: break-word;
+            transition: font-family 0.3s ease; /* 添加过渡效果 */
+        }
+        #love-letter-view .signature {
+            font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif;
+            text-align: right; margin-top: 30px; font-style: italic; line-height: 1.6; font-size: 0.95em; position: relative; z-index: 2;
+            word-break: break-word;
+            transition: font-family 0.3s ease; /* 添加过渡效果 */
+        }
+        /* --- MODIFIED: 添加类以切换到默认字体 --- */
+        #love-letter-view.love-letter-default-font p,
+        #love-letter-view.love-letter-default-font .signature {
+             font-family: 'KaiTi', 'STKaiti', 'SimSun', serif; /* 使用后备字体 */
+        }
+        /* --- MODIFIED: 字体切换按钮样式 --- */
+        #font-toggle-button {
+            display: inline-block; /* 或者 block 看布局需要 */
+            margin: 15px 10px 0 10px; /* 调整与其他按钮的间距 */
+            padding: 8px 15px;
+            background-color: #ff75ac; /* 粉色按钮 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.2s ease;
+        }
+        #font-toggle-button:hover {
+            background-color: #ff5c9a;
+        }
+        /* --- MODIFIED: 让两个按钮在同一行显示 (如果需要) --- */
+        .love-letter-buttons {
+            text-align: center; /* 让按钮居中 */
+            margin-top: 30px;
+        }
+        .love-letter-buttons button {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        #love-letter-view .back-button { display: inline-block; margin: 15px 10px 0 10px; padding: 12px 25px; background-color: #6f42c1; color: white; text-decoration: none; border-radius: 8px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; cursor: pointer; border: none; font-size: 1.1em; width: fit-content; position: relative; z-index: 10; -webkit-tap-highlight-color: transparent; }
         #love-letter-view .back-button:hover { background-color: #5a349a; }
 
-        /* --- Falling Items Styles [Existing] --- */
+
+        /* --- Falling Items Styles --- */
         .falling-item { position: absolute; top: -60px; font-size: 22px; user-select: none; pointer-events: none; animation: fall linear forwards; opacity: 0.75; z-index: 5; will-change: transform, opacity; }
         @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.75; } 100% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--random-rotate, 0) * 1deg)); opacity: 0; } }
 
-        /* --- Pointer Trail Heart Styles (UPDATED POSITION) --- */
+        /* --- Pointer Trail Heart Styles --- */
         .pointer-heart {
-            position: absolute; /* <<< MODIFIED: Was fixed */
+            position: absolute;
             font-size: 18px; color: #ff4d6d; pointer-events: none; user-select: none;
             z-index: 9999;
             animation: fade-move-out-quick 0.6s ease-out forwards;
@@ -80,7 +137,7 @@
         .dot.active { background-color: #ff75ac; }
         #slideshow-caption { text-align: center; margin-top: 12px; font-size: 0.95em; color: #665; padding: 5px; min-height: 1.5em; font-style: italic; background-color: rgba(255, 255, 255, 0.3); border-radius: 5px; }
 
-        /* --- Click Arrow Styles [Existing] --- */
+        /* --- Click Arrow Styles --- */
         .click-arrow { width: 0; height: 0; border-style: solid; position: absolute; z-index: 11; pointer-events: none; animation: bounce-arrow 1.5s infinite ease-in-out; opacity: 0.8; }
         .arrow-tr { border-width: 15px 15px 0 0; border-color: #ff75ac transparent transparent transparent; top: 10px; left: 10px; transform: rotate(135deg); animation-delay: 0s; }
         .arrow-tl { border-width: 15px 15px 0 0; border-color: #ff75ac transparent transparent transparent; top: 10px; right: 10px; transform: rotate(225deg); animation-delay: 0.5s; }
@@ -90,7 +147,7 @@
         .arrow-tl { --rotate-angle: 225deg; }
         .arrow-br { --rotate-angle: 45deg; }
 
-        /* --- Custom Audio Player Styles [Existing] --- */
+        /* --- Custom Audio Player Styles --- */
         #audio-player-container { position: fixed; bottom: 10px; right: 10px; left: auto; transform: none; width: 85%; max-width: 320px; z-index: 10000; background: rgba(255, 222, 233, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border-radius: 10px; padding: 8px 12px; box-shadow: 0 -1px 8px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; cursor: move; touch-action: none; }
         #play-pause-button { background-color: #ff75ac; border: none; color: white; font-size: 1.3em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; flex-shrink: 0; padding: 0; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.15); -webkit-tap-highlight-color: transparent; }
         #play-pause-button:hover { background-color: #ff5c9a; }
@@ -105,35 +162,134 @@
         #audio-element { display: none; }
 
         /* --- Cat Pendant Styles --- */
-        #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; border-radius: 50%; overflow: visible; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; }
+        #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; overflow: visible; background-color: transparent; transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; }
         #cat-pendant:hover { transform: scale(1.1); }
-        #cat-pendant img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; pointer-events: none; }
+        #cat-pendant img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
         #cat-pendant.rolling { animation: cat-roll 0.7s linear; }
         @keyframes cat-roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        /* Cat Dialog Box Styles (Confirmed Frosted Glass) */
+        /* Cat Dialog Box Styles */
         #cat-dialog { position: absolute; top: 50%; left: 110%; transform: translateY(-50%); min-width: 180px; max-width: 220px; padding: 10px 15px; border-radius: 8px; background-color: rgba(255, 192, 203, 0.75); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); box-shadow: 0 2px 8px rgba(0,0,0,0.2); color: #444; font-size: 0.9em; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; z-index: 1; pointer-events: none; }
         #cat-dialog::after { content: ''; position: absolute; top: 50%; right: 100%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 8px 8px 8px 0; border-color: transparent rgba(255, 192, 203, 0.75) transparent transparent; }
         #cat-dialog.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease-out, visibility 0s linear 0s; }
 
-
         /* Media Query Adjustments */
-        @media (max-width: 600px) { #photo-slideshow-container { max-width: 95%; padding: 10px; border-width: 8px; } .slideshow-nav { width: 35px; height: 35px; font-size: 1.3em; } .slideshow-nav.prev { left: -10px; } .slideshow-nav.next { right: -10px; } .dot { width: 8px; height: 8px; margin: 0 4px;} #audio-player-container { max-width: 280px; } #love-letter-view::before { border-width: 45px 0 0 calc(50vw - 10px); } #love-letter-view::after { border-width: 0 0 45px calc(50vw - 10px); } #love-letter-view { padding-top: 45px; margin-top: 30px;} .click-arrow { border-width: 10px 10px 0 0; } .arrow-tr { top: 5px; left: 5px;} .arrow-tl { top: 5px; right: 5px;} .arrow-br { bottom: 5px; left: 5px;} #cat-pendant { width: 50px; height: 50px; top: 10px; left: 10px; } #cat-dialog { font-size: 0.8em; min-width: 150px; left: 115%; } #slideshow-caption { font-size: 0.9em;} }
-        @media (max-width: 360px) { #birthday-view h1, #love-letter-view h1 { font-size: 1.5em; } #love-letter-view h1 { padding: 0 25px; } #love-letter-view h1::before, #love-letter-view h1::after { font-size: 0.8em; } #birthday-message { font-size: 1.3em; } #love-letter-view p { font-size: 0.95em; } .falling-item { font-size: 20px; } .pointer-heart { font-size: 18px; } #audio-player-container { width: 95%; gap: 5px; padding: 5px 8px; max-width: 95%; } #play-pause-button { width: 35px; height: 35px; font-size: 1.1em; } .time-display { font-size: 0.7em; } #song-title { font-size: 0.7em; } #seek-bar::-webkit-slider-thumb { width: 12px; height: 12px; } #seek-bar::-moz-range-thumb { width: 12px; height: 12px; } #cat-pendant { width: 45px; height: 45px; } #cat-dialog { left: 120%; } }
+        @media (max-width: 600px) {
+             #photo-slideshow-container { max-width: 95%; padding: 10px; border-width: 8px; }
+             .slideshow-nav { width: 35px; height: 35px; font-size: 1.3em; }
+             .slideshow-nav.prev { left: -10px; } .slideshow-nav.next { right: -10px; }
+             .dot { width: 8px; height: 8px; margin: 0 4px;}
+             #audio-player-container { max-width: 280px; }
+             #love-letter-view::before { border-width: 45px 0 0 calc(50vw - 10px); }
+             #love-letter-view::after { border-width: 0 0 45px calc(50vw - 10px); }
+             #love-letter-view { padding-top: 45px; margin-top: 30px;}
+             .click-arrow { border-width: 10px 10px 0 0; }
+             .arrow-tr { top: 5px; left: 5px;} .arrow-tl { top: 5px; right: 5px;} .arrow-br { bottom: 5px; left: 5px;}
+             #cat-pendant { width: 50px; height: 50px; top: 10px; left: 10px; }
+             #cat-dialog { font-size: 0.8em; min-width: 150px; left: 115%; }
+             #slideshow-caption { font-size: 0.9em;}
+             #love-letter-view .signature { font-size: 0.9em; }
+             /* --- MODIFIED: 调整按钮间距 for small screens --- */
+             .love-letter-buttons button { font-size: 0.9em; padding: 10px 15px; }
+             #font-toggle-button { padding: 6px 10px; font-size: 0.8em;}
+
+        }
+        @media (max-width: 360px) {
+             #birthday-view h1, #love-letter-view h1 { font-size: 1.5em; }
+             #love-letter-view h1 { padding: 0 25px; }
+             #love-letter-view h1::before, #love-letter-view h1::after { font-size: 0.8em; }
+             #birthday-message { font-size: 1.3em; }
+             #love-letter-view p { font-size: 0.92em; text-indent: 1.5em; }
+             #love-letter-view .signature { font-size: 0.8em; /* Further adjust */ }
+             .falling-item { font-size: 20px; } .pointer-heart { font-size: 18px; }
+             #audio-player-container { width: 95%; gap: 5px; padding: 5px 8px; max-width: 95%; }
+             #play-pause-button { width: 35px; height: 35px; font-size: 1.1em; }
+             .time-display { font-size: 0.7em; } #song-title { font-size: 0.7em; }
+             #seek-bar::-webkit-slider-thumb { width: 12px; height: 12px; }
+             #seek-bar::-moz-range-thumb { width: 12px; height: 12px; }
+             #cat-pendant { width: 45px; height: 45px; }
+             #cat-dialog { left: 120%; }
+             /* --- MODIFIED: 调整按钮间距 for extra small screens --- */
+             .love-letter-buttons { margin-top: 20px; }
+             .love-letter-buttons button { font-size: 0.85em; padding: 8px 12px; margin-left: 5px; margin-right: 5px;}
+             #font-toggle-button { padding: 5px 8px; font-size: 0.75em;}
+        }
 
     </style>
 </head>
 <body>
     <div id="cat-pendant">
-        <img src="static-cat-placeholder.png" alt="猫咪挂件 (点击打滚)"> <div id="cat-dialog"></div>
+        <img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/static-cat-placeholder.png" alt="猫咪挂件 (点击打滚)">
+        <div id="cat-dialog"></div>
     </div>
 
     <div id="background-layer"></div>
     <div id="background-overlay"></div>
 
-    <div id="birthday-view"><h1>✨ 生日快乐 ✨</h1><div class="birthday-container"><a id="birthday-cake-link" href="#"><div class="click-arrow arrow-tr"></div><div class="click-arrow arrow-tl"></div><div class="click-arrow arrow-br"></div><img id="birthday-cake" src="cake-placeholder.jpg" alt="生日蛋糕 (点击有惊喜)"></a><p id="birthday-message">本少爷祝你简简单单，快快乐乐，幸幸福福的过完21岁。</p><p class="footer-text">祝你拥有美好的一天！ (点击蛋糕有惊喜哦!)</p></div><div id="photo-slideshow-container"><div id="slideshow-wrapper"><div id="slideshow"><div class="slide"><img src="placeholder1.jpg" alt="珊珊的照片 1"></div><div class="slide"><img src="placeholder2.jpg" alt="珊珊的照片 2"></div><div class="slide"><img src="placeholder3.png" alt="珊珊的照片 3"></div><div class="slide"><img src="placeholder4.jpg" alt="珊珊的照片 4"></div><div class="slide"><img src="placeholder5.png" alt="珊珊的照片 5"></div></div></div><button class="slideshow-nav prev" aria-label="上一张">🎂</button><button class="slideshow-nav next" aria-label="下一张">🎂</button><div class="dots-container"></div><div id="slideshow-caption">照片描述会显示在这里</div></div><hr><p class="footer-text">祝你变有钱。</p></div>
-    <div id="love-letter-view"><h1>致 我独一无二的、最特别的珊珊 ❤️</h1><p>提笔想给你写点什么，尤其是在你生日将近的日子，心情有点像那次和你线下见面时——既期待又紧张，还带着点我们之间特有的“癫”。快一年了，时间好像过得飞快，又好像每一天的聊天都值得被细细回味。</p><p>还记得吗？从最初那个叫我“小屁孩”怼得我差点拉黑你的“张三”（当然是玩笑，我哪里舍得），到后来那个会发搞怪表情包、会在语音里偷笑的“皇后娘娘”，再到那个嘴上说着“不谈恋爱”、“我就是渣女”，却会因为担心我而退回红包、会因为我需要而用花呗买鼠标、会在我“发癫”后依然主动问早的“傻姑娘”……你身上这种矛盾又真实的可爱，就像拆盲盒，总能给我意想不到的惊喜。</p><p>以前总觉得世事纷扰，人心复杂难测，直到遇见你，才明白那句“众里寻他千百度，蓦然回首，那人却在，灯火阑珊处”或许是真的。 你的出现，像一道光，照亮了我之前可能有些灰暗和充满“精神内耗”的世界。是你用你的“癫”、你的善良、你的原则，还有你那面对生活不易时的韧性，让我觉得这个世界原来还可以这么有趣和值得期待。和你聊天成了我每天雷打不动的习惯和最大的乐趣，你分享的日常琐碎，在我这里都变成了值得珍藏的风景。</p><p>我知道，我们之间这种“羁绊”很特别，深到有时连我们自己都难以简单定义。没关系，“身无彩凤双飞翼，心有灵犀一点通”，很多时候，我觉得你懂我内心那些未说出口的焦虑和期盼，我也在努力去理解你那句“慢慢来吧”背后可能隐藏的顾虑和需要。感谢你愿意向我敞开那么多，信任我这么多。</p><p>我也知道，你心里可能装着对过去的担忧，对未来的不确定，对“关系”本身的恐惧。我不会再像以前那样，急切地逼你给一个答案，也不会再开那些不合时宜的玩笑了（如果我又“癫”了，记得用表情包提醒我哦）。你的生日，我最大的、也是唯一的心愿，就是你能真正地、毫无负担地开心。你想怎么过，我都支持。</p><p>这封信，不是为了在生日这天给你压力，真的。它就是一份迟来的感谢信——感谢缘分让我们相遇，感谢你陪我度过这么多时光，分享这么多欢笑和 emo 的瞬间。它也是一份心意书——告诉你，在我心里，你有多么重要和独一无二。</p><p>至于未来，我们继续“走一步看一步”吧。“人生到处知何似，应似飞鸿踏雪泥。” 未来不可预知，但重要的是，我希望能继续陪在你身边，和你一起面对路上的风景，无论是晴是雨。愿如此缘，能续经年。</p><p>生日快乐，我最珍视的珊珊。</p><div class="signature">那个越来越懂得珍惜你的“癫公”，哥哥或者少爷，<br>章啸宇</div><button class="back-button">返回生日主页面</button></div>
-    <div id="audio-player-container"><audio id="audio-element" loop><source src="M5000044Nr9A4ZiFFQ.mp3" type="audio/mpeg">你的浏览器不支持播放音频。</audio><button id="play-pause-button" aria-label="播放"><span class="play-icon"></span></button><div class="audio-controls-right"><div id="song-title">生日快乐歌</div><input type="range" id="seek-bar" value="0" aria-label="进度条"><div class="time-display"><span id="current-time">0:00</span><span id="duration">0:00</span></div></div></div>
+    <div id="birthday-view">
+        <h1>✨ 生日快乐 ✨</h1>
+        <div class="birthday-container">
+            <a id="birthday-cake-link" href="#">
+                <div class="click-arrow arrow-tr"></div>
+                <div class="click-arrow arrow-tl"></div>
+                <div class="click-arrow arrow-br"></div>
+                <img id="birthday-cake" src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/cake-placeholder.jpg" alt="生日蛋糕 (点击有惊喜)">
+            </a>
+            <p id="birthday-message">本少爷祝你简简单单，快快乐乐，幸幸福福的过完21岁。</p>
+            <p class="footer-text">祝你拥有美好的一天！ (点击蛋糕有惊喜哦!)</p>
+        </div>
+        <div id="photo-slideshow-container">
+            <div id="slideshow-wrapper">
+                <div id="slideshow">
+                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder1.jpg" alt="珊珊的照片 1"></div>
+                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder2.jpg" alt="珊珊的照片 2"></div>
+                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder3.png" alt="珊珊的照片 3"></div>
+                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder4.jpg" alt="珊珊的照片 4"></div>
+                    <div class="slide"><img src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/placeholder5.png" alt="珊珊的照片 5"></div>
+                </div>
+            </div>
+            <button class="slideshow-nav prev" aria-label="上一张">🎂</button>
+            <button class="slideshow-nav next" aria-label="下一张">🎂</button>
+            <div class="dots-container"></div>
+            <div id="slideshow-caption">照片描述会显示在这里</div>
+        </div>
+        <hr>
+        <p class="footer-text">珊珊，生日快乐！</p>
+        <p class="footer-text">🐒小猴子又长大一岁啦。愿这一年，温暖和好运都奔你而来，所有的付出都有回报，所有的笑容都发自真心。希望你能感受到，一直有人在默默关心和祝福着你。未来的日子，无论晴雨，希望能有机会继续分享彼此的风景~</p>
+    </div>
 
+    <div id="love-letter-view">
+        <h1>致 我独一无二的、最特别的珊珊 ❤️</h1>
+        <p>提笔想给你写点什么，尤其是在你生日将近的日子，心情有点像那次和你线下见面时——既期待又紧张，还带着点我们之间特有的“癫”。快一年了，时间好像过得飞快，又好像每一天的聊天都值得被细细回味。</p>
+        <p>还记得吗？从最初那个叫我“小屁孩”怼得我差点拉黑你的“张三”（当然是玩笑，我哪里舍得拉黑皇后娘娘），到后来那个会发搞怪表情包、会在语音里偷笑的“皇后娘娘”，再到那个嘴上说着“不谈恋爱”、“我就是渣女”，却会因为担心我而退回红包、会因为我需要而用花呗买鼠标、会在我“发癫”后依然主动问早的“傻姑娘”……你身上这种矛盾又真实的可爱，就像拆盲盒，总能给我意想不到的惊喜。</p>
+        <p>以前总觉得世事纷扰，人心复杂难测，直到遇见你，才明白那句“众里寻他千百度，蓦然回首，那人却在，灯火阑珊处”或许是真的。 你的出现，像一道光，照亮了我之前可能有些灰暗和充满“精神内耗”的世界。是你用你的“癫”、你的善良、你的原则，还有你那面对生活不易时的韧性，让我觉得这个世界原来还可以这么有趣和值得期待。和你聊天成了我每天雷打不动的习惯和最大的乐趣，你分享的日常琐碎，在我这里都变成了值得珍藏的风景。</p>
+        <p>我知道，我们之间这种“羁绊”很特别，深到有时连我们自己都难以简单定义。没关系，“身无彩凤双飞翼，心有灵犀一点通”，很多时候，我觉得你懂我内心那些未说出口的焦虑和期盼，我也在努力去理解你那句“慢慢来吧”背后可能隐藏的顾虑和需要。感谢你愿意向我敞开那么多，信任我这么多。</p>
+        <p>我也知道，你心里可能装着对过去的担忧，对未来的不确定，对“关系”本身的恐惧。我不会再像以前那样，急切地逼你给一个答案，也不会再开那些不合时宜的玩笑了（如果我又“癫”了，记得用表情包提醒我哦）。你的生日，我最大的、也是唯一的心愿，就是你能真正地、毫无负担地开心。你想怎么过，我都支持。</p>
+        <p>这封信，不是为了在生日这天给你压力，真的。它就是一份迟来的感谢信——感谢缘分让我们相遇，感谢你陪我度过这么多时光，分享这么多欢笑和 emo 的瞬间。它也是一份心意书——告诉你，在我心里，你有多么重要和独一无二。</p>
+        <p>至于未来，我们继续“走一步看一步”吧。“人生到处知何似，应似飞鸿踏雪泥。” 未来不可预知，但重要的是，我希望能继续陪在你身边，和你一起面对路上的风景，无论是晴是雨。愿如此缘，能续经年。</p>
+        <p>生日快乐，我最珍视的珊珊。</p>
+        <div class="signature">那个越来越懂得珍惜你的“癫公”，哥哥或者少爷，<br>章啸宇</div>
+
+            <div class="love-letter-buttons">
+            <button id="font-toggle-button">切换字体</button> 
+            <button class="back-button">返回生日主页面</button>
+        </div>
+    </div>
+
+    <div id="audio-player-container">
+        <audio id="audio-element" loop>
+            <source src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/M5000044Nr9A4ZiFFQ.mp3" type="audio/mpeg">
+            你的浏览器不支持播放音频。
+        </audio>
+        <button id="play-pause-button" aria-label="播放"><span class="play-icon"></span></button>
+        <div class="audio-controls-right">
+            <div id="song-title">生日快乐歌</div>
+            <input type="range" id="seek-bar" value="0" aria-label="进度条">
+            <div class="time-display">
+                <span id="current-time">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- Existing Variables and Setup ---
@@ -148,12 +304,18 @@
         const seekBar = document.getElementById('seek-bar');
         const currentTimeDisplay = document.getElementById('current-time');
         const durationDisplay = document.getElementById('duration');
+        const slideshowContainer = document.getElementById('photo-slideshow-container');
+        const catPendant = document.getElementById('cat-pendant');
+        const catDialog = document.getElementById('cat-dialog');
+        const fontToggleButton = document.getElementById('font-toggle-button'); // --- MODIFIED: 获取新按钮 ---
+
         let birthdayIntervalId = null;
         let loveLetterIntervalId = null;
         const birthdayItems = ['🎂', '🌸'];
         const loveLetterItems = ['❤️', '🎂'];
         const BIRTHDAY_INTERVAL_TIME = 550;
         const LOVE_LETTER_INTERVAL_TIME = 500;
+
         const slideshow = document.getElementById('slideshow');
         const slides = document.querySelectorAll('.slide');
         const prevButton = document.querySelector('.slideshow-nav.prev');
@@ -164,137 +326,194 @@
         let slideInterval = null;
         const slideCount = slides.length;
         const SLIDESHOW_INTERVAL_TIME = 5000;
-        const catPendant = document.getElementById('cat-pendant');
-        const catDialog = document.getElementById('cat-dialog');
+
         let catDialogTimeout = null;
-
-        // --- Slideshow Captions ---
         const slideCaptions = ["冬日暖意，围巾和你。🧣", "在逃公主の婚礼实录👑", "关于主播上播后被疯狂截屏这件事📸", "三月捕捉到的‘捣蛋鬼’！这个调皮又可爱的表情，犯规了哦~😋", "替章老板好好陪着姐姐哦，史迪奇！🤪"];
+        let firstCatClick = true;
+        const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
+        const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀"];
+        const rateLimitDialog = "喵的，女人，别撸了，快被你耗成和你一样的秃头猫咪了😡";
+        let recentCatClicks = [];
+        const CAT_CLICK_LIMIT = 20;
+        const CAT_CLICK_WINDOW = 60000;
 
-         // --- Cat Dialog Logic Variables ---
-         let firstCatClick = true;
-         const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
-         const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀"];
-         const rateLimitDialog = "喵的，女人，别撸了，快被你耗成和你一样的秃头猫咪了😡"; // Updated text
-         let recentCatClicks = [];
-         const CAT_CLICK_LIMIT = 20;
-         const CAT_CLICK_WINDOW = 60000; // 60 seconds
+        let isSeeking = false;
 
-        // --- Falling Items Functions [Existing] ---
-        function createFallingItem(itemType, container) { /* ...omitted for brevity... */ if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
-        function startFallingItems(intervalId, itemArray, container, intervalTime) { /* ...omitted for brevity... */ if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
-        function stopFallingItems(intervalId, container) { /* ...omitted for brevity... */ if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
+        // --- 尝试播放音乐的函数 ---
+        function tryPlayAudio() {
+            if (audioElement && audioElement.paused) {
+                audioElement.play().then(() => {
+                    updatePlayPauseIcon();
+                }).catch(error => {
+                    console.error("尝试播放音频失败:", error);
+                });
+            }
+        }
 
-        // --- View Switching Logic [Existing] ---
-        if (cakeLink) { cakeLink.addEventListener('click', (event) => { event.preventDefault(); showLoveLetter(); }); }
+        // --- Falling Items Functions ---
+        function createFallingItem(itemType, container) { if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
+        function startFallingItems(intervalId, itemArray, container, intervalTime) { if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
+        function stopFallingItems(intervalId, container) { if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
+
+        // --- View Switching Logic ---
+        if (cakeLink) {
+             cakeLink.addEventListener('click', (event) => {
+                 event.preventDefault();
+                 showLoveLetter();
+                 tryPlayAudio(); // 点击蛋糕尝试播放
+             });
+         }
         if (backButton) { backButton.addEventListener('click', showBirthday); }
         function showLoveLetter() { birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView); if(birthdayView) birthdayView.style.display = 'none'; if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
         function showBirthday() { loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView); if(loveLetterView) loveLetterView.style.display = 'none'; if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
 
-        // --- Pointer Trail Heart Logic (FIXED Positioning) ---
-        function throttle(func, limit) { /* ...omitted for brevity... */ let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
-        function createPointerHeart(x, y) {
-             if (!document.body) return;
-             const heart = document.createElement('div');
-             heart.classList.add('pointer-heart');
-             heart.innerHTML = '❤️';
-             // Use pageX/Y with absolute positioning
-             heart.style.left = `${x}px`;
-             heart.style.top = `${y}px`;
-             document.body.appendChild(heart);
-             setTimeout(() => {
-                 if (heart && heart.parentNode) { heart.remove(); }
-             }, 600);
-        }
+        // --- Pointer Trail Heart Logic ---
+        function throttle(func, limit) { let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
+        function createPointerHeart(x, y) { if (!document.body) return; const heart = document.createElement('div'); heart.classList.add('pointer-heart'); heart.innerHTML = '❤️'; heart.style.left = `${x}px`; heart.style.top = `${y}px`; document.body.appendChild(heart); setTimeout(() => { if (heart && heart.parentNode) { heart.remove(); } }, 600); }
         const throttledCreateHeart = throttle(createPointerHeart, 100);
         document.body.addEventListener('mousemove', (event) => { throttledCreateHeart(event.pageX, event.pageY); });
         document.body.addEventListener('touchmove', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
         document.body.addEventListener('touchstart', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
 
-        // --- Custom Audio Player Logic (Autoplay Removed) ---
-        let isSeeking = false;
-        function formatTime(seconds) { /* ...omitted for brevity... */ const secs = Math.floor(seconds || 0); const minutes = Math.floor(secs / 60); const remainingSeconds = secs % 60; return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; }
-        function updatePlayPauseIcon() { /* ...omitted for brevity... */ if (!playIcon || !audioElement || !playPauseButton) return; playIcon.classList.remove('play-icon', 'pause-icon'); if (audioElement.paused || audioElement.ended) { playIcon.classList.add('play-icon'); playPauseButton.setAttribute('aria-label', '播放'); } else { playIcon.classList.add('pause-icon'); playPauseButton.setAttribute('aria-label', '暂停'); } }
-        if (playPauseButton && audioElement) { playPauseButton.addEventListener('click', () => { if (audioElement.paused || audioElement.ended) { audioElement.play().catch(e => console.error("Error playing audio:", e)); } else { audioElement.pause(); } }); }
-        if (audioElement) { audioElement.addEventListener('timeupdate', () => { if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) { try { seekBar.value = audioElement.currentTime; currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } catch(e){ console.error("Error updating time:", e)} } }); audioElement.addEventListener('loadedmetadata', () => { if (!isNaN(audioElement.duration) && seekBar && durationDisplay) { try { seekBar.max = audioElement.duration; durationDisplay.textContent = formatTime(audioElement.duration); updatePlayPauseIcon(); } catch(e){ console.error("Error on loadedmetadata:", e)} } }); audioElement.addEventListener('play', updatePlayPauseIcon); audioElement.addEventListener('pause', updatePlayPauseIcon); audioElement.addEventListener('ended', updatePlayPauseIcon); }
-        if (seekBar && currentTimeDisplay && audioElement) { seekBar.addEventListener('input', () => { isSeeking = true; try { currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0); } catch(e){ console.error("Error updating seek bar display:", e)}}); seekBar.addEventListener('change', () => { if (!isNaN(audioElement.duration)) { try { audioElement.currentTime = parseFloat(seekBar.value) || 0; } catch(e){ console.error("Error setting audio time:", e)}} isSeeking = false; }); }
+        // --- Custom Audio Player Logic ---
+        function formatTime(seconds) {
+            const secs = Math.floor(seconds || 0);
+            const minutes = Math.floor(secs / 60);
+            const remainingSeconds = secs % 60;
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+        function updatePlayPauseIcon() {
+             if (!playIcon || !audioElement || !playPauseButton) return;
+             playIcon.classList.remove('play-icon', 'pause-icon');
+             if (audioElement.paused || audioElement.ended) {
+                 playIcon.classList.add('play-icon');
+                 playPauseButton.setAttribute('aria-label', '播放');
+             } else {
+                 playIcon.classList.add('pause-icon');
+                 playPauseButton.setAttribute('aria-label', '暂停');
+             }
+         }
+        if (playPauseButton && audioElement) {
+            playPauseButton.addEventListener('click', () => {
+                if (audioElement.paused || audioElement.ended) {
+                    audioElement.play().catch(e => console.error("Error playing audio:", e));
+                } else {
+                    audioElement.pause();
+                }
+            });
+        }
+        if (audioElement) {
+            audioElement.addEventListener('timeupdate', () => {
+                if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) {
+                    try {
+                        seekBar.value = audioElement.currentTime;
+                        currentTimeDisplay.textContent = formatTime(audioElement.currentTime);
+                    } catch (e) { console.error("Error updating time:", e) }
+                }
+            });
+            audioElement.addEventListener('loadedmetadata', () => {
+                if (!isNaN(audioElement.duration) && seekBar && durationDisplay) {
+                    try {
+                        seekBar.max = audioElement.duration;
+                        durationDisplay.textContent = formatTime(audioElement.duration);
+                        updatePlayPauseIcon();
+                    } catch (e) { console.error("Error on loadedmetadata:", e) }
+                }
+            });
+            audioElement.addEventListener('play', updatePlayPauseIcon);
+            audioElement.addEventListener('pause', updatePlayPauseIcon);
+            audioElement.addEventListener('ended', updatePlayPauseIcon);
+        }
+        if (seekBar && currentTimeDisplay && audioElement) {
+            seekBar.addEventListener('input', () => {
+                isSeeking = true;
+                try {
+                    currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0);
+                } catch (e) { console.error("Error updating seek bar display:", e) }
+            });
+            seekBar.addEventListener('change', () => {
+                if (!isNaN(audioElement.duration)) {
+                    try {
+                        audioElement.currentTime = parseFloat(seekBar.value) || 0;
+                    } catch (e) { console.error("Error setting audio time:", e) }
+                }
+                isSeeking = false;
+            });
+        }
 
-        // --- Slideshow Logic (Caption Added) ---
-        function updateDots() { /* ...omitted for brevity... */ if (!dotsContainer || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
-        function showSlide(index) { /* ...omitted for brevity... */ if (slideCount <= 0 || !slideshow) return; if (index >= slideCount) { currentSlideIndex = 0; } else if (index < 0) { currentSlideIndex = slideCount - 1; } else { currentSlideIndex = index; } const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
-        function nextSlide() { /* ...omitted for brevity... */ showSlide(currentSlideIndex + 1); }
-        function startSlideshowAutoplay() { /* ...omitted for brevity... */ stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } }
-        function stopSlideshowAutoplay() { /* ...omitted for brevity... */ clearInterval(slideInterval); slideInterval = null; }
-        if (prevButton && nextButton) { prevButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); }); nextButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); }); }
-        function createDots() { /* ...omitted for brevity... */ if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); }
+        // --- Slideshow Logic ---
+        function updateDots() { if (!dotsContainer || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
+        function showSlide(index) { if (slideCount <= 0 || !slideshow) return; if (index >= slideCount) { currentSlideIndex = 0; } else if (index < 0) { currentSlideIndex = slideCount - 1; } else { currentSlideIndex = index; } const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
+        function nextSlide() { showSlide(currentSlideIndex + 1); }
+        function startSlideshowAutoplay() { stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } }
+        function stopSlideshowAutoplay() { clearInterval(slideInterval); slideInterval = null; }
+        if (prevButton && nextButton) {
+             prevButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); });
+             nextButton.addEventListener('click', () => { stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); });
+         }
+        function createDots() { if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); }
+        if (slideshowContainer) {
+            slideshowContainer.addEventListener('click', () => {
+                tryPlayAudio(); // 点击照片区域尝试播放
+            });
+        }
 
-        // --- Draggable Elements Logic (Player and Cat) ---
+        // --- Draggable Elements Logic ---
         let dragTarget = null; let isDragging = false; let offsetX, offsetY;
-        function makeDraggable(element) { /* ...omitted for brevity... */ if (!element) return; element.style.cursor = 'move'; function dragStartHandler(event) { dragTarget = element; isDragging = true; dragTarget.style.transition = 'none'; let clientX, clientY; if (event.type === 'touchstart') { clientX = event.touches[0].clientX; clientY = event.touches[0].clientY; } else { clientX = event.clientX; clientY = event.clientY; event.preventDefault(); } const rect = dragTarget.getBoundingClientRect(); offsetX = clientX - rect.left; offsetY = clientY - rect.top; if (dragTarget.style.left === 'auto' || dragTarget.style.top === 'auto') { dragTarget.style.left = `${rect.left}px`; dragTarget.style.top = `${rect.top}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; } document.addEventListener('mousemove', draggingHandler); document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('mouseup', dragEndHandler); document.addEventListener('touchend', dragEndHandler); } function draggingHandler(event) { if (!isDragging || !dragTarget) return; let currentX, currentY; if (event.type === 'touchmove') { event.preventDefault(); currentX = event.touches[0].clientX; currentY = event.touches[0].clientY; } else { currentX = event.clientX; currentY = event.clientY; } let newLeft = currentX - offsetX; let newTop = currentY - offsetY; const containerWidth = dragTarget.offsetWidth; const containerHeight = dragTarget.offsetHeight; const viewportWidth = window.innerWidth; const viewportHeight = window.innerHeight; if (newLeft < 0) newLeft = 0; if (newTop < 0) newTop = 0; if (newLeft + containerWidth > viewportWidth) newLeft = viewportWidth - containerWidth; if (newTop + containerHeight > viewportHeight) newTop = viewportHeight - containerHeight; dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; } function dragEndHandler() { if (isDragging) { isDragging = false; if(dragTarget) dragTarget.style.transition = ''; dragTarget = null; document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); document.removeEventListener('touchend', dragEndHandler); } } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: false }); }
+        function makeDraggable(element) { if (!element) return; element.style.cursor = 'move'; function dragStartHandler(event) { dragTarget = element; isDragging = true; dragTarget.style.transition = 'none'; let clientX, clientY; if (event.type === 'touchstart') { clientX = event.touches[0].clientX; clientY = event.touches[0].clientY; } else { clientX = event.clientX; clientY = event.clientY; event.preventDefault(); } const rect = dragTarget.getBoundingClientRect(); offsetX = clientX - rect.left; offsetY = clientY - rect.top; if (dragTarget.style.left === 'auto' || dragTarget.style.top === 'auto' || !dragTarget.style.left || !dragTarget.style.top) { dragTarget.style.left = `${rect.left}px`; dragTarget.style.top = `${rect.top}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; } document.addEventListener('mousemove', draggingHandler); document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('mouseup', dragEndHandler); document.addEventListener('touchend', dragEndHandler); } function draggingHandler(event) { if (!isDragging || !dragTarget) return; let currentX, currentY; if (event.type === 'touchmove') { event.preventDefault(); currentX = event.touches[0].clientX; currentY = event.touches[0].clientY; } else { currentX = event.clientX; currentY = event.clientY; } let newLeft = currentX - offsetX; let newTop = currentY - offsetY; const containerWidth = dragTarget.offsetWidth; const containerHeight = dragTarget.offsetHeight; const viewportWidth = window.innerWidth; const viewportHeight = window.innerHeight; if (newLeft < 0) newLeft = 0; if (newTop < 0) newTop = 0; if (newLeft + containerWidth > viewportWidth) newLeft = viewportWidth - containerWidth; if (newTop + containerHeight > viewportHeight) newTop = viewportHeight - containerHeight; dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; } function dragEndHandler() { if (isDragging) { isDragging = false; if(dragTarget) dragTarget.style.transition = ''; dragTarget = null; document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); document.removeEventListener('touchend', dragEndHandler); } } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: false }); }
         if (audioPlayerContainer) makeDraggable(audioPlayerContainer);
         if (catPendant) makeDraggable(catPendant);
 
-        // --- Cat Pendant Logic (UPDATED Rate Limit & Error Handling) ---
+        // --- Cat Pendant Logic ---
         if (catPendant && catDialog) {
              catPendant.addEventListener('click', () => {
                  try {
-                     // --- This part calculates click rate and decides text ---
                      const now = Date.now();
                      recentCatClicks.push(now);
                      recentCatClicks = recentCatClicks.filter(timestamp => now - timestamp < CAT_CLICK_WINDOW);
                      let dialogText = "";
                      let isRateLimited = recentCatClicks.length >= CAT_CLICK_LIMIT;
+                     let canShowDialog = false;
 
                      if (isRateLimited) {
                          dialogText = rateLimitDialog;
-                     } else if (firstCatClick) {
-                         dialogText = initialDialog[0];
-                         firstCatClick = false; // Only set to false if NOT rate limited on first click
+                         canShowDialog = true;
                      } else {
-                         const randomIndex = Math.floor(Math.random() * randomDialogs.length);
-                         dialogText = randomDialogs[randomIndex];
+                          if (!firstCatClick && (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible'))) {
+                              return;
+                          }
+                          if (firstCatClick) {
+                              dialogText = initialDialog[0];
+                              firstCatClick = false;
+                          } else {
+                              const randomIndex = Math.floor(Math.random() * randomDialogs.length);
+                              dialogText = randomDialogs[randomIndex];
+                          }
+                          canShowDialog = true;
                      }
-                     // --- End of text decision ---
 
-                     // --- This part handles showing/hiding dialog ---
-                     // Force show dialog if rate limited, otherwise only show if not already visible/rolling
-                     if (isRateLimited) {
-                         if(!catDialog) return; // Extra safety check
+                     tryPlayAudio(); // 点击猫咪尝试播放
+
+                     if (canShowDialog && catDialog) {
                          catDialog.textContent = dialogText;
-                         clearTimeout(catDialogTimeout); // Clear previous hide timer
-                         catDialog.classList.remove('visible'); // Remove class briefly to reset animation if needed
-                         // Force reflow might be needed in some edge cases, but often not:
-                         // void catDialog.offsetWidth;
-                         catDialog.classList.add('visible'); // Show immediately
-                         catDialogTimeout = setTimeout(() => { // Set new hide timer
+                         clearTimeout(catDialogTimeout);
+                         catDialog.classList.remove('visible');
+                         void catDialog.offsetWidth;
+                         catDialog.classList.add('visible');
+                         catDialogTimeout = setTimeout(() => {
                             if(catDialog) catDialog.classList.remove('visible');
                          }, 4000);
-                         // Ensure cat is not rolling if rate limited
-                         if(catPendant) catPendant.classList.remove('rolling');
-                         return; // Stop processing here for rate limit
-                     }
 
-                     // If NOT rate limited, check if busy
-                     if (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible')) {
-                         return; // Do nothing if busy
-                     }
-
-                     // If not rate limited AND not busy, proceed with normal dialog/animation
-                     if (catDialog) {
-                         catDialog.textContent = dialogText;
-                         catDialog.classList.add('visible'); // Show immediately
-                         clearTimeout(catDialogTimeout); // Clear previous hide timer
-                         catDialogTimeout = setTimeout(() => { // Set new hide timer
-                             if(catDialog) catDialog.classList.remove('visible');
-                         }, 4000);
-                     }
-
-                     // Trigger roll animation
-                     if (catPendant) {
-                         catPendant.classList.add('rolling');
-                         catPendant.addEventListener('animationend', () => {
-                             if(catPendant) catPendant.classList.remove('rolling');
-                         }, { once: true });
+                         if (!isRateLimited && catPendant && !catPendant.classList.contains('rolling')) {
+                            catPendant.classList.add('rolling');
+                            catPendant.addEventListener('animationend', () => {
+                                if(catPendant) catPendant.classList.remove('rolling');
+                            }, { once: true });
+                         } else if (isRateLimited && catPendant) {
+                              catPendant.classList.remove('rolling');
+                         }
+                     } else if (!catDialog) {
+                         console.error("Cat dialog element not found!");
                      }
 
                  } catch (error) {
@@ -304,11 +523,27 @@
                       clearTimeout(catDialogTimeout);
                  }
              });
-             // Hide cat pendant if image fails to load
              const catImg = catPendant.querySelector('img');
              if(catImg) { catImg.onerror = () => { if (catPendant) catPendant.style.display = 'none'; }; }
              else { if (catPendant) catPendant.style.display = 'none'; }
         } else { if (catPendant) catPendant.style.display = 'none'; }
+
+
+        // --- MODIFIED: 字体切换逻辑 ---
+        if (fontToggleButton && loveLetterView) {
+            fontToggleButton.addEventListener('click', () => {
+                loveLetterView.classList.toggle('love-letter-default-font');
+                // 可选：根据状态更新按钮文字
+                /*
+                if (loveLetterView.classList.contains('love-letter-default-font')) {
+                    fontToggleButton.textContent = '切换为自定义字体';
+                } else {
+                    fontToggleButton.textContent = '切换为默认字体';
+                }
+                */
+            });
+        }
+
 
         // --- Initial Setup ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -319,7 +554,8 @@
                 if (audioElement) { updatePlayPauseIcon(); }
                 else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; }
                 if (slideshow && slideCount > 0) { createDots(); showSlide(0); startSlideshowAutoplay(); }
-                else { const slideshowContainer = document.getElementById('photo-slideshow-container'); if(slideshowContainer) slideshowContainer.style.display = 'none'; }
+                else { if (slideshowContainer) slideshowContainer.style.display = 'none'; }
+
             } catch (error) { console.error("Error during initial setup:", error); }
         });
 

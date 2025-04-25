@@ -41,23 +41,19 @@
              background-size: cover;
              background-position: center center; /* Center the background image */
          }
-         /* Removed media query for background-position, centering is better */
          #background-overlay {
              position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-             /* Adjusted background for frosted glass effect */
              background-color: rgba(255, 255, 255, 0.4); /* Lighter, more transparent */
              backdrop-filter: blur(12px); /* Increased blur */
              -webkit-backdrop-filter: blur(12px);
          }
-         /* Fallback for browsers not supporting backdrop-filter */
          @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
              #background-overlay {
                  background-color: rgba(248, 240, 248, 0.85); /* More opaque fallback */
              }
          }
 
-         /* --- Views --- */
-         /* Common style for full-screen overlay views */
+         /* --- Views (Overlay) --- */
          .overlay-view {
              position: fixed; top: 0; left: 0; width: 100%; height: 100%;
              display: none; /* Hidden initially */
@@ -66,37 +62,34 @@
              justify-content: center;
              padding: 20px;
              text-align: center;
-             /* Apply frosted glass to the overlay itself */
-             background-color: rgba(245, 245, 245, 0.2); /* Very subtle light background */
+             background-color: rgba(245, 245, 245, 0.2);
              backdrop-filter: blur(15px);
              -webkit-backdrop-filter: blur(15px);
          }
-         /* Fallback for overlay views */
           @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
              .overlay-view {
-                 background-color: rgba(0, 0, 0, 0.75); /* Darker fallback */
+                 background-color: rgba(0, 0, 0, 0.75);
              }
          }
 
          #birthday-view, #love-letter-view {
-              padding: 15px; position: relative; z-index: 1; display: none; /* Hide all initially */
+              padding: 15px; position: relative; z-index: 1; display: none;
          }
          #birthday-view {
              display: block; /* Show birthday view initially */
-             background-color: transparent; /* Let body background show through */
+             background-color: transparent;
              cursor: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/Aero_arrow.cur') 16 16, auto;
              min-height: 100vh;
          }
          #love-letter-view {
-             /* Keep original love letter style for distinction */
-             background-color: rgba(255, 250, 240, 0.92); /* Slightly more opaque */
+             background-color: rgba(255, 250, 240, 0.92);
              color: #5a463a; max-width: 95%; margin: 40px auto;
-             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Material-like shadow */
-             border-radius: 16px; /* Larger radius */
+             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+             border-radius: 16px;
              padding: 20px; padding-top: 60px; padding-bottom: 80px; position: relative; z-index: 10;
          }
-         #love-letter-view::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 0; border-style: solid; border-width: 60px 0 0 calc(50vw - 15px); border-color: rgba(254, 202, 202, 0.8) transparent transparent rgba(254, 202, 202, 0.8); z-index: 1; border-top-left-radius: 16px; } /* Match radius */
-         #love-letter-view::after { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 0; border-style: solid; border-width: 0 0 60px calc(50vw - 15px); border-color: transparent rgba(254, 202, 202, 0.8) rgba(254, 202, 202, 0.8) transparent; z-index: 1; border-top-right-radius: 16px; } /* Match radius */
+         #love-letter-view::before { content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 0; border-style: solid; border-width: 60px 0 0 calc(50vw - 15px); border-color: rgba(254, 202, 202, 0.8) transparent transparent rgba(254, 202, 202, 0.8); z-index: 1; border-top-left-radius: 16px; }
+         #love-letter-view::after { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 0; border-style: solid; border-width: 0 0 60px calc(50vw - 15px); border-color: transparent rgba(254, 202, 202, 0.8) rgba(254, 202, 202, 0.8) transparent; z-index: 1; border-top-right-radius: 16px; }
 
          /* --- Birthday View Content Styles --- */
          #birthday-view .birthday-container { z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 30px; position: relative; padding: 0 30px;}
@@ -111,7 +104,12 @@
          #birthday-view .footer-text { text-align: center; color: #333; text-shadow: 0 0 5px rgba(255,255,255,0.8); position: relative; z-index: 10; padding-bottom: 20px; font-size: 0.9em; }
 
          /* --- Love Letter View Styles --- */
-         #love-letter-view h1 { font-size: 1.6em; color: #d9534f; text-align: center; margin-bottom: 25px; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif; position: relative; padding: 0 30px; z-index: 2; }
+         #love-letter-view h1 {
+             font-size: 1.6em; color: #d9534f; text-align: center; margin-bottom: 25px;
+             font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
+             position: relative; padding: 0 30px; z-index: 2;
+             display: inline-block; margin-right: 10px; margin-bottom: 15px; vertical-align: middle;
+         }
          #love-letter-view h1::before { content: '🎂'; position: absolute; left: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
          #love-letter-view h1::after { content: '❤️'; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 0.9em; z-index: 3;}
          #love-letter-view p { font-family: 'MyCustomLetterFont', 'KaiTi', 'STKaiti', 'SimSun', serif; margin-bottom: 1.3em; text-indent: 2em; font-size: 1em; position: relative; z-index: 2; overflow-wrap: break-word; word-wrap: break-word; transition: font-family 0.3s ease; }
@@ -121,91 +119,69 @@
 
          /* --- Buttons --- */
          .styled-button {
-             display: inline-block;
-             margin: 8px; /* Slightly increased margin */
-             padding: 10px 20px; /* Increased padding */
-             border: none;
-             border-radius: 8px; /* Increased radius */
-             cursor: pointer;
-             font-size: 1em; /* Standardized font size */
-             font-weight: 500; /* Material-like weight */
+             display: inline-block; margin: 8px; padding: 10px 20px; border: none; border-radius: 8px;
+             cursor: pointer; font-size: 1em; font-weight: 500;
              font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
              -webkit-tap-highlight-color: transparent;
              transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-             text-decoration: none;
-             color: white;
-             text-align: center;
-             line-height: 1.4;
-             box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* Subtle shadow */
+             text-decoration: none; color: white; text-align: center; line-height: 1.4;
+             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
          }
-         .styled-button:hover {
-             box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Increased shadow on hover */
-         }
-         .styled-button:active {
-             transform: scale(0.97);
-             box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Less shadow when pressed */
-         }
+         .styled-button:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+         .styled-button:active { transform: scale(0.97); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+         .styled-button:disabled { background-color: #cccccc; cursor: not-allowed; box-shadow: none; }
 
-         #font-toggle-button, #back-from-game, #continue-game-button, #password-submit-button { background-color: #ff75ac; }
-         #font-toggle-button:hover, #back-from-game:hover, #continue-game-button:hover, #password-submit-button:hover { background-color: #ff5c9a; }
+         /* Specific Button Colors */
+         #font-toggle-button, #back-from-game, #continue-game-button, #password-submit-button, #spin-button { background-color: #ff75ac; }
+         #font-toggle-button:hover, #back-from-game:hover, #continue-game-button:hover, #password-submit-button:hover, #spin-button:hover { background-color: #ff5c9a; }
+         #font-toggle-button:disabled:hover, #spin-button:disabled:hover { background-color: #cccccc; }
 
-         .back-button { padding: 12px 25px; font-size: 1.1em; background-color: #6f42c1; }
-         .back-button:hover { background-color: #5a349a; }
+         #love-letter-view #font-toggle-button { display: inline-block; padding: 6px 12px; font-size: 0.85em; vertical-align: middle; margin-bottom: 15px; margin-top: 0; margin-left: 0; margin-right: 0; }
 
-         #goto-game-button, #confirm-start-game { background-color: #ff9800; }
-         #goto-game-button:hover, #confirm-start-game:hover { background-color: #f57c00; }
+         .back-button, #back-from-slot-machine, #close-prize-dialog /* Updated ID */ { padding: 12px 25px; font-size: 1.1em; background-color: #6f42c1; }
+         .back-button:hover, #back-from-slot-machine:hover, #close-prize-dialog:hover /* Updated ID */ { background-color: #5a349a; }
 
-         #redeem-early-button { background-color: #4CAF50; }
-         #redeem-early-button:hover { background-color: #45a049; }
+         #goto-game-button, #confirm-start-game, .show-slot-winnings-button { background-color: #ff9800; }
+         #goto-game-button:hover, #confirm-start-game:hover, .show-slot-winnings-button:hover { background-color: #f57c00; }
 
-         .love-letter-buttons {
-             text-align: center; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-         }
+         #redeem-early-button, #proceed-to-hongbao-game { background-color: #4CAF50; }
+         #redeem-early-button:hover, #proceed-to-hongbao-game:hover { background-color: #45a049; }
+
+         .love-letter-buttons { text-align: center; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+         .small-button { padding: 6px 12px; font-size: 0.9em; }
 
          /* --- Falling Items Styles --- */
          .falling-item { position: absolute; top: -60px; font-size: 22px; user-select: none; pointer-events: none; animation: fall linear forwards; opacity: 0.75; z-index: 5; will-change: transform, opacity; }
-         @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0.75; } 100% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--random-rotate, 0) * 1deg)); opacity: 0; } }
+         @keyframes fall { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.75; } 100% { transform: translateY(calc(100vh + 100px)) rotate(calc(var(--random-rotate, 0) * 1deg)); opacity: 0; } }
 
          /* --- Pointer Trail Heart Styles --- */
          .pointer-heart { position: absolute; font-size: 18px; color: #ff4d6d; pointer-events: none; user-select: none; z-index: 9999; animation: fade-move-out-quick 0.6s ease-out forwards; text-shadow: 0 0 4px rgba(0, 0, 0, 0.2); }
          @keyframes fade-move-out-quick { 0% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -120%) scale(0.3); } }
 
          /* --- Slideshow Styles --- */
-         #photo-slideshow-container { position: relative; z-index: 10; max-width: 500px; margin: 20px auto; padding: 15px; background-color: rgba(255, 255, 255, 0.8); border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); border: none; /* Remove border image */ backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } /* Added subtle glass effect */
+         #photo-slideshow-container { position: relative; z-index: 10; max-width: 500px; margin: 20px auto; padding: 15px; background-color: rgba(255, 255, 255, 0.8); border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); border: none; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
          #slideshow-wrapper { position: relative; overflow: hidden; border-radius: 12px; aspect-ratio: 4 / 3; background-color: #eee; }
          #slideshow { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
          .slide { min-width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
          .slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
          .slideshow-nav { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.3); border: none; color: #fff; font-size: 1.5em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 15; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; line-height: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.2); -webkit-tap-highlight-color: transparent; }
          .slideshow-nav:hover { background-color: rgba(0, 0, 0, 0.5); }
-         .slideshow-nav.prev { left: 10px; } /* Adjusted position */
-         .slideshow-nav.next { right: 10px; } /* Adjusted position */
+         .slideshow-nav.prev { left: 10px; }
+         .slideshow-nav.next { right: 10px; }
          .dots-container { text-align: center; margin-top: 15px; position: relative; z-index: 15; }
          .dot { display: inline-block; width: 8px; height: 8px; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; margin: 0 5px; cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease; }
          .dot.active { background-color: #ff75ac; transform: scale(1.3); }
          #slideshow-caption { text-align: center; margin-top: 15px; font-size: 0.95em; color: #555; padding: 8px; min-height: 1.5em; font-style: italic; background-color: rgba(255, 255, 255, 0.5); border-radius: 8px; }
 
-         /* --- Click Arrow Styles --- */
-         .click-arrow { display: none; } /* Removing arrows for cleaner look, can be re-enabled if needed */
-
          /* --- Custom Audio Player Styles --- */
          #audio-player-container {
              position: fixed; bottom: 10px; right: 10px; left: auto; transform: none; width: 85%; max-width: 320px; z-index: 10000;
-             background: rgba(255, 255, 255, 0.65); /* Adjusted transparency */
-             backdrop-filter: blur(10px) saturate(120%); /* Increased blur/saturation */
-             -webkit-backdrop-filter: blur(10px) saturate(120%);
-             border-radius: 16px; /* Increased radius */
-             padding: 10px 15px; /* Adjusted padding */
-             box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Refined shadow */
-             border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-             display: flex; align-items: center; gap: 10px; cursor: move; touch-action: none;
+             background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%);
+             border-radius: 16px; padding: 10px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+             border: 1px solid rgba(255, 255, 255, 0.2); display: flex; align-items: center; gap: 10px; cursor: move; touch-action: none;
          }
-         /* Fallback for audio player */
-         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-             #audio-player-container {
-                 background-color: rgba(255, 222, 233, 0.9); /* More opaque fallback */
-             }
-         }
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #audio-player-container { background-color: rgba(255, 222, 233, 0.9); } }
          #play-pause-button { background-color: #ff75ac; border: none; color: white; font-size: 1.3em; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease; flex-shrink: 0; padding: 0; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,0.15); -webkit-tap-highlight-color: transparent; }
          #play-pause-button:hover { background-color: #ff5c9a; }
          #play-pause-button .play-icon::before { content: '▶️'; }
@@ -219,161 +195,170 @@
          #audio-element { display: none; }
 
          /* --- Cat Pendant Styles --- */
-         #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; overflow: visible; background-color: transparent; transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); } /* Added drop shadow */
+         #cat-pendant { position: fixed; top: 15px; left: 15px; width: 60px; height: 60px; z-index: 9998; cursor: move; overflow: visible; background-color: transparent; transition: transform 0.2s ease; -webkit-tap-highlight-color: transparent; touch-action: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
          #cat-pendant:hover { transform: scale(1.1); }
          #cat-pendant img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
          #cat-pendant.rolling { animation: cat-roll 0.7s linear; }
          @keyframes cat-roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
          #cat-dialog {
-             position: absolute; top: 50%; left: 110%; transform: translateY(-50%); min-width: 180px; max-width: 220px; padding: 12px 18px;
-             border-radius: 12px; /* Increased radius */
-             background-color: rgba(255, 255, 255, 0.7); /* Lighter background */
-             backdrop-filter: blur(8px) saturate(110%); /* Glass effect */
-             -webkit-backdrop-filter: blur(8px) saturate(110%);
-             box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Refined shadow */
-             border: 1px solid rgba(255, 255, 255, 0.25); /* Subtle border */
+             position: absolute; top: 50%; left: 110%; transform: translateY(-50%); min-width: 180px; max-width: 220px; padding: 12px 18px; border-radius: 12px;
+             background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(8px) saturate(110%); -webkit-backdrop-filter: blur(8px) saturate(110%);
+             box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid rgba(255, 255, 255, 0.25);
              color: #333; font-size: 0.9em; text-align: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; z-index: 1; pointer-events: none;
          }
-         #cat-dialog::after {
-             content: ''; position: absolute; top: 50%; right: 100%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 8px 8px 8px 0;
-             border-color: transparent rgba(255, 255, 255, 0.7) transparent transparent; /* Match background */
-         }
+         #cat-dialog::after { content: ''; position: absolute; top: 50%; right: 100%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 8px 8px 8px 0; border-color: transparent rgba(255, 255, 255, 0.7) transparent transparent; }
          #cat-dialog.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease-out, visibility 0s linear 0s; }
-         /* Fallback for cat dialog */
-          @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-             #cat-dialog { background-color: rgba(255, 192, 203, 0.9); }
-             #cat-dialog::after { border-color: transparent rgba(255, 192, 203, 0.9) transparent transparent; }
-         }
-
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #cat-dialog { background-color: rgba(255, 192, 203, 0.9); } #cat-dialog::after { border-color: transparent rgba(255, 192, 203, 0.9) transparent transparent; } }
 
          /* --- Warning Message Styles --- */
          #love-warning-message {
              position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 30px 45px;
-             background-color: rgba(255, 105, 135, 0.3); /* Pinkish, more transparent */
-             color: #fff; /* White text for contrast */
-             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-             font-size: 1.6em; font-weight: bold; text-align: center;
-             border-radius: 16px; /* Larger radius */
-             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-             z-index: 11000; display: none;
-             backdrop-filter: blur(12px) saturate(130%); /* Stronger blur/saturation */
-             -webkit-backdrop-filter: blur(12px) saturate(130%);
-             border: 1px solid rgba(255, 255, 255, 0.2);
-             max-width: 90%;
+             background-color: rgba(255, 105, 135, 0.3); color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+             font-size: 1.6em; font-weight: bold; text-align: center; border-radius: 16px;
+             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); z-index: 11000; display: none;
+             backdrop-filter: blur(12px) saturate(130%); -webkit-backdrop-filter: blur(12px) saturate(130%);
+             border: 1px solid rgba(255, 255, 255, 0.2); max-width: 90%;
          }
-         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-             #love-warning-message { background-color: rgba(229, 57, 53, 0.9); color: white; }
-         }
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) { #love-warning-message { background-color: rgba(229, 57, 53, 0.9); color: white; } }
 
          /* --- Shared Box Style for Modal Content --- */
          .modal-content-box {
-             background-color: rgba(255, 255, 255, 0.85); /* Consistent background */
-             padding: 25px 35px;
-             border-radius: 16px; /* Consistent radius */
-             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Consistent shadow */
-             color: #333;
-             max-width: 90%;
-             border: 1px solid rgba(255, 255, 255, 0.1);
-             /* No backdrop-filter here, applied on parent overlay */
+             background-color: rgba(255, 255, 255, 0.85); padding: 25px 35px; border-radius: 16px;
+             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); color: #333; max-width: 90%;
+             border: 1px solid rgba(255, 255, 255, 0.1); position: relative;
          }
 
          /* --- Game Start Warning Styles --- */
-         #game-start-warning { /* Inherits from .overlay-view */
-             z-index: 90;
-         }
-
-         #game-start-warning-box p {
-             margin-bottom: 25px; /* Increased spacing */
-             font-size: 1.1em;
-             line-height: 1.6; /* Increased line height */
-         }
+         #game-start-warning { z-index: 90; }
+         #game-start-warning-box p { margin-bottom: 25px; font-size: 1.1em; line-height: 1.6; }
 
         /* --- Password Prompt Styles --- */
-         #password-prompt-view { /* Inherits from .overlay-view */
-             z-index: 95;
-         }
-
-         #password-prompt-box h2 {
-             margin-top: 0; margin-bottom: 20px; font-size: 1.3em; color: #e83e8c;
-         }
+         #password-prompt-view { z-index: 95; }
+         #password-prompt-box h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.3em; color: #e83e8c; }
          #password-input {
-             padding: 12px; /* Increased padding */
-             margin-bottom: 20px; /* Increased margin */
-             border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
-             border-radius: 8px; /* Match button radius */
-             font-size: 1.1em;
-             width: 120px; /* Wider input */
-             text-align: center;
-             background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent input */
-             box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+             padding: 12px; margin-bottom: 20px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; font-size: 1.1em;
+             width: 120px; text-align: center; background-color: rgba(255, 255, 255, 0.7); box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
              -moz-appearance: textfield; appearance: textfield;
          }
-         #password-input:focus {
-            outline: 2px solid #ffc2d1;
-            outline-offset: 2px;
-            border-color: rgba(0, 0, 0, 0.2);
-         }
-         #password-error-message {
-             color: #d9534f; /* Softer red */
-             font-size: 0.95em;
-             min-height: 1.3em;
-             margin-top: 5px; /* Reduced margin */
-         }
+         #password-input:focus { outline: 2px solid #ffc2d1; outline-offset: 2px; border-color: rgba(0, 0, 0, 0.2); }
+         #password-error-message { color: #d9534f; font-size: 0.95em; min-height: 1.3em; margin-top: 5px; }
 
          /* --- Game View Styles --- */
-         #game-view { /* Inherits from .overlay-view */
-             z-index: 100;
-             padding-top: env(safe-area-inset-top, 20px);
-             padding-bottom: env(safe-area-inset-bottom, 20px);
+         #game-view {
+             z-index: 100; padding-top: env(safe-area-inset-top, 20px); padding-bottom: env(safe-area-inset-bottom, 20px);
          }
-         #game-info { /* Inherits from .modal-content-box */
-             padding: 12px 25px; /* Adjusted padding */
-             margin-bottom: 20px; /* Increased margin */
-             font-size: 1.1em;
-             font-weight: 500;
-             min-width: 280px; /* Increased min-width */
-             background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque for readability */
+         #game-info {
+             padding: 12px 25px; margin-bottom: 20px; font-size: 1.1em; font-weight: 500;
+             min-width: 280px; background-color: rgba(255, 255, 255, 0.9);
          }
-          #game-info span { display: inline-block; margin: 0 8px; }
+         #game-info span { display: inline-block; margin: 0 8px; }
          #game-area {
-             width: 100%; max-width: 600px; height: 65%;
-             background-color: rgba(255, 255, 255, 0.15); /* Slightly more visible */
-             border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter dashed border */
-             position: relative; overflow: hidden;
-             border-radius: 16px; /* Match modal boxes */
-             margin-bottom: 20px; /* Increased margin */
-             box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Subtle inner shadow */
+             width: 100%; max-width: 600px; height: 65%; background-color: rgba(255, 255, 255, 0.15);
+             border: 1px solid rgba(255, 255, 255, 0.3); position: relative; overflow: hidden;
+             border-radius: 16px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
          }
-         /* Base style for falling items in game */
          .game-item {
-             position: absolute; width: 50px; height: 70px;
-             border-radius: 8px; /* Increased radius */
+             position: absolute; width: 50px; height: 70px; border-radius: 8px;
              cursor: pointer; top: -80px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;
-             box-shadow: 0 3px 8px rgba(0,0,0,0.25); /* Enhanced shadow */
-             animation: fall-game-item linear forwards; user-select: none; -webkit-user-select: none;
-             text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Text shadow for depth */
+             box-shadow: 0 3px 8px rgba(0,0,0,0.25); animation: fall-game-item linear forwards; user-select: none; -webkit-user-select: none;
+             text-shadow: 0 1px 1px rgba(0,0,0,0.2);
          }
-         @keyframes fall-game-item {
-             0% { transform: translateY(0) rotate(0deg); }
-             100% { transform: translateY(calc(100vh + 80px)) rotate(720deg); }
-         }
+         @keyframes fall-game-item { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(calc(100vh + 80px)) rotate(720deg); } }
+         .hongbao { background-color: #e53935; border: 2px solid #ffeb3b; color: #ffeb3b; } .hongbao::before { content: '福'; }
+         .green-envelope { background-color: #4CAF50; border: 2px solid #C8E6C9; color: #C8E6C9; font-size: 28px; } .green-envelope::before { content: '💚'; }
+         .mouse-item { background-color: #795548; border: 2px solid #A1887F; color: #A1887F; font-size: 30px; height: 55px; } .mouse-item::before { content: '🐀'; }
 
-         .hongbao { background-color: #e53935; border: 2px solid #ffeb3b; color: #ffeb3b; }
-         .hongbao::before { content: '福'; }
-         .green-envelope { background-color: #4CAF50; border: 2px solid #C8E6C9; color: #C8E6C9; font-size: 28px; }
-         .green-envelope::before { content: '💚'; }
-         .mouse-item { background-color: #795548; border: 2px solid #A1887F; color: #A1887F; font-size: 30px; height: 55px; }
-         .mouse-item::before { content: '🐀'; }
-
-         #game-result { /* Inherits from .modal-content-box */
+         #game-result {
              margin-top: 20px; padding: 25px 35px; font-size: 1.2em; text-align: center;
-             display: none; max-width: 90%;
-             background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque */
+             display: none; max-width: 90%; background-color: rgba(255, 255, 255, 0.9);
          }
-          #game-result-text { margin-bottom: 25px; }
+         #game-result-text { margin-bottom: 25px; line-height: 1.5; }
          #game-result .prize-code { margin-top: 10px; font-weight: bold; color: #e53935; word-break: break-all; font-size: 1.1em; }
          #game-result-buttons { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
          #back-from-game { margin-top: 25px; }
+
+         /* --- Slot Machine Styles --- */
+         #slot-machine-view { z-index: 85; }
+         .slot-machine-box h2 { margin-top: 0; margin-bottom: 20px; color: #ff75ac; font-size: 1.4em; }
+         #slot-display-area { display: flex; justify-content: center; margin-bottom: 25px; gap: 15px; }
+         .slot {
+             display: inline-block; width: 60px; height: 80px; line-height: 80px; font-size: 40px; text-align: center;
+             border: 2px solid #ffc2d1; border-radius: 10px; background-color: rgba(255, 255, 255, 0.8);
+             box-shadow: inset 0 0 8px rgba(0,0,0,0.1); transition: transform 0.1s ease-out;
+         }
+         .slot.spinning { transform: scale(0.9); }
+         #slot-result-message { min-height: 3em; margin-bottom: 20px; font-size: 1.1em; font-weight: 500; color: #6f42c1; padding: 0 10px; }
+         #slot-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; margin-bottom: 10px; }
+
+         /* --- Slot Winnings Button --- */
+         .show-slot-winnings-button { padding: 8px 15px; font-size: 0.9em; margin-top: 15px; }
+
+         /* --- 新增：弹出式奖品对话框样式 --- */
+         .popup-dialog {
+             position: fixed; /* 固定在屏幕上 */
+             top: 20px;       /* 距离顶部 20px */
+             right: 20px;      /* 距离右侧 20px */
+             z-index: 1000;   /* 确保在游戏元素之上 */
+             max-width: 280px; /* 最大宽度 */
+             width: calc(100% - 40px); /* 适应小屏幕 */
+             display: none;   /* 初始隐藏 */
+             opacity: 0;      /* 初始透明 */
+             transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* 过渡效果 */
+             transform: translateY(-10px); /* 初始向上偏移一点 */
+             pointer-events: none; /* 隐藏时不可交互 */
+         }
+
+         .popup-dialog.visible {
+             display: block;
+             opacity: 1;
+             transform: translateY(0); /* 恢复正常位置 */
+             pointer-events: auto; /* 可见时可交互 */
+         }
+
+         .popup-dialog-box {
+             background-color: rgba(255, 255, 255, 0.7);
+             backdrop-filter: blur(8px) saturate(110%);
+             -webkit-backdrop-filter: blur(8px) saturate(110%);
+             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+             border: 1px solid rgba(255, 255, 255, 0.25);
+             color: #333;
+             border-radius: 12px;
+             padding: 15px 20px; /* 内边距 */
+             text-align: left; /* 内容左对齐 */
+         }
+
+         @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+            .popup-dialog-box {
+                background-color: rgba(255, 222, 233, 0.95); /* 不支持毛玻璃的降级背景 */
+            }
+         }
+
+         .popup-dialog-box h2 {
+             margin-top: 0;
+             margin-bottom: 10px;
+             font-size: 1.1em;
+             color: #e83e8c; /* Pink */
+             text-align: center; /* 标题居中 */
+         }
+
+         #prize-dialog-content ul {
+             list-style: none; /* 移除列表默认样式 */
+             padding: 0;
+             margin: 0 0 15px 0; /* 列表下方留白 */
+             font-size: 0.95em;
+             line-height: 1.5;
+         }
+         #prize-dialog-content li {
+             margin-bottom: 5px; /* 列表项间距 */
+         }
+
+         #close-prize-dialog {
+             display: block; /* 让按钮独占一行 */
+             margin: 0 auto; /* 居中按钮 */
+             /* 使用小按钮样式 */
+         }
+
+         /* --- 移除旧样式 (无需保留) --- */
 
 
          /* Media Query Adjustments */
@@ -385,7 +370,6 @@
               #password-input { padding: 10px; margin-bottom: 15px; width: 100px; }
               #game-info { font-size: 1em; min-width: 220px; padding: 10px 20px;}
               #game-result { font-size: 1.1em; padding: 20px 25px;}
-
               #photo-slideshow-container { max-width: 95%; padding: 10px; }
               .slideshow-nav { width: 35px; height: 35px; font-size: 1.3em; }
               .slideshow-nav.prev { left: 5px; } .slideshow-nav.next { right: 5px; }
@@ -398,11 +382,15 @@
               #cat-dialog { font-size: 0.8em; min-width: 150px; left: 115%; padding: 10px 15px; border-radius: 10px;}
               #slideshow-caption { font-size: 0.9em;}
               #love-letter-view .signature { font-size: 0.9em; }
-
               .styled-button { font-size: 0.9em; padding: 10px 15px; }
-              .back-button { padding: 10px 15px; font-size: 0.9em; }
-              #font-toggle-button { padding: 6px 10px; font-size: 0.8em;}
-
+              .back-button, #close-prize-dialog /* Updated ID */ { padding: 10px 15px; font-size: 0.9em; }
+              .small-button { padding: 6px 10px; font-size: 0.8em; }
+              .slot { width: 50px; height: 70px; line-height: 70px; font-size: 35px; }
+              #slot-result-message { font-size: 1em; }
+              .show-slot-winnings-button { padding: 6px 10px; font-size: 0.8em; }
+              #love-letter-view h1 { display: block; margin-right: 0; margin-bottom: 5px; }
+              #love-letter-view #font-toggle-button { display: block; margin: 5px auto 15px auto; padding: 8px 14px; font-size: 0.9em; }
+              .popup-dialog { max-width: 240px; } /* Adjust dialog size on smaller screens */
          }
          @media (max-width: 360px) {
               .modal-content-box { padding: 15px 20px; }
@@ -412,7 +400,6 @@
               #password-input { padding: 8px; margin-bottom: 12px; width: 90px; font-size: 1em;}
               #game-info { font-size: 0.9em; min-width: 180px; padding: 8px 15px;}
               #game-result { font-size: 1em; padding: 15px 20px;}
-
               #birthday-view h1, #love-letter-view h1 { font-size: 1.5em; }
               #love-letter-view h1 { padding: 0 25px; }
               #love-letter-view h1::before, #love-letter-view h1::after { font-size: 0.8em; }
@@ -427,17 +414,50 @@
               #seek-bar::-moz-range-thumb { width: 12px; height: 12px; }
               #cat-pendant { width: 45px; height: 45px; }
               #cat-dialog { left: 120%; padding: 8px 12px; border-radius: 8px;}
-
               .love-letter-buttons { margin-top: 20px; }
               .styled-button { font-size: 0.85em; padding: 8px 12px; margin: 4px; border-radius: 6px;}
-              .back-button { padding: 8px 12px; font-size: 0.85em; }
-              #font-toggle-button { padding: 5px 8px; font-size: 0.75em;}
+              .back-button, #close-prize-dialog /* Updated ID */ { padding: 8px 12px; font-size: 0.85em; }
+              .small-button { padding: 5px 8px; font-size: 0.75em; }
+              .slot { width: 40px; height: 60px; line-height: 60px; font-size: 30px; }
+              #slot-display-area { gap: 10px; }
+              .slot-machine-box h2 { font-size: 1.2em; }
+              #slot-result-message { font-size: 0.9em; }
+              .popup-dialog { max-width: 200px; top: 10px; right: 10px; width: calc(100% - 20px); }
          }
 
      </style>
  </head>
  <body>
      <div id="love-warning-message">警告！你已进入湖南第一深情的唯一偏爱名单！</div>
+
+     <div id="slot-machine-view" class="overlay-view">
+         <div class="modal-content-box slot-machine-box">
+             <h2>幸运抽奖 ✨</h2>
+             <div id="slot-display-area">
+                 <span class="slot">?</span>
+                 <span class="slot">?</span>
+                 <span class="slot">?</span>
+             </div>
+             <div id="slot-result-message">点击“开始”试试手气吧！</div>
+             <div id="slot-buttons">
+                 <button id="spin-button" class="styled-button">继续抽奖</button>
+                 <button id="proceed-to-hongbao-game" class="styled-button" style="display: none;">开始红包游戏</button>
+                 <button id="back-from-slot-machine" class="styled-button back-button">返回情书</button>
+             </div>
+              <button class="show-slot-winnings-button styled-button">查看奖品</button>
+         </div>
+     </div>
+
+     <div id="prize-dialog-view" class="popup-dialog">
+         <div class="popup-dialog-box">
+             <h2>当前幸运奖品 💰</h2>
+             <div id="prize-dialog-content">
+                 <ul><li>加载中...</li></ul>
+             </div>
+             <button id="close-prize-dialog" class="styled-button small-button">关闭</button>
+         </div>
+     </div>
+
 
      <div id="password-prompt-view" class="overlay-view">
          <div id="password-prompt-box" class="modal-content-box">
@@ -494,6 +514,7 @@
 
      <div id="love-letter-view">
          <h1>致 我独一无二的、最特别的珊珊 ❤️</h1>
+         <button id="font-toggle-button" class="styled-button">切换字体</button>
          <p>提笔想给你写点什么，尤其是在你生日将近的日子，心情有点像那次和你线下见面时——既期待又紧张，还带着点我们之间特有的“癫”。快一年了，时间好像过得飞快，又好像每一天的聊天都值得被细细回味。</p>
          <p>还记得吗？从最初那个叫我“小屁孩”怼得我差点拉黑你的“张三”（当然是玩笑，我哪里舍得拉黑皇后娘娘），到后来那个会发搞怪表情包、会在语音里偷笑的“皇后娘娘”，再到那个嘴上说着“不谈恋爱”、“我就是渣女”，却会因为担心我而退回红包、会因为我需要而用花呗买鼠标、会在我“发癫”后依然主动问早的“傻姑娘”……你身上这种矛盾又真实的可爱，就像拆盲盒，总能给我意想不到的惊喜。</p>
          <p>以前总觉得世事纷扰，人心复杂难测，直到遇见你，才明白那句“众里寻他千百度，蓦然回首，那人却在，灯火阑珊处”或许是真的。 你的出现，像一道光，照亮了我之前可能有些灰暗和充满“精神内耗”的世界。是你用你的“癫”、你的善良、你的原则，还有你那面对生活不易时的韧性，让我觉得这个世界原来还可以这么有趣和值得期待。和你聊天成了我每天雷打不动的习惯和最大的乐趣，你分享的日常琐碎，在我这里都变成了值得珍藏的风景。</p>
@@ -505,15 +526,14 @@
          <div class="signature">那个越来越懂得珍惜你的“癫公”，哥哥或者少爷，<br>章啸宇</div>
 
          <div class="love-letter-buttons">
-             <button id="font-toggle-button" class="styled-button">切换字体</button>
              <button class="back-button styled-button">返回主页面</button>
-             <button id="goto-game-button" class="styled-button">去抢红包</button>
+             <button id="goto-game-button" class="styled-button">去玩游戏</button>
          </div>
      </div>
 
      <div id="game-view" class="overlay-view">
          <div id="game-info" class="modal-content-box"> <span id="round-display">第 1 局</span> |
-             <span id="score-display">珊珊抢到了人民币 0 元</span> |
+             <span id="score-display">当前总得分 0 元</span> |
              时间: <span id="timer-display">30</span>s
          </div>
          <div id="game-area"></div>
@@ -523,9 +543,10 @@
                  <button id="redeem-early-button" class="styled-button">直接兑换</button>
              </div>
          </div>
+         <button class="show-slot-winnings-button styled-button">查看奖品</button>
          <button id="back-from-game" class="styled-button">返回情书</button>
      </div>
-     
+
      <div id="audio-player-container">
          <audio id="audio-element" loop>
              <source src="https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/M5000044Nr9A4ZiFFQ.mp3" type="audio/mpeg">
@@ -543,289 +564,332 @@
      </div>
 
      <script>
-         // --- Wait for the DOM to be fully loaded before running the script ---
-         document.addEventListener('DOMContentLoaded', () => {
-             console.log("DOM Loaded. Initializing...");
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Loaded. Initializing...");
 
-             // --- Get Elements ---
-             const birthdayView = document.getElementById('birthday-view');
-             const loveLetterView = document.getElementById('love-letter-view');
-             const cakeLink = document.getElementById('birthday-cake-link');
-             const backButton = loveLetterView.querySelector('.back-button');
-             const audioElement = document.getElementById('audio-element');
-             const audioPlayerContainer = document.getElementById('audio-player-container');
-             const playPauseButton = document.getElementById('play-pause-button');
-             const playIcon = playPauseButton ? playPauseButton.querySelector('.play-icon') : null;
-             const seekBar = document.getElementById('seek-bar');
-             const currentTimeDisplay = document.getElementById('current-time');
-             const durationDisplay = document.getElementById('duration');
-             const slideshowContainer = document.getElementById('photo-slideshow-container');
-             const catPendant = document.getElementById('cat-pendant');
-             const catDialog = document.getElementById('cat-dialog');
-             const fontToggleButton = document.getElementById('font-toggle-button');
-             const slideshow = document.getElementById('slideshow');
-             const slides = document.querySelectorAll('.slide');
-             const prevButton = document.querySelector('.slideshow-nav.prev');
-             const nextButton = document.querySelector('.slideshow-nav.next');
-             const dotsContainer = document.querySelector('.dots-container');
-             const slideshowCaption = document.getElementById('slideshow-caption');
-             const loveWarningMessage = document.getElementById('love-warning-message');
+            // --- Get Elements ---
+            const birthdayView = document.getElementById('birthday-view');
+            const loveLetterView = document.getElementById('love-letter-view');
+            const cakeLink = document.getElementById('birthday-cake-link');
+            const backButton = loveLetterView.querySelector('.back-button');
+            const audioElement = document.getElementById('audio-element');
+            const audioPlayerContainer = document.getElementById('audio-player-container');
+            const playPauseButton = document.getElementById('play-pause-button');
+            const playIcon = playPauseButton ? playPauseButton.querySelector('.play-icon') : null;
+            const seekBar = document.getElementById('seek-bar');
+            const currentTimeDisplay = document.getElementById('current-time');
+            const durationDisplay = document.getElementById('duration');
+            const slideshowContainer = document.getElementById('photo-slideshow-container');
+            const catPendant = document.getElementById('cat-pendant');
+            const catDialog = document.getElementById('cat-dialog');
+            const fontToggleButton = document.getElementById('font-toggle-button');
+            const slideshow = document.getElementById('slideshow');
+            const slides = document.querySelectorAll('.slide');
+            const prevButton = document.querySelector('.slideshow-nav.prev');
+            const nextButton = document.querySelector('.slideshow-nav.next');
+            const dotsContainer = document.querySelector('.dots-container');
+            const slideshowCaption = document.getElementById('slideshow-caption');
+            const loveWarningMessage = document.getElementById('love-warning-message');
+            const gameView = document.getElementById('game-view');
+            const gotoGameButton = document.getElementById('goto-game-button');
+            const backFromGameButton = document.getElementById('back-from-game');
+            const gameArea = document.getElementById('game-area');
+            const roundDisplay = document.getElementById('round-display');
+            const scoreDisplay = document.getElementById('score-display');
+            const timerDisplay = document.getElementById('timer-display');
+            const gameResultDisplay = document.getElementById('game-result');
+            const gameResultText = document.getElementById('game-result-text');
+            const gameResultButtons = document.getElementById('game-result-buttons');
+            const continueGameButton = document.getElementById('continue-game-button');
+            const redeemEarlyButton = document.getElementById('redeem-early-button');
+            const gameStartWarning = document.getElementById('game-start-warning');
+            const confirmStartGameButton = document.getElementById('confirm-start-game');
+            const gameInfo = document.getElementById('game-info');
+            const passwordPromptView = document.getElementById('password-prompt-view');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmitButton = document.getElementById('password-submit-button');
+            const passwordErrorMessage = document.getElementById('password-error-message');
+            const slotMachineView = document.getElementById('slot-machine-view');
+            const slotDisplayArea = document.getElementById('slot-display-area');
+            const slotResultMessage = document.getElementById('slot-result-message');
+            const spinButton = document.getElementById('spin-button');
+            const proceedToHongbaoGameButton = document.getElementById('proceed-to-hongbao-game');
+            const backFromSlotMachineButton = document.getElementById('back-from-slot-machine');
+            const showSlotWinningsButtons = document.querySelectorAll('.show-slot-winnings-button'); // 保持获取所有查看按钮
 
-             // --- Get Game Elements ---
-             const gameView = document.getElementById('game-view');
-             const gotoGameButton = document.getElementById('goto-game-button');
-             const backFromGameButton = document.getElementById('back-from-game');
-             const gameArea = document.getElementById('game-area');
-             const roundDisplay = document.getElementById('round-display');
-             const scoreDisplay = document.getElementById('score-display');
-             const timerDisplay = document.getElementById('timer-display');
-             const gameResultDisplay = document.getElementById('game-result');
-             const gameResultText = document.getElementById('game-result-text');
-             const gameResultButtons = document.getElementById('game-result-buttons');
-             const continueGameButton = document.getElementById('continue-game-button');
-             const redeemEarlyButton = document.getElementById('redeem-early-button');
-             const gameStartWarning = document.getElementById('game-start-warning');
-             const confirmStartGameButton = document.getElementById('confirm-start-game');
-             const gameInfo = document.getElementById('game-info');
+            // ** 修改: 获取新的奖品对话框元素 **
+            const prizeDialogView = document.getElementById('prize-dialog-view'); // 新 ID
+            const prizeDialogContent = document.getElementById('prize-dialog-content'); // 新内容区域 ID
+            const closePrizeDialogButton = document.getElementById('close-prize-dialog'); // 新关闭按钮 ID
 
-             // --- Get Password Prompt Elements ---
-             const passwordPromptView = document.getElementById('password-prompt-view');
-             const passwordInput = document.getElementById('password-input');
-             const passwordSubmitButton = document.getElementById('password-submit-button');
-             const passwordErrorMessage = document.getElementById('password-error-message');
+            const slots = slotDisplayArea ? slotDisplayArea.querySelectorAll('.slot') : [];
 
-             // --- Variables ---
-             let birthdayIntervalId = null;
-             let loveLetterIntervalId = null;
-             const birthdayItems = ['🎂', '🌸'];
-             const loveLetterItems = ['❤️', '🎂'];
-             const BIRTHDAY_INTERVAL_TIME = 550;
-             const LOVE_LETTER_INTERVAL_TIME = 500;
-             let currentSlideIndex = 0;
-             let slideInterval = null;
-             const slideCount = slides ? slides.length : 0;
-             const SLIDESHOW_INTERVAL_TIME = 5000;
-             let catDialogTimeout = null;
-             const slideCaptions = ["冬日暖意，围巾和你。🧣", "在逃公主の婚礼实录👑", "关于主播上播后被疯狂截屏这件事📸", "三月捕捉到的‘捣蛋鬼’！这个调皮又可爱的表情，犯规了哦~😋", "替章老板好好陪着姐姐哦，史迪奇！🤪"];
-             let firstCatClick = true;
-             const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
-             const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀"];
-             const rateLimitDialog = "喵的，女人，别撸了，快被你耗成和你一样的秃头猫咪了😡";
-             let recentCatClicks = [];
-             const CAT_CLICK_LIMIT = 20;
-             const CAT_CLICK_WINDOW = 60000;
-             let isSeeking = false;
+            // --- Variables ---
+            let birthdayIntervalId = null, loveLetterIntervalId = null;
+            const birthdayItems = ['🎂', '🌸'], loveLetterItems = ['❤️', '🎂'];
+            const BIRTHDAY_INTERVAL_TIME = 550, LOVE_LETTER_INTERVAL_TIME = 500;
+            let currentSlideIndex = 0, slideInterval = null;
+            const slideCount = slides ? slides.length : 0;
+            const SLIDESHOW_INTERVAL_TIME = 5000;
+            let catDialogTimeout = null;
+            const slideCaptions = ["冬日暖意，围巾和你。🧣", "在逃公主の婚礼实录👑", "关于主播上播后被疯狂截屏这件事📸", "三月捕捉到的‘捣蛋鬼’！这个调皮又可爱的表情，犯规了哦~😋", "替章老板好好陪着姐姐哦，史迪奇！🤪"];
+            let firstCatClick = true;
+            const initialDialog = ["网页开发日志：1个BUG修了8小时🙃"];
+            const randomDialogs = ["喵~章总和张美人头发+1根", "BUG修完了？不，是去撸铁了💪", "点击10次解锁珊珊童年照👀","铲屎的（指章总）说，看见这个页面的小仙女最可爱~ 🐾","本喵宣布，这个页面99%的颜值是靠背景图和珊珊颜值撑起来的！剩下1%是本喵的可爱~ （小声"];
+            const rateLimitDialog = "喵的，女人，别撸了，快被你耗成秃头猫咪了😡";
+            let recentCatClicks = [], isCatRateLimitedCooldownActive = false, catCooldownStartTime = 0;
+            const CAT_CLICK_LIMIT = 20, CAT_CLICK_WINDOW = 60000, CAT_COOLDOWN_DURATION = 20000;
+            let isSeeking = false;
+            let totalScore = 0, currentRound = 0; // Falling game state
+            const maxRounds = 3, maxItemsPerRound = 50, maxHongbaoPerRound = 30, maxMicePerRound = 30, maxGreenPerRound = 40;
+            let timeLeft = 30, gameTimerInterval = null, itemSpawnInterval = null, gameActive = false;
+            let itemsSpawnedThisRound = 0, hongbaoSpawnedThisRound = 0, miceSpawnedThisRound = 0, greenSpawnedThisRound = 0;
+            const ITEM_SPAWN_INTERVAL = 400, ITEM_FALL_DURATION = 7000;
+            let slotWinningsTotal = 0; // Slot game state
+            const SLOT_WINNINGS_CAP = 30;
+            const slotItems = ['🎂', '福', '❤️', '📱', '📷', '💋'];
+            const loveQuotes = [ "遇见你之后，感觉世界都亮了。☀️", "你的善良和真实，像星星一样闪亮。🌟", "想和你一起，看遍世间繁华。✨", "想给你很多很多的“偏爱”和温暖。🎁💖", "我的心不大，刚好装下一个你。💖", "你好可爱，让我捏捏脸蛋可以吗？🤏 (只敢想想😂)" ];
+            let hongbaoGameUnlocked = false, isSpinning = false, hasSpunOnce = false, phoneWon = false, cameraWon = false;
+            // ** 移除: gameFullyCompleted 标志不再需要 **
+            let dragTarget = null, isDragging = false, offsetX, offsetY, isDragAction = false;
+            let lastActiveViewId = 'birthday-view'; // 仍然需要，用于非游戏视图切换
 
-             // --- Game State Variables ---
-             let totalScore = 0;
-             let currentRound = 0;
-             const maxRounds = 3;
-             let timeLeft = 30;
-             let gameTimerInterval = null;
-             let itemSpawnInterval = null;
-             let gameActive = false;
-             let itemsSpawnedThisRound = 0; // Total items spawned this round (safety cap)
-             const maxItemsPerRound = 50; // Overall safety cap per round
 
-             // NEW: Per-round item counters and limits
-             let hongbaoSpawnedThisRound = 0;
-             let miceSpawnedThisRound = 0;
-             let greenSpawnedThisRound = 0;
-             const maxHongbaoPerRound = 30;
-             const maxMicePerRound = 30;
-             const maxGreenPerRound = 30;
+            // --- Utility Functions ---
+            function tryPlayAudio() { if (audioElement && audioElement.paused) { audioElement.play().then(() => { updatePlayPauseIcon(); }).catch(error => { if (error.name !== 'NotAllowedError') { console.error("尝试播放音频失败:", error); } }); } }
+            function formatTime(seconds) { const secs = Math.floor(seconds || 0); if (isNaN(secs) || secs < 0) return "0:00"; const minutes = Math.floor(secs / 60); const remainingSeconds = secs % 60; return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; }
+            function throttle(func, limit) { let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
 
-             // REMOVED: Global counters and limits are no longer needed
-             // const totalMiceAllowed = 15;
-             // const totalGreenAllowed = 30;
-             // let miceSpawnedTotal = 0;
-             // let greenSpawnedTotal = 0;
+            // --- Falling Items Functions (Generic) ---
+            function createFallingItem(itemType, container) { if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
+            function startFallingItems(intervalId, itemArray, container, intervalTime) { if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container && container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
+            function stopFallingItems(intervalId, container) { if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
 
-             const ITEM_SPAWN_INTERVAL = 400;
-             const ITEM_FALL_DURATION = 7000;
+            // --- View Switching Logic ---
+            // ** 修改: hideAllViews 不再需要隐藏 prizeDialogView **
+            function hideAllViews() {
+                [birthdayView, loveLetterView, gameView, loveWarningMessage, gameStartWarning, passwordPromptView, slotMachineView] // 移除了 prizeDialogView
+                    .forEach(view => {
+                        if (view && view.style.display !== 'none' && ['slot-machine-view', 'game-view', 'love-letter-view', 'birthday-view'].includes(view.id)) {
+                           // prize-dialog-view 不应改变 lastActiveViewId
+                           lastActiveViewId = view.id;
+                        }
+                        if (view) view.style.display = 'none';
+                    });
+                birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView);
+                loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView);
+                stopGame(); // 仍然需要在切换主要视图时停止游戏
+            }
+            function showLoveLetter() { hideAllViews(); if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+            function showBirthday() { hideAllViews(); if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
+            function showPasswordPrompt() { hideAllViews(); if (passwordPromptView) passwordPromptView.style.display = 'flex'; if (passwordInput) passwordInput.value = ''; if (passwordErrorMessage) passwordErrorMessage.textContent = ''; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+            function showGameStartWarning() { hideAllViews(); if (gameStartWarning) gameStartWarning.style.display = 'flex'; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+            function showGame() { hideAllViews(); if(gameView) { gameView.style.display = 'flex'; if (gameResultDisplay) gameResultDisplay.style.display = 'none'; if (gameArea) gameArea.style.display = 'block'; if (gameInfo) gameInfo.style.display = 'block'; } startGame(); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
 
-             // --- Draggable Elements Variables ---
-             let dragTarget = null; let isDragging = false; let offsetX, offsetY; let isDragAction = false;
+            // ** 修改: showSlotMachine 仍然需要重置游戏状态 **
+            function showSlotMachine() {
+                // --- 重置游戏状态 ---
+                console.log("Entering Slot Machine - Resetting Game State");
+                currentRound = 0;
+                totalScore = 0;
+                slotWinningsTotal = 0;
+                hongbaoGameUnlocked = false;
+                hasSpunOnce = false;
+                phoneWon = false;
+                cameraWon = false;
+                // --- End Reset ---
 
-             // --- 尝试播放音乐的函数 ---
-             function tryPlayAudio() { /* Keep original */ if (audioElement && audioElement.paused) { audioElement.play().then(() => { updatePlayPauseIcon(); }).catch(error => { if (error.name !== 'NotAllowedError') { console.error("尝试播放音频失败:", error); } }); } }
+                hideAllViews(); // 隐藏其他主要视图
+                if (slotMachineView) slotMachineView.style.display = 'flex';
+                if (spinButton) { spinButton.textContent = hasSpunOnce ? '继续抽奖' : '开始抽奖'; spinButton.disabled = isSpinning; }
+                if (slotResultMessage && !isSpinning) { slotResultMessage.textContent = hasSpunOnce ? '点击“继续抽奖”试试手气吧！' : '点击“开始抽奖”查看奖品并试试手气吧！'; }
+                if (slots.length === 3 && !isSpinning) { slots.forEach(slot => slot.textContent = '?'); }
+                if (proceedToHongbaoGameButton) { proceedToHongbaoGameButton.style.display = hongbaoGameUnlocked ? 'inline-block' : 'none'; }
+                window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay();
+            }
 
-             // --- Falling Items Functions (Generic) ---
-             function createFallingItem(itemType, container) { /* Keep original */ if (!container || container.style.display === 'none') return; const item = document.createElement('div'); item.classList.add('falling-item'); item.style.left = Math.random() * 95 + 'vw'; item.innerText = itemType; item.style.fontSize = (Math.random() * 10 + 18) + 'px'; const fallDuration = Math.random() * 5 + 7; const delay = Math.random() * 4; item.style.setProperty('--random-rotate', (Math.random() * 80 - 40) || 0); item.style.animationDuration = `${fallDuration}s`; item.style.animationDelay = delay + 's'; container.appendChild(item); setTimeout(() => { if (item && item.parentNode) item.remove(); }, (fallDuration + delay) * 1000 + 500); }
-             function startFallingItems(intervalId, itemArray, container, intervalTime) { /* Keep original */ if (intervalId) clearInterval(intervalId); if (!container) return null; const newIntervalId = setInterval(() => { if (container && container.style.display !== 'none') { const randomItem = itemArray[Math.floor(Math.random() * itemArray.length)]; createFallingItem(randomItem, container); } }, intervalTime); return newIntervalId; }
-             function stopFallingItems(intervalId, container) { /* Keep original */ if (intervalId) clearInterval(intervalId); if (container) { const existingItems = container.querySelectorAll('.falling-item'); existingItems.forEach(item => item.remove()); } return null; }
+            // ** 重写: 显示奖品对话框的函数 **
+            function showPrizeDialog() {
+                console.log("Showing prize dialog.");
+                if (!prizeDialogView || !prizeDialogContent) {
+                    console.error("Prize dialog elements not found!");
+                    return;
+                }
+                let combinedTotal = totalScore + slotWinningsTotal;
+                // 构建奖品信息 HTML
+                let prizeHTML = '<ul>';
+                prizeHTML += `<li>你的生日红包🧧: ${combinedTotal} 元</li>`;
+                prizeHTML += phoneWon ? `<li>已获得: 新手机一部 (红米 K80 / Oppo Reno 13) 📱</li>` : `<li>待赢取: 新手机一部 📱</li>`;
+                prizeHTML += cameraWon ? `<li>已获得: 索尼相机一台 📷</li>` : `<li>待赢取: 索尼相机一台 📷</li>`;
+                prizeHTML += hongbaoGameUnlocked ? `<li>已解锁: 红包雨游戏 🧧</li>` : `<li>待解锁: 红包雨游戏 🧧</li>`;
+                prizeHTML += '</ul>';
 
-             // --- View Switching Logic ---
-             function hideAllViews() { /* Keep original */ [birthdayView, loveLetterView, gameView, loveWarningMessage, gameStartWarning, passwordPromptView].forEach(view => { if (view) view.style.display = 'none'; }); birthdayIntervalId = stopFallingItems(birthdayIntervalId, birthdayView); loveLetterIntervalId = stopFallingItems(loveLetterIntervalId, loveLetterView); stopGame(); }
-             function showLoveLetter() { /* Keep original */ hideAllViews(); if(loveLetterView) loveLetterView.style.display = 'block'; loveLetterIntervalId = startFallingItems(loveLetterIntervalId, loveLetterItems, loveLetterView, LOVE_LETTER_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showBirthday() { /* Keep original */ hideAllViews(); if(birthdayView) birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); window.scrollTo(0, 0); updatePlayPauseIcon(); startSlideshowAutoplay(); }
-             function showPasswordPrompt() { /* Keep original */ hideAllViews(); if (passwordPromptView) passwordPromptView.style.display = 'flex'; if (passwordInput) passwordInput.value = ''; if (passwordErrorMessage) passwordErrorMessage.textContent = ''; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showGameStartWarning() { /* Keep original */ hideAllViews(); if (gameStartWarning) gameStartWarning.style.display = 'flex'; window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
-             function showGame() { /* Keep original */ hideAllViews(); if(gameView) { gameView.style.display = 'flex'; if (gameResultDisplay) gameResultDisplay.style.display = 'none'; if (gameArea) gameArea.style.display = 'block'; if (gameInfo) gameInfo.style.display = 'block'; } startGame(); window.scrollTo(0, 0); updatePlayPauseIcon(); stopSlideshowAutoplay(); }
+                // 更新对话框内容
+                prizeDialogContent.innerHTML = prizeHTML;
 
-             // --- Event Listeners for View Switching --- (Keep original)
-             if (cakeLink) { cakeLink.addEventListener('click', (event) => { event.preventDefault(); if (isDragAction) return; if (loveWarningMessage) { loveWarningMessage.style.display = 'block'; setTimeout(() => { if (loveWarningMessage) loveWarningMessage.style.display = 'none'; showLoveLetter(); tryPlayAudio(); }, 2500); } else { showLoveLetter(); tryPlayAudio(); } }); }
-             if (backButton) { backButton.addEventListener('click', showBirthday); }
-             if (gotoGameButton) { gotoGameButton.addEventListener('click', showPasswordPrompt); }
-             if (confirmStartGameButton) { confirmStartGameButton.addEventListener('click', showGame); }
-             if (backFromGameButton) { backFromGameButton.addEventListener('click', showLoveLetter); }
-             if (continueGameButton) { continueGameButton.addEventListener('click', showGame); }
-             if (redeemEarlyButton) { redeemEarlyButton.addEventListener('click', showFinalResult); }
+                // 显示对话框 (添加 .visible 类)
+                prizeDialogView.classList.add('visible');
 
-             // --- Password Check Logic --- (Keep original)
-             if (passwordSubmitButton && passwordInput && passwordErrorMessage) { passwordSubmitButton.addEventListener('click', () => { const enteredPassword = passwordInput.value.trim(); if (enteredPassword === "0610") { showGameStartWarning(); } else { passwordErrorMessage.textContent = '不对哦，再想想！提示：4位数字'; passwordInput.value = ''; passwordInput.focus(); } }); passwordInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); passwordSubmitButton.click(); } }); }
+                // !! 注意：这里不再调用 hideAllViews() 或 stopGame() !!
+            }
 
-             // --- Pointer Trail Heart Logic --- (Keep Original)
-             function throttle(func, limit) { /* Keep original */ let inThrottle; return function() { const args = arguments; const context = this; if (!inThrottle) { func.apply(context, args); inThrottle = true; setTimeout(() => inThrottle = false, limit); } } }
-             function createPointerHeart(x, y) { /* Keep original */ if (!document.body) return; const heart = document.createElement('div'); heart.classList.add('pointer-heart'); heart.innerHTML = '❤️'; heart.style.left = `${x}px`; heart.style.top = `${y}px`; document.body.appendChild(heart); setTimeout(() => { if (heart && heart.parentNode) { heart.remove(); } }, 600); }
-             const throttledCreateHeart = throttle(createPointerHeart, 100); document.body.addEventListener('mousemove', (event) => { throttledCreateHeart(event.pageX, event.pageY); }); document.body.addEventListener('touchmove', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true }); document.body.addEventListener('touchstart', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
+            // ** 重写: 隐藏奖品对话框的函数 **
+            function hidePrizeDialog() {
+                 console.log("Hiding prize dialog.");
+                if (!prizeDialogView) {
+                    console.error("Prize dialog view element not found!");
+                    return;
+                }
+                // 隐藏对话框 (移除 .visible 类)
+                prizeDialogView.classList.remove('visible');
 
-             // --- Custom Audio Player Logic --- (Keep Original)
-             function formatTime(seconds) { const secs = Math.floor(seconds || 0); if (isNaN(secs) || secs < 0) return "0:00"; const minutes = Math.floor(secs / 60); const remainingSeconds = secs % 60; return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`; }
-             function updatePlayPauseIcon() { if (!playIcon || !audioElement || !playPauseButton) return; playIcon.classList.remove('play-icon', 'pause-icon'); if (audioElement.paused || audioElement.ended) { playIcon.classList.add('play-icon'); playPauseButton.setAttribute('aria-label', '播放'); } else { playIcon.classList.add('pause-icon'); playPauseButton.setAttribute('aria-label', '暂停'); } }
-             if (playPauseButton && audioElement) { playPauseButton.addEventListener('click', () => { if (isDragAction) return; if (audioElement.paused || audioElement.ended) { audioElement.play().catch(e => console.error("Error playing audio:", e)); } else { audioElement.pause(); } }); }
-             if (audioElement) { audioElement.addEventListener('timeupdate', () => { if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) { try { if(seekBar) seekBar.value = audioElement.currentTime; if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } catch (e) { console.error("Error updating time:", e) } } }); audioElement.addEventListener('loadedmetadata', () => { if (!isNaN(audioElement.duration) && seekBar && durationDisplay) { try { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); updatePlayPauseIcon(); } catch (e) { console.error("Error on loadedmetadata:", e) } } else { if(seekBar) seekBar.max = 0; if(durationDisplay) durationDisplay.textContent = "0:00"; } }); audioElement.addEventListener('play', updatePlayPauseIcon); audioElement.addEventListener('pause', updatePlayPauseIcon); audioElement.addEventListener('ended', updatePlayPauseIcon); }
-             if (seekBar && currentTimeDisplay && audioElement) { seekBar.addEventListener('input', () => { isSeeking = true; try { if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0); } catch (e) { console.error("Error updating seek bar display:", e) } }); seekBar.addEventListener('change', () => { if (!isNaN(audioElement.duration)) { try { audioElement.currentTime = parseFloat(seekBar.value) || 0; } catch (e) { console.error("Error setting audio time:", e) } } isSeeking = false; if (!isSeeking && !isNaN(audioElement.duration) && currentTimeDisplay) { currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } }); }
+                // !! 注意：这里不再有复杂的视图恢复逻辑 !!
+            }
 
-             // --- Slideshow Logic --- (Keep Original)
-             function updateDots() { /* Keep original */ if (!dotsContainer || !slides || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { if(dotsContainer.children[i]) dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
-             function showSlide(index) { /* Keep original */ if (slideCount <= 0 || !slideshow) return; currentSlideIndex = (index + slideCount) % slideCount; const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
-             function nextSlide() { /* Keep original */ showSlide(currentSlideIndex + 1); } function startSlideshowAutoplay() { /* Keep original */ stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } } function stopSlideshowAutoplay() { /* Keep original */ clearInterval(slideInterval); slideInterval = null; } if (prevButton && nextButton) { prevButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); }); nextButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); }); } function createDots() { /* Keep original */ if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { if (isDragAction) return; stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); } if (slideshowContainer) { slideshowContainer.addEventListener('click', (event) => { if (isDragAction) return; if (!event.target.closest('.slideshow-nav') && !event.target.closest('.dot')) { console.log("Slideshow area clicked (audio trigger removed)."); } }); }
+            function showPrizeInfoAlert() { const prizeInfo = `\n幸运抽奖奖品一览：\n\n🎁 超级大奖:\n   - 新手机一部 (红米 K80 / Oppo Reno 13) 📱\n   - 索尼相机一台 📷\n\n💰 幸运奖金:\n   - 集齐三个“福”可获得奖金\n\n🔑 游戏解锁:\n   - 集齐三个“蛋糕”可解锁红包雨游戏\n\n❤️ 特殊效果:\n   - 集齐三个“红心”可触发神秘情话\n\n(还有一个隐藏的惊喜哦 😉)\n\n祝你好运！✨\n                  `; alert(prizeInfo); }
 
-             // --- Draggable Elements Logic --- (Keep Original)
-             function makeDraggable(element) { /* Keep original */ if (!element) return; element.style.cursor = 'move'; element.addEventListener('dragstart', (e) => e.preventDefault()); element.style.touchAction = 'none'; let startX, startY, elementStartX, elementStartY, pointerId = null, dragThreshold = 5; function getPointerCoords(event) { let touch = null; if (event.touches && event.touches.length > 0) { for (let i = 0; i < event.touches.length; i++) { if (event.touches[i].identifier === pointerId) { touch = event.touches[i]; break; } } if (!touch) touch = event.touches[0]; } else if (event.changedTouches && event.changedTouches.length > 0) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { touch = event.changedTouches[i]; break; } } if (!touch) touch = event.changedTouches[0]; } if (touch) return { x: touch.clientX, y: touch.clientY }; if (event.clientX !== undefined) return { x: event.clientX, y: event.clientY }; return null; } function dragStartHandler(event) { if (event.target !== element && event.target.closest('button, input, a, select, textarea')) { return; } if ((event.type === 'mousedown' && event.button !== 0) || (event.touches && event.touches.length > 1)) { return; } const coords = getPointerCoords(event); if (!coords) return; isDragging = false; isDragAction = false; dragTarget = element; dragTarget.style.transition = 'none'; startX = coords.x; startY = coords.y; const rect = dragTarget.getBoundingClientRect(); elementStartX = rect.left; elementStartY = rect.top; const computedStyle = getComputedStyle(dragTarget); if (computedStyle.position !== 'fixed' && computedStyle.position !== 'absolute') { console.warn("Draggable element is not positioned (fixed/absolute). Dragging might be unexpected.", dragTarget); dragTarget.style.position = 'fixed'; } if (!dragTarget.style.left || dragTarget.style.left === 'auto') { dragTarget.style.left = `${elementStartX}px`; } if (!dragTarget.style.top || dragTarget.style.top === 'auto') { dragTarget.style.top = `${elementStartY}px`; } dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; if (event.type === 'mousedown') { pointerId = -1; document.addEventListener('mousemove', draggingHandler); document.addEventListener('mouseup', dragEndHandler); } else if (event.type === 'touchstart') { pointerId = event.touches[0].identifier; document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('touchend', dragEndHandler); document.addEventListener('touchcancel', dragEndHandler); } document.body.style.userSelect = 'none'; document.body.style.webkitUserSelect = 'none'; document.body.style.msUserSelect = 'none'; } function draggingHandler(event) { if (!dragTarget) return; const coords = getPointerCoords(event); if (!coords) { dragEndHandler(event); return; } let currentX = coords.x; let currentY = coords.y; const deltaX = currentX - startX; const deltaY = currentY - startY; if (!isDragging && (Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold)) { isDragging = true; isDragAction = true; } if (isDragging) { if (event.cancelable && event.type === 'touchmove') { event.preventDefault(); } let newLeft = elementStartX + deltaX; let newTop = elementStartY + deltaY; const parentWidth = window.innerWidth; const parentHeight = window.innerHeight; const elemWidth = dragTarget.offsetWidth; const elemHeight = dragTarget.offsetHeight; newLeft = Math.max(0, Math.min(newLeft, parentWidth - elemWidth)); newTop = Math.max(0, Math.min(newTop, parentHeight - elemHeight)); dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; } } function dragEndHandler(event) { if (!dragTarget) return; let endPointerMatch = false; if (event.type === 'mouseup' && pointerId === -1) { endPointerMatch = true; } else if ((event.type === 'touchend' || event.type === 'touchcancel') && event.changedTouches) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { endPointerMatch = true; break; } } } if (!endPointerMatch && event.type !== 'touchcancel' && event.type !== 'mouseup') { return; } if (pointerId === -1) { document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); } else { document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('touchend', dragEndHandler); document.removeEventListener('touchcancel', dragEndHandler); } dragTarget.style.transition = ''; document.body.style.userSelect = ''; document.body.style.webkitUserSelect = ''; document.body.style.msUserSelect = ''; if (isDragAction) { const finalRect = dragTarget.getBoundingClientRect(); const finalPosToSave = { x: finalRect.left, y: finalRect.top }; if (element.id === 'audio-player-container') { try { localStorage.setItem('audioPlayerPos', JSON.stringify(finalPosToSave)); console.log("Saved player pos:", finalPosToSave); } catch (e) { console.error("Failed to save player position:", e); } } else if (element.id === 'cat-pendant') { try { localStorage.setItem('catPosition', JSON.stringify(finalPosToSave)); console.log("Saved cat pos:", finalPosToSave); } catch (e) { console.error("Failed to save cat position:", e); } } } isDragging = false; pointerId = null; dragTarget = null; setTimeout(() => { isDragAction = false; }, 0); } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: true }); }
-             if (audioPlayerContainer) { /* Keep original load/init */ const savedPlayerPos = localStorage.getItem('audioPlayerPos'); if (savedPlayerPos) { try { const pos = JSON.parse(savedPlayerPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ audioPlayerContainer.style.left = `${pos.x}px`; audioPlayerContainer.style.top = `${pos.y}px`; audioPlayerContainer.style.right = 'auto'; audioPlayerContainer.style.bottom = 'auto'; audioPlayerContainer.style.transform = 'none'; } } catch(e){ console.error("Failed to load player position:", e); } } makeDraggable(audioPlayerContainer); }
-             if (catPendant) { /* Keep original load/init */ const savedCatPos = localStorage.getItem('catPosition'); if (savedCatPos) { try { const pos = JSON.parse(savedCatPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ catPendant.style.left = `${pos.x}px`; catPendant.style.top = `${pos.y}px`; catPendant.style.right = 'auto'; catPendant.style.bottom = 'auto'; catPendant.style.transform = 'none'; } } catch(e){ console.error("Failed to load cat position:", e); } } makeDraggable(catPendant); }
+            // --- Password Check Logic ---
+            if (passwordSubmitButton && passwordInput && passwordErrorMessage) { passwordSubmitButton.addEventListener('click', () => { const enteredPassword = passwordInput.value.trim(); if (enteredPassword === "0610") { showGameStartWarning(); } else { passwordErrorMessage.textContent = '不对哦，再想想！提示：4位数字'; passwordInput.value = ''; passwordInput.focus(); } }); passwordInput.addEventListener('keypress', (event) => { if (event.key === 'Enter') { event.preventDefault(); passwordSubmitButton.click(); } }); }
 
-             // --- Cat Pendant Logic --- (Keep Original)
-             if (catPendant && catDialog) { catPendant.addEventListener('click', () => { if (isDragAction) { console.log("Cat click ignored due to drag."); return; } try { tryPlayAudio(); const now = Date.now(); recentCatClicks = recentCatClicks.filter(timestamp => now - timestamp < CAT_CLICK_WINDOW); let dialogText = ""; let isRateLimited = recentCatClicks.length >= CAT_CLICK_LIMIT; let canShowDialog = false; if (isRateLimited) { dialogText = rateLimitDialog; canShowDialog = true; } else { if (!firstCatClick && (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible'))) { return; } recentCatClicks.push(now); if (firstCatClick) { dialogText = initialDialog[0]; firstCatClick = false; } else { const randomIndex = Math.floor(Math.random() * randomDialogs.length); dialogText = randomDialogs[randomIndex]; } canShowDialog = true; } if (canShowDialog && catDialog) { catDialog.textContent = dialogText; clearTimeout(catDialogTimeout); catDialog.classList.remove('visible'); void catDialog.offsetWidth; catDialog.classList.add('visible'); catDialogTimeout = setTimeout(() => { if(catDialog) catDialog.classList.remove('visible'); }, 4000); if (!isRateLimited && !catPendant.classList.contains('rolling')) { const currentLeft = catPendant.style.left; const currentTop = catPendant.style.top; catPendant.classList.add('rolling'); catPendant.addEventListener('animationend', () => { if(catPendant) { catPendant.classList.remove('rolling'); catPendant.style.left = currentLeft; catPendant.style.top = currentTop; catPendant.style.transform = 'none'; } }, { once: true }); } } else if (!catDialog) { console.error("Cat dialog element not found!"); } } catch (error) { console.error("Error in cat pendant click handler:", error); if (catPendant) catPendant.classList.remove('rolling'); if (catDialog) catDialog.classList.remove('visible'); clearTimeout(catDialogTimeout); } }); const catImg = catPendant.querySelector('img'); if(catImg) { catImg.onerror = () => { if (catPendant) catPendant.style.display = 'none'; }; } else { if (catPendant) catPendant.style.display = 'none'; } } else { if (catPendant) catPendant.style.display = 'none'; }
+            // --- Pointer Trail Heart Logic ---
+            function createPointerHeart(x, y) { if (!document.body) return; const heart = document.createElement('div'); heart.classList.add('pointer-heart'); heart.innerHTML = '❤️'; heart.style.left = `${x}px`; heart.style.top = `${y}px`; document.body.appendChild(heart); setTimeout(() => { if (heart && heart.parentNode) { heart.remove(); } }, 600); }
+            const throttledCreateHeart = throttle(createPointerHeart, 100); document.body.addEventListener('mousemove', (event) => { throttledCreateHeart(event.pageX, event.pageY); }); document.body.addEventListener('touchmove', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true }); document.body.addEventListener('touchstart', (event) => { if (event.touches.length > 0) { const touch = event.touches[0]; throttledCreateHeart(touch.pageX, touch.pageY); } }, { passive: true });
 
-             // --- Font Toggle Logic --- (Keep Original)
-             if (fontToggleButton && loveLetterView) { fontToggleButton.addEventListener('click', () => { if (isDragAction) return; loveLetterView.classList.toggle('love-letter-default-font'); }); }
+            // --- Custom Audio Player Logic ---
+            function updatePlayPauseIcon() { if (!playIcon || !audioElement || !playPauseButton) return; playIcon.classList.remove('play-icon', 'pause-icon'); if (audioElement.paused || audioElement.ended) { playIcon.classList.add('play-icon'); playPauseButton.setAttribute('aria-label', '播放'); } else { playIcon.classList.add('pause-icon'); playPauseButton.setAttribute('aria-label', '暂停'); } }
+            if (playPauseButton && audioElement) { playPauseButton.addEventListener('click', () => { if (isDragAction) return; if (audioElement.paused || audioElement.ended) { audioElement.play().catch(e => console.error("Error playing audio:", e)); } else { audioElement.pause(); } }); }
+            if (audioElement) { audioElement.addEventListener('timeupdate', () => { if (!isSeeking && !isNaN(audioElement.duration) && seekBar && currentTimeDisplay) { try { if(seekBar) seekBar.value = audioElement.currentTime; if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } catch (e) { console.error("Error updating time:", e) } } }); audioElement.addEventListener('loadedmetadata', () => { if (!isNaN(audioElement.duration) && seekBar && durationDisplay) { try { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); updatePlayPauseIcon(); } catch (e) { console.error("Error on loadedmetadata:", e) } } else { if(seekBar) seekBar.max = 0; if(durationDisplay) durationDisplay.textContent = "0:00"; } }); audioElement.addEventListener('play', updatePlayPauseIcon); audioElement.addEventListener('pause', updatePlayPauseIcon); audioElement.addEventListener('ended', updatePlayPauseIcon); }
+            if (seekBar && currentTimeDisplay && audioElement) { seekBar.addEventListener('input', () => { isSeeking = true; try { if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(parseFloat(seekBar.value) || 0); } catch (e) { console.error("Error updating seek bar display:", e) } }); seekBar.addEventListener('change', () => { if (!isNaN(audioElement.duration)) { try { audioElement.currentTime = parseFloat(seekBar.value) || 0; } catch (e) { console.error("Error setting audio time:", e) } } isSeeking = false; if (!isSeeking && !isNaN(audioElement.duration) && currentTimeDisplay) { currentTimeDisplay.textContent = formatTime(audioElement.currentTime); } }); }
 
-            // --- ========================== ---
-            // ---    MODIFIED GAME LOGIC     ---
-            // --- ========================== ---
+            // --- Slideshow Logic ---
+            function updateDots() { if (!dotsContainer || !slides || dotsContainer.children.length !== slideCount) return; for (let i = 0; i < slideCount; i++) { if(dotsContainer.children[i]) dotsContainer.children[i].classList.toggle('active', i === currentSlideIndex); } }
+            function showSlide(index) { if (slideCount <= 0 || !slideshow) return; currentSlideIndex = (index + slideCount) % slideCount; const offset = -currentSlideIndex * 100; slideshow.style.transform = `translateX(${offset}%)`; updateDots(); if (slideshowCaption && slideCaptions.length > currentSlideIndex) { slideshowCaption.textContent = slideCaptions[currentSlideIndex]; } else if (slideshowCaption) { slideshowCaption.textContent = ''; } }
+            function nextSlide() { showSlide(currentSlideIndex + 1); } function startSlideshowAutoplay() { stopSlideshowAutoplay(); if (slideCount > 1) { slideInterval = setInterval(nextSlide, SLIDESHOW_INTERVAL_TIME); } } function stopSlideshowAutoplay() { clearInterval(slideInterval); slideInterval = null; } if (prevButton && nextButton) { prevButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex - 1); }); nextButton.addEventListener('click', () => { if (isDragAction) return; stopSlideshowAutoplay(); showSlide(currentSlideIndex + 1); }); } function createDots() { if (!dotsContainer || slideCount <= 0) return; dotsContainer.innerHTML = ''; for (let i = 0; i < slideCount; i++) { const dot = document.createElement('span'); dot.classList.add('dot'); dot.dataset.index = i; dot.setAttribute('aria-label', `跳转到照片 ${i + 1}`); dot.addEventListener('click', (e) => { if (isDragAction) return; stopSlideshowAutoplay(); const index = parseInt(e.target.dataset.index); showSlide(index); }); dotsContainer.appendChild(dot); } updateDots(); } if (slideshowContainer) { slideshowContainer.addEventListener('click', (event) => { if (isDragAction) return; if (!event.target.closest('.slideshow-nav') && !event.target.closest('.dot')) { console.log("Slideshow area clicked (audio trigger removed)."); } }); }
 
-             function startGame() {
-                 console.log("Starting game...");
-                 if (!gameArea || !scoreDisplay || !timerDisplay || !gameResultDisplay || !roundDisplay || !gameInfo) {
-                     console.error("Critical game elements not found at startGame!"); return;
-                 }
-                 currentRound++;
-                 console.log(`Starting Round ${currentRound}`);
-                 if (currentRound > maxRounds) { console.log("Max rounds reached, showing final result."); showFinalResult(); return; }
-                 stopGame(); // Clear previous round elements and timers
+            // --- Draggable Elements Logic ---
+            function makeDraggable(element) { if (!element) return; element.style.cursor = 'move'; element.addEventListener('dragstart', (e) => e.preventDefault()); element.style.touchAction = 'none'; let startX, startY, elementStartX, elementStartY, pointerId = null, dragThreshold = 5; function getPointerCoords(event) { let touch = null; if (event.touches && event.touches.length > 0) { for (let i = 0; i < event.touches.length; i++) { if (event.touches[i].identifier === pointerId) { touch = event.touches[i]; break; } } if (!touch) touch = event.touches[0]; } else if (event.changedTouches && event.changedTouches.length > 0) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { touch = event.changedTouches[i]; break; } } if (!touch) touch = event.changedTouches[0]; } if (touch) return { x: touch.clientX, y: touch.clientY }; if (event.clientX !== undefined) return { x: event.clientX, y: event.clientY }; return null; } function dragStartHandler(event) { if (event.target !== element && event.target.closest('button, input, a, select, textarea')) { return; } if ((event.type === 'mousedown' && event.button !== 0) || (event.touches && event.touches.length > 1)) { return; } const coords = getPointerCoords(event); if (!coords) return; isDragging = false; isDragAction = false; dragTarget = element; dragTarget.style.transition = 'none'; startX = coords.x; startY = coords.y; const rect = dragTarget.getBoundingClientRect(); elementStartX = rect.left; elementStartY = rect.top; const computedStyle = getComputedStyle(dragTarget); if (computedStyle.position !== 'fixed' && computedStyle.position !== 'absolute') { console.warn("Draggable element is not positioned (fixed/absolute). Dragging might be unexpected.", dragTarget); dragTarget.style.position = 'fixed'; } if (!dragTarget.style.left || dragTarget.style.left === 'auto') { dragTarget.style.left = `${elementStartX}px`; } if (!dragTarget.style.top || dragTarget.style.top === 'auto') { dragTarget.style.top = `${elementStartY}px`; } dragTarget.style.right = 'auto'; dragTarget.style.bottom = 'auto'; dragTarget.style.transform = 'none'; if (event.type === 'mousedown') { pointerId = -1; document.addEventListener('mousemove', draggingHandler); document.addEventListener('mouseup', dragEndHandler); } else if (event.type === 'touchstart') { pointerId = event.touches[0].identifier; document.addEventListener('touchmove', draggingHandler, { passive: false }); document.addEventListener('touchend', dragEndHandler); document.addEventListener('touchcancel', dragEndHandler); } document.body.style.userSelect = 'none'; document.body.style.webkitUserSelect = 'none'; document.body.style.msUserSelect = 'none'; } function draggingHandler(event) { if (!dragTarget) return; const coords = getPointerCoords(event); if (!coords) { dragEndHandler(event); return; } let currentX = coords.x; let currentY = coords.y; const deltaX = currentX - startX; const deltaY = currentY - startY; if (!isDragging && (Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold)) { isDragging = true; isDragAction = true; } if (isDragging) { if (event.cancelable && event.type === 'touchmove') { event.preventDefault(); } let newLeft = elementStartX + deltaX; let newTop = elementStartY + deltaY; const parentWidth = window.innerWidth; const parentHeight = window.innerHeight; const elemWidth = dragTarget.offsetWidth; const elemHeight = dragTarget.offsetHeight; newLeft = Math.max(0, Math.min(newLeft, parentWidth - elemWidth)); newTop = Math.max(0, Math.min(newTop, parentHeight - elemHeight)); dragTarget.style.left = `${newLeft}px`; dragTarget.style.top = `${newTop}px`; } } function dragEndHandler(event) { if (!dragTarget) return; let endPointerMatch = false; if (event.type === 'mouseup' && pointerId === -1) { endPointerMatch = true; } else if ((event.type === 'touchend' || event.type === 'touchcancel') && event.changedTouches) { for (let i = 0; i < event.changedTouches.length; i++) { if (event.changedTouches[i].identifier === pointerId) { endPointerMatch = true; break; } } } if (!endPointerMatch && event.type !== 'touchcancel' && event.type !== 'mouseup') { return; } if (pointerId === -1) { document.removeEventListener('mousemove', draggingHandler); document.removeEventListener('mouseup', dragEndHandler); } else { document.removeEventListener('touchmove', draggingHandler); document.removeEventListener('touchend', dragEndHandler); document.removeEventListener('touchcancel', dragEndHandler); } dragTarget.style.transition = ''; document.body.style.userSelect = ''; document.body.style.webkitUserSelect = ''; document.body.style.msUserSelect = ''; if (isDragAction) { const finalRect = dragTarget.getBoundingClientRect(); const finalPosToSave = { x: finalRect.left, y: finalRect.top }; if (element.id === 'audio-player-container') { try { localStorage.setItem('audioPlayerPos', JSON.stringify(finalPosToSave)); } catch (e) { console.error("Failed to save player position:", e); } } else if (element.id === 'cat-pendant') { try { localStorage.setItem('catPosition', JSON.stringify(finalPosToSave)); } catch (e) { console.error("Failed to save cat position:", e); } } } isDragging = false; pointerId = null; dragTarget = null; setTimeout(() => { isDragAction = false; }, 0); } element.addEventListener('mousedown', dragStartHandler); element.addEventListener('touchstart', dragStartHandler, { passive: true }); }
+            if (audioPlayerContainer) { const savedPlayerPos = localStorage.getItem('audioPlayerPos'); if (savedPlayerPos) { try { const pos = JSON.parse(savedPlayerPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ audioPlayerContainer.style.left = `${pos.x}px`; audioPlayerContainer.style.top = `${pos.y}px`; audioPlayerContainer.style.right = 'auto'; audioPlayerContainer.style.bottom = 'auto'; audioPlayerContainer.style.transform = 'none'; } } catch(e){ console.error("Failed to load player position:", e); } } makeDraggable(audioPlayerContainer); }
+            if (catPendant) { const savedCatPos = localStorage.getItem('catPosition'); if (savedCatPos) { try { const pos = JSON.parse(savedCatPos); if(pos && typeof pos.x === 'number' && typeof pos.y === 'number'){ catPendant.style.left = `${pos.x}px`; catPendant.style.top = `${pos.y}px`; catPendant.style.right = 'auto'; catPendant.style.bottom = 'auto'; catPendant.style.transform = 'none'; } } catch(e){ console.error("Failed to load cat position:", e); } } makeDraggable(catPendant); }
 
-                 // *** MODIFIED: Reset per-round counters ***
-                 itemsSpawnedThisRound = 0; // Reset total counter (safety cap)
-                 hongbaoSpawnedThisRound = 0;
-                 miceSpawnedThisRound = 0;
-                 greenSpawnedThisRound = 0;
-                 timeLeft = 30;
-                 gameActive = true;
+            // --- Cat Pendant Logic ---
+            if (catPendant && catDialog) { catPendant.addEventListener('click', () => { if (isDragAction) { console.log("Cat click ignored due to drag."); return; } try { const now = Date.now(); let dialogText = ""; let canShowDialog = false; let playAnimation = false; if (isCatRateLimitedCooldownActive) { if (now - catCooldownStartTime >= CAT_COOLDOWN_DURATION) { isCatRateLimitedCooldownActive = false; catCooldownStartTime = 0; console.log("Cat cooldown ended."); } else { dialogText = rateLimitDialog; canShowDialog = true; playAnimation = false; } } if (!isCatRateLimitedCooldownActive) { tryPlayAudio(); recentCatClicks = recentCatClicks.filter(timestamp => now - timestamp < CAT_CLICK_WINDOW); recentCatClicks.push(now); let isRateLimited = recentCatClicks.length >= CAT_CLICK_LIMIT; if (isRateLimited) { dialogText = rateLimitDialog; canShowDialog = true; playAnimation = false; isCatRateLimitedCooldownActive = true; catCooldownStartTime = now; console.log("Cat rate limit cooldown started."); } else { if (!firstCatClick && (catPendant.classList.contains('rolling') || catDialog.classList.contains('visible'))) { return; } if (firstCatClick) { dialogText = initialDialog[0]; firstCatClick = false; } else { const randomIndex = Math.floor(Math.random() * randomDialogs.length); dialogText = randomDialogs[randomIndex]; } canShowDialog = true; playAnimation = true; } } if (canShowDialog && catDialog) { catDialog.textContent = dialogText; clearTimeout(catDialogTimeout); catDialog.classList.remove('visible'); void catDialog.offsetWidth; catDialog.classList.add('visible'); catDialogTimeout = setTimeout(() => { if(catDialog) catDialog.classList.remove('visible'); }, 4000); if (playAnimation && !catPendant.classList.contains('rolling')) { const currentLeft = catPendant.style.left; const currentTop = catPendant.style.top; catPendant.classList.add('rolling'); catPendant.addEventListener('animationend', () => { if(catPendant) { catPendant.classList.remove('rolling'); catPendant.style.left = currentLeft; catPendant.style.top = currentTop; catPendant.style.transform = 'none'; } }, { once: true }); } } else if (!catDialog) { console.error("Cat dialog element not found!"); } } catch (error) { console.error("Error in cat pendant click handler:", error); if (catPendant) catPendant.classList.remove('rolling'); if (catDialog) catDialog.classList.remove('visible'); clearTimeout(catDialogTimeout); } }); const catImg = catPendant.querySelector('img'); if(catImg) { catImg.onerror = () => { if (catPendant) catPendant.style.display = 'none'; }; } else { if (catPendant) catPendant.style.display = 'none'; } } else { if (catPendant) catPendant.style.display = 'none'; }
 
-                 // Update Displays (Keep original)
-                 try { if(roundDisplay) roundDisplay.textContent = `第 ${currentRound} / ${maxRounds} 局`; if(scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; if(timerDisplay) timerDisplay.textContent = timeLeft; if(gameResultDisplay) gameResultDisplay.style.display = 'none'; if(gameArea) gameArea.style.display = 'block'; if(gameInfo) gameInfo.style.display = 'block'; } catch(e) { console.error("Error resetting display:", e); }
-                 // Start Timer (Keep original)
-                 try { if (gameTimerInterval) clearInterval(gameTimerInterval); gameTimerInterval = setInterval(() => { if (!gameActive) { clearInterval(gameTimerInterval); return; } timeLeft--; if (timerDisplay) timerDisplay.textContent = timeLeft; if (timeLeft <= 0) { gameOver(); } }, 1000); } catch(e) { console.error("Error starting timer:", e); gameActive = false; return; }
-                 // Start Spawner (Keep original)
-                 try { if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = setInterval(spawnRandomItem, ITEM_SPAWN_INTERVAL); } catch(e) { console.error("Error starting item spawn:", e); stopGame(); return; }
-                 // Add Click Listener (Keep original)
-                 try { if (gameArea) gameArea.removeEventListener('click', handleGameAreaClick); if (gameArea) gameArea.addEventListener('click', handleGameAreaClick); } catch(e) { console.error("Error adding click listener:", e); stopGame(); return; }
-                 console.log(`Round ${currentRound} started successfully.`);
-             }
+            // --- Font Toggle Logic ---
+            if (fontToggleButton && loveLetterView) { fontToggleButton.addEventListener('click', () => { if (isDragAction) return; loveLetterView.classList.toggle('love-letter-default-font'); }); }
 
-             function stopGame() { /* Keep original */ console.log("Stopping game elements..."); gameActive = false; try { clearInterval(gameTimerInterval); clearInterval(itemSpawnInterval); } catch(e) { console.error("Error clearing intervals:", e); } gameTimerInterval = null; itemSpawnInterval = null; try { if(gameArea) { gameArea.removeEventListener('click', handleGameAreaClick); const remainingItems = gameArea.querySelectorAll('.game-item'); remainingItems.forEach(item => { const tid = item.dataset.removalTimeoutId; if(tid) clearTimeout(parseInt(tid)); item.remove(); }); } } catch(e) { console.error("Error cleaning up game area:", e); } console.log("Game elements stopped."); }
+            // --- Slot Machine Game Logic ---
+            function getRandomLoveQuote() { if (loveQuotes.length === 0) return "你就是我最好的情话。"; return loveQuotes[Math.floor(Math.random() * loveQuotes.length)]; }
+            function spinSlots() { if (isSpinning || !slots || slots.length !== 3 || !slotResultMessage) return; const isFirstSpin = !hasSpunOnce; if (isFirstSpin) { showPrizeInfoAlert(); } isSpinning = true; if (spinButton) spinButton.disabled = true; let spinCycles = 0; const maxCycles = 15; const spinInterval = setInterval(() => { slots.forEach(slot => { slot.textContent = slotItems[Math.floor(Math.random() * slotItems.length)]; slot.classList.add('spinning'); setTimeout(() => slot.classList.remove('spinning'), 50); }); spinCycles++; if (spinCycles >= maxCycles) { clearInterval(spinInterval); displaySlotResult(isFirstSpin); if (!hasSpunOnce) { hasSpunOnce = true; } if (spinButton) { spinButton.textContent = '继续抽奖'; } } }, 80); }
+            function displaySlotResult(isFirstSpin) { if (!slots || slots.length !== 3 || !slotResultMessage) { isSpinning = false; if (spinButton) spinButton.disabled = false; return; } let rand = Math.random(); let outcome = 'Mixed'; let resultItems = []; let message = ""; if (rand < 0.00005) { outcome = '3_Phones'; } else if (rand < 0.00012) { outcome = '3_Cameras'; } else if (rand < 0.10012) { outcome = '3_Fu'; } else if (rand < 0.20012) { outcome = '3_Hearts'; } else if (rand < 0.40012) { outcome = '3_Cakes'; } else if (rand < 0.60012) { outcome = '3_Kisses'; } else { outcome = 'Mixed'; } if (isFirstSpin && outcome === '3_Cakes') { console.log("Blocked 3 Cakes on first spin."); outcome = 'Mixed'; } if (outcome === '3_Fu' && slotWinningsTotal >= SLOT_WINNINGS_CAP) { console.log("Blocked 3 Fu due to prize cap."); outcome = '3_Hearts'; } if (outcome === '3_Phones' && phoneWon) { console.log("Blocked 3 Phones as already won."); outcome = 'Mixed'; } if (outcome === '3_Cameras' && cameraWon) { console.log("Blocked 3 Cameras as already won."); outcome = 'Mixed'; } switch (outcome) { case '3_Phones': resultItems = ['📱', '📱', '📱']; phoneWon = true; let phoneModel = Math.random() < 0.5 ? "红米 K80" : "Oppo Reno 13"; message = `天呐！超级大奖！📱📱📱 赢得一部新手机 (${phoneModel})！`; break; case '3_Cameras': resultItems = ['📷', '📷', '📷']; cameraWon = true; message = "难以置信！超级大奖！📷📷📷 赢得一台索尼相机！"; break; case '3_Fu': resultItems = ['福', '福', '福']; let winningsToAdd = 10; let actualWinnings = Math.min(winningsToAdd, SLOT_WINNINGS_CAP - slotWinningsTotal); if (actualWinnings > 0) { slotWinningsTotal += actualWinnings; message = `太棒了！福福福！获得 ${actualWinnings} 元幸运奖金！💰`; } else { message = "幸运奖金已达上限！"; } break; case '3_Hearts': resultItems = ['❤️', '❤️', '❤️']; message = `💖💖💖 ${getRandomLoveQuote()}`; break; case '3_Cakes': resultItems = ['🎂', '🎂', '🎂']; if (!hongbaoGameUnlocked) { message = "恭喜！🎂🎂🎂 解锁红包雨游戏！"; hongbaoGameUnlocked = true; } else { message = "红包雨游戏已解锁！可以继续抽奖或开始游戏。"; } break; case '3_Kisses': resultItems = ['💋', '💋', '💋']; message = "送姐姐一个来自少爷的飞吻~ 💋"; break; case 'Mixed': default: do { resultItems = [ slotItems[Math.floor(Math.random() * slotItems.length)], slotItems[Math.floor(Math.random() * slotItems.length)], slotItems[Math.floor(Math.random() * slotItems.length)] ]; } while ( (resultItems[0] === resultItems[1] && resultItems[1] === resultItems[2]) ); message = "哎呀，差一点点！再来一次吧！"; break; } slots.forEach((slot, index) => { slot.textContent = resultItems[index]; }); slotResultMessage.textContent = message; if (hongbaoGameUnlocked && proceedToHongbaoGameButton) { proceedToHongbaoGameButton.style.display = 'inline-block'; } isSpinning = false; if (spinButton) spinButton.disabled = false; }
 
-             function spawnRandomItem() {
-                 // Check overall safety cap first
-                 if (!gameArea || !gameActive || itemsSpawnedThisRound >= maxItemsPerRound) {
-                      if (itemsSpawnedThisRound >= maxItemsPerRound) {
-                          console.log(`Max items (${maxItemsPerRound}) safety cap reached for round ${currentRound}.`);
-                          // Optionally stop the spawner if the safety cap is hit
-                          // if (itemSpawnInterval) clearInterval(itemSpawnInterval);
-                          // itemSpawnInterval = null;
-                      }
-                      return;
-                 }
+            // --- Falling Items Game Logic ---
+            function startGame() {
+                console.log("Starting falling game...");
+                if (!gameArea || !scoreDisplay || !timerDisplay || !gameResultDisplay || !roundDisplay || !gameInfo) { console.error("Critical game elements not found at startGame!"); return; }
 
-                 // *** MODIFIED: Random selection logic with per-round limits ***
-                 const rand = Math.random();
-                 let itemType = null; // Type to potentially spawn
-                 let canSpawn = false; // Flag to check if spawning should occur
+                currentRound++; console.log(`Starting Round ${currentRound}`); if (currentRound > maxRounds) { console.log("Max rounds reached, showing final result."); showFinalResult(); return; }
+                stopGame(); // 停止上一轮可能残留的进程
+                itemsSpawnedThisRound = 0; hongbaoSpawnedThisRound = 0; miceSpawnedThisRound = 0; greenSpawnedThisRound = 0; timeLeft = 30; gameActive = true;
+                try { if(roundDisplay) roundDisplay.textContent = `第 ${currentRound} / ${maxRounds} 局`; if(scoreDisplay) scoreDisplay.textContent = `当前总得分 ${totalScore} 元`; /* 修改提示文本 */ if(timerDisplay) timerDisplay.textContent = timeLeft; if(gameResultDisplay) gameResultDisplay.style.display = 'none'; if(gameArea) gameArea.style.display = 'block'; if(gameInfo) gameInfo.style.display = 'block'; } catch(e) { console.error("Error resetting display:", e); }
+                try { if (gameTimerInterval) clearInterval(gameTimerInterval); gameTimerInterval = setInterval(() => { if (!gameActive) { clearInterval(gameTimerInterval); return; } timeLeft--; if (timerDisplay) timerDisplay.textContent = timeLeft; if (timeLeft <= 0) { gameOver(); } }, 1000); } catch(e) { console.error("Error starting timer:", e); gameActive = false; return; }
+                try { if (itemSpawnInterval) clearInterval(itemSpawnInterval); itemSpawnInterval = setInterval(spawnRandomItem, ITEM_SPAWN_INTERVAL); } catch(e) { console.error("Error starting item spawn:", e); stopGame(); return; }
+                try { if (gameArea) gameArea.removeEventListener('click', handleGameAreaClick); if (gameArea) gameArea.addEventListener('click', handleGameAreaClick); } catch(e) { console.error("Error adding click listener:", e); stopGame(); return; }
+                console.log(`Round ${currentRound} started successfully.`);
+            }
 
-                 // 1. Randomly choose a potential type (equal chance initially)
-                 if (rand < 0.333) {
-                     itemType = 'hongbao';
-                 } else if (rand < 0.666) {
-                     itemType = 'mouse';
-                 } else {
-                     itemType = 'green';
-                 }
+            function stopGame() { console.log("Stopping falling game elements..."); gameActive = false; try { clearInterval(gameTimerInterval); clearInterval(itemSpawnInterval); } catch(e) { console.error("Error clearing intervals:", e); } gameTimerInterval = null; itemSpawnInterval = null; try { if(gameArea) { gameArea.removeEventListener('click', handleGameAreaClick); const remainingItems = gameArea.querySelectorAll('.game-item'); remainingItems.forEach(item => { const tid = item.dataset.removalTimeoutId; if(tid) clearTimeout(parseInt(tid)); item.remove(); }); } } catch(e) { console.error("Error cleaning up game area:", e); } console.log("Falling game elements stopped."); }
+            function spawnRandomItem() { if (!gameArea || !gameActive || itemsSpawnedThisRound >= maxItemsPerRound) { if (itemsSpawnedThisRound >= maxItemsPerRound) { console.log(`Max total items (${maxItemsPerRound}) reached for round ${currentRound}.`); } return; } const rand = Math.random(); let itemType = null; let canSpawn = false; if (rand < 0.333) { itemType = 'hongbao'; } else if (rand < 0.666) { itemType = 'mouse'; } else { itemType = 'green'; } switch (itemType) { case 'hongbao': if (hongbaoSpawnedThisRound < maxHongbaoPerRound) { canSpawn = true; hongbaoSpawnedThisRound++; } break; case 'mouse': if (miceSpawnedThisRound < maxMicePerRound) { canSpawn = true; miceSpawnedThisRound++; } break; case 'green': if (greenSpawnedThisRound < maxGreenPerRound) { canSpawn = true; greenSpawnedThisRound++; } break; } if (canSpawn && itemType) { itemsSpawnedThisRound++; switch (itemType) { case 'hongbao': createHongbao(); break; case 'mouse': createMouse(); break; case 'green': createGreenEnvelope(); break; } } else if (!canSpawn && itemType) { } }
+            function createGameItem(className, content) { if (!gameArea || !gameActive) return; try { const item = document.createElement('div'); item.classList.add('game-item', className); if (content) item.innerHTML = content; const gameAreaWidth = gameArea.offsetWidth; const itemWidth = 50; item.style.left = Math.max(0, Math.random() * (gameAreaWidth - itemWidth)) + 'px'; const durationVariation = Math.random() * 1000 - 500; const actualDuration = Math.max(3000, ITEM_FALL_DURATION + durationVariation); item.style.animationDuration = actualDuration / 1000 + 's'; gameArea.appendChild(item); const removalTimeout = setTimeout(() => { if (item.parentNode) { item.remove(); } }, actualDuration + 200); item.dataset.removalTimeoutId = removalTimeout; } catch(e) { console.error(`Error creating ${className}:`, e); } }
+            function createHongbao() { createGameItem('hongbao'); } function createGreenEnvelope() { createGameItem('green-envelope'); } function createMouse() { createGameItem('mouse-item'); }
+            function handleGameAreaClick(event) { if (!gameActive || !event.target) return; const clickedItem = event.target.closest('.game-item'); if (!clickedItem) return; try { let scoreChange = 0; if (clickedItem.classList.contains('hongbao')) { scoreChange = 1; } else if (clickedItem.classList.contains('green-envelope')) { scoreChange = -1; } else if (clickedItem.classList.contains('mouse-item')) { scoreChange = -3; } if (scoreChange !== 0) { totalScore += scoreChange; if (scoreDisplay) scoreDisplay.textContent = `当前总得分 ${totalScore} 元`; /* Update display on click */ } const removalTimeoutId = clickedItem.dataset.removalTimeoutId; if (removalTimeoutId) { clearTimeout(parseInt(removalTimeoutId)); } clickedItem.remove(); } catch(e) { console.error("Error handling game item click:", e); } }
+            function gameOver() { console.log(`Falling Game Round ${currentRound} Over. Round Score: ${totalScore}`); stopGame(); if (currentRound >= maxRounds) { showFinalResult(); } else { showEndOfRoundOptions(); } }
+            function showEndOfRoundOptions() { if (!gameResultDisplay || !gameResultText || !gameResultButtons || !gameArea || !gameInfo) return; console.log("Showing end of round options."); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.textContent = `第 ${currentRound} 局结束！当前总得分：${totalScore} 元`; gameResultButtons.style.display = 'flex'; gameResultDisplay.style.display = 'block'; }
 
-                 // 2. Check if the chosen type is within its per-round limit
-                 switch (itemType) {
-                     case 'hongbao':
-                         if (hongbaoSpawnedThisRound < maxHongbaoPerRound) {
-                             canSpawn = true;
-                             hongbaoSpawnedThisRound++;
-                         }
-                         break;
-                     case 'mouse':
-                         if (miceSpawnedThisRound < maxMicePerRound) {
-                             canSpawn = true;
-                             miceSpawnedThisRound++;
-                         }
-                         break;
-                     case 'green':
-                         if (greenSpawnedThisRound < maxGreenPerRound) {
-                             canSpawn = true;
-                             greenSpawnedThisRound++;
-                         }
-                         break;
-                 }
+            function showFinalResult() {
+                if (!gameResultDisplay || !gameResultText || !gameResultButtons) return;
+                console.log("Showing final falling game result.");
+                stopGame(); // 确保游戏停止
 
-                 // 3. If spawn allowed for the chosen type, create it and increment overall counter
-                 if (canSpawn && itemType) {
-                     itemsSpawnedThisRound++; // Increment safety cap counter only if an item is actually spawned
-                     switch (itemType) {
-                         case 'hongbao': createHongbao(); break;
-                         case 'mouse': createMouse(); break;
-                         case 'green': createGreenEnvelope(); break;
+                // 确保只显示最终结果视图
+                hideAllViews(); // 先隐藏所有主要视图
+                if (gameView) gameView.style.display = 'flex'; // 显示游戏视图容器
+                if (gameArea) gameArea.style.display = 'none'; // 隐藏游戏区域
+                if (gameInfo) gameInfo.style.display = 'none'; // 隐藏信息栏
+
+                let combinedTotal = totalScore + slotWinningsTotal;
+                gameResultText.innerHTML = `游戏结束！<br>红包雨得分 ${totalScore} 元 + 幸运奖金 ${slotWinningsTotal} 元 = <br>总计 <span class="prize-code">${combinedTotal}</span> 元！<br>请截图找哥哥兑换奖励！`;
+                gameResultButtons.style.display = 'none'; // 隐藏继续/兑换按钮
+                gameResultDisplay.style.display = 'block'; // 显示最终结果区域
+                window.scrollTo(0, 0);
+            }
+
+            // --- Event Listeners ---
+            if (cakeLink) { if (typeof showLoveLetter === 'function' && typeof tryPlayAudio === 'function') { cakeLink.addEventListener('click', (event) => { try { event.preventDefault(); if (isDragAction) { console.log("Cake click ignored due to drag action."); return; } console.log("Cake clicked, attempting to show love letter..."); if (loveWarningMessage) { loveWarningMessage.style.display = 'block'; setTimeout(() => { if (loveWarningMessage) loveWarningMessage.style.display = 'none'; showLoveLetter(); tryPlayAudio(); }, 2500); } else { showLoveLetter(); tryPlayAudio(); } } catch(err) { console.error("Error in cake click listener:", err); } }); } else { console.error("showLoveLetter or tryPlayAudio function not defined when setting cake listener."); } } else { console.error("Birthday cake link element (#birthday-cake-link) not found!"); }
+            if (backButton) { backButton.addEventListener('click', showBirthday); }
+            if (gotoGameButton) { gotoGameButton.addEventListener('click', showSlotMachine); } // This now triggers the reset
+            if (spinButton) { spinButton.addEventListener('click', spinSlots); }
+            if (proceedToHongbaoGameButton) { proceedToHongbaoGameButton.addEventListener('click', showPasswordPrompt); }
+            if (backFromSlotMachineButton) { backFromSlotMachineButton.addEventListener('click', showLoveLetter); }
+            if (confirmStartGameButton) { confirmStartGameButton.addEventListener('click', showGame); }
+            if (backFromGameButton) { backFromGameButton.addEventListener('click', showLoveLetter); }
+            if (continueGameButton) { continueGameButton.addEventListener('click', showGame); }
+            if (redeemEarlyButton) { redeemEarlyButton.addEventListener('click', showFinalResult); }
+
+            // ** 修改: 更新事件监听器 **
+            if (showSlotWinningsButtons.length > 0) {
+                showSlotWinningsButtons.forEach(button => {
+                    button.addEventListener('click', showPrizeDialog); // 调用新函数
+                });
+            } else {
+                console.log("Show winnings buttons not found.");
+            }
+
+            if (closePrizeDialogButton) {
+                closePrizeDialogButton.addEventListener('click', hidePrizeDialog); // 调用新函数
+            } else {
+                console.log("Close prize dialog button not found.");
+            }
+
+
+            // --- Initial Setup ---
+            try {
+                // Initialize variables on first load
+                totalScore = 0; currentRound = 0; slotWinningsTotal = 0;
+                hongbaoGameUnlocked = false; lastActiveViewId = 'birthday-view';
+                hasSpunOnce = false; phoneWon = false; cameraWon = false;
+
+                hideAllViews(); // Initial hide
+                if (birthdayView) {
+                    birthdayView.style.display = 'block'; // Show initial view
+                    lastActiveViewId = 'birthday-view'; // Set initial last view
+                    birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME);
+                } else { console.error("Birthday view not found!"); }
+
+                // Setup Audio Player
+                 if (audioElement && playPauseButton && seekBar && currentTimeDisplay && durationDisplay && playIcon) {
+                     if (!isNaN(audioElement.duration) && audioElement.duration > 0) {
+                         seekBar.max = audioElement.duration; durationDisplay.textContent = formatTime(audioElement.duration); currentTimeDisplay.textContent = formatTime(0);
+                     } else {
+                         audioElement.onloadedmetadata = () => {
+                             if (!isNaN(audioElement.duration)) { seekBar.max = audioElement.duration; durationDisplay.textContent = formatTime(audioElement.duration); }
+                             else { seekBar.max = 100; durationDisplay.textContent = "0:00"; }
+                         };
+                         seekBar.max = 100; durationDisplay.textContent = "0:00"; currentTimeDisplay.textContent = "0:00";
                      }
-                 } else {
-                     // If the chosen type hit its limit, do nothing this interval.
-                     // console.log(`Skipping spawn: ${itemType} limit reached (${eval(itemType+'SpawnedThisRound')}/${eval('max'+itemType.charAt(0).toUpperCase() + itemType.slice(1)+'PerRound')}).`);
-                 }
-             }
+                     updatePlayPauseIcon();
+                 } else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; console.error("Audio player elements missing."); }
 
-            function createGameItem(className, content) { /* Keep original */ if (!gameArea || !gameActive) return; try { const item = document.createElement('div'); item.classList.add('game-item', className); if (content) item.innerHTML = content; const gameAreaWidth = gameArea.offsetWidth; const itemWidth = 50; item.style.left = Math.max(0, Math.random() * (gameAreaWidth - itemWidth)) + 'px'; const durationVariation = Math.random() * 1000 - 500; const actualDuration = Math.max(3000, ITEM_FALL_DURATION + durationVariation); item.style.animationDuration = actualDuration / 1000 + 's'; gameArea.appendChild(item); const removalTimeout = setTimeout(() => { if (item.parentNode) { item.remove(); } }, actualDuration + 200); item.dataset.removalTimeoutId = removalTimeout; } catch(e) { console.error(`Error creating ${className}:`, e); } }
-            function createHongbao() { createGameItem('hongbao'); }
-            function createGreenEnvelope() { createGameItem('green-envelope'); }
-            function createMouse() { createGameItem('mouse-item'); }
-            function handleGameAreaClick(event) { /* Keep original */ if (!gameActive || !event.target) return; const clickedItem = event.target.closest('.game-item'); if (!clickedItem) return; try { let scoreChange = 0; if (clickedItem.classList.contains('hongbao')) { scoreChange = 1; } else if (clickedItem.classList.contains('green-envelope')) { scoreChange = -1; } else if (clickedItem.classList.contains('mouse-item')) { scoreChange = -3; } if (scoreChange !== 0) { totalScore += scoreChange; if (scoreDisplay) scoreDisplay.textContent = `珊珊抢到了人民币 ${totalScore} 元`; } const removalTimeoutId = clickedItem.dataset.removalTimeoutId; if (removalTimeoutId) { clearTimeout(parseInt(removalTimeoutId)); } clickedItem.remove(); } catch(e) { console.error("Error handling game item click:", e); } }
-            function gameOver() { /* Keep original */ console.log(`Round ${currentRound} Over. Total Score: ${totalScore}`); stopGame(); if (currentRound >= maxRounds) { showFinalResult(); } else { showEndOfRoundOptions(); } }
-            function showEndOfRoundOptions() { /* Keep original */ if (!gameResultDisplay || !gameResultText || !gameResultButtons || !gameArea || !gameInfo) return; console.log("Showing end of round options."); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.textContent = `第 ${currentRound} 局结束！当前总分：${totalScore} 元`; gameResultButtons.style.display = 'flex'; gameResultDisplay.style.display = 'block'; }
-            function showFinalResult() { /* Keep original, but reset global counters here too */ if (!gameResultDisplay || !gameResultText || !gameResultButtons) return; console.log("Showing final game result."); stopGame(); if (gameArea) gameArea.style.display = 'none'; if (gameInfo) gameInfo.style.display = 'none'; gameResultText.innerHTML = `游戏结束！<br>珊珊一共抢到了人民币 <span class="prize-code">${totalScore}</span> 元！<br>请截图找章大少兑换奖励！`; gameResultButtons.style.display = 'none'; gameResultDisplay.style.display = 'block'; currentRound = 0; totalScore = 0; /* Resetting global counters here is no longer needed as they are removed */ }
+                 // Setup Slideshow
+                 if (slideshow && slideCount > 0 && dotsContainer && prevButton && nextButton && slideshowCaption) {
+                      createDots(); showSlide(0); startSlideshowAutoplay();
+                 } else { if (slideshowContainer) slideshowContainer.style.display = 'none'; console.error("Slideshow elements missing."); }
 
-             // --- Initial Setup ---
-             try {
-                 // Reset scores but not round/spawn counters (done in startGame)
-                 totalScore = 0;
-                 currentRound = 0;
-                 // miceSpawnedTotal = 0; // Removed
-                 // greenSpawnedTotal = 0; // Removed
+                console.log("Initial setup complete.");
+            } catch (error) {
+                console.error("Error during initial setup:", error);
+            }
 
-                 hideAllViews();
-                 if (birthdayView) { birthdayView.style.display = 'block'; birthdayIntervalId = startFallingItems(birthdayIntervalId, birthdayItems, birthdayView, BIRTHDAY_INTERVAL_TIME); } else { console.error("Birthday view not found!"); }
-                 if (audioElement) { /* Keep original audio setup */ if (!isNaN(audioElement.duration) && audioElement.duration > 0) { if(seekBar) seekBar.max = audioElement.duration; if(durationDisplay) durationDisplay.textContent = formatTime(audioElement.duration); if(currentTimeDisplay) currentTimeDisplay.textContent = formatTime(0); } else { if(seekBar) seekBar.max = 100; if(durationDisplay) durationDisplay.textContent = "0:00"; if(currentTimeDisplay) currentTimeDisplay.textContent = "0:00"; } if (playIcon) { updatePlayPauseIcon(); } else { console.error("Play icon element not found during init."); } } else { if (audioPlayerContainer) audioPlayerContainer.style.display = 'none'; }
-                 if (slideshow && slideCount > 0) { /* Keep original slideshow setup */ createDots(); showSlide(0); startSlideshowAutoplay(); } else { if (slideshowContainer) slideshowContainer.style.display = 'none'; }
-                 console.log("Initial setup complete.");
-             } catch (error) { console.error("Error during initial setup:", error); }
-
-         }); // End of DOMContentLoaded listener
+        }); // End of DOMContentLoaded listener
      </script>
-
  </body>
  </html>

@@ -257,7 +257,7 @@ body, html {
 
 /* 模态框 (基本不变，确保z-index高于漂流瓶相关内容) */
 .modal {
-    position: fixed; z-index: 1300; 
+    position: fixed; z-index: 3100; 
     left: 0; top: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.65); display: none; 
     justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;

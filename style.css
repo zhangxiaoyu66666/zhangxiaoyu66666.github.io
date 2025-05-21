@@ -1,0 +1,422 @@
+/* 全局样式 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'KaiTi', 'SimSun', sans-serif;
+    overflow: hidden;
+    background-color: #0a192f; 
+    color: #e6f1ff;
+}
+
+/* --- Screen Containers --- */
+#loading-screen,
+#main-screen,
+#drifting-bottle-screen,
+#time-machine-game-screen {
+    width: 100%;
+    height: 100%;
+    position: fixed; /* 使用 fixed 以确保覆盖整个视口并处理好层级 */
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden; 
+    display: none; /* JS控制显示 */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    opacity: 0; /* 用于过渡动画 */
+    visibility: hidden; /* 用于过渡动画 */
+    transition: opacity 0.7s ease-in-out, visibility 0.7s ease-in-out;
+}
+
+#loading-screen.active,
+#main-screen.active,
+#drifting-bottle-screen.active,
+#time-machine-game-screen.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 各个屏幕的背景 */
+#loading-screen {
+    background-image: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/loading_bg.jpg'); 
+    filter: brightness(0.6);
+    z-index: 5000; /* 最高层级 */
+}
+
+#main-screen {
+    background-color: #0a192f; /* 爱心界面背景改为蓝色 */
+    /* 移除之前的 background-image 和 filter */
+    z-index: 4000;
+}
+
+#drifting-bottle-screen {
+    background-image: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/background.jpg'); /* 使用之前的背景图 */
+    padding-top: 10px; 
+    z-index: 3000;
+}
+
+#time-machine-game-screen {
+    background-image: url('https://123456-1327245719.cos.ap-guangzhou.myqcloud.com/zss/background.jpg');
+    z-index: 2000; 
+    padding: 20px; 
+}
+
+
+/* 毛玻璃通用按钮样式 */
+.frosted-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #e0f0ff;
+    background-color: rgba(125, 249, 255, 0.2); /* 淡蓝色半透明 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 3px rgba(0,0,0,0.4);
+}
+.frosted-button:hover {
+    background-color: rgba(125, 249, 255, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+/* 加载界面内容 */
+.loading-content {
+    text-align: center;
+    padding: 25px;
+    background-color: rgba(10, 25, 47, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(173, 216, 230, 0.25);
+    position: relative; 
+}
+.game-logo p {
+    font-size: clamp(2em, 6vw, 3em); color: #7df9ff; font-weight: bold;
+    text-shadow: 0 0 10px #7df9ff, 0 0 20px #7df9ff; margin-bottom: 25px;
+}
+.progress-bar-container {
+    width: 70vw; max-width: 500px; height: 12px;
+    background-color: rgba(173, 216, 230, 0.2);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    border-radius: 6px; margin: 20px auto; overflow: hidden;
+    border: 1px solid rgba(173, 216, 230, 0.35);
+}
+#progress-bar {
+    width: 0%; height: 100%; background: linear-gradient(90deg, #4db8ff, #7df9ff);
+    border-radius: 6px; transition: width 0.2s ease-out;
+}
+#loading-text {
+    font-size: clamp(1em, 3.5vw, 1.4em); margin-top: 10px; margin-bottom: 30px;
+    color: #cdd6f4; text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+#start-game-btn { /* 继承 .frosted-button 但可以有特定调整 */
+    padding: 12px 30px; font-size: clamp(1.1em, 4vw, 1.5em); font-weight: bold;
+}
+
+/* 爱心界面 */
+#particle-heart-interaction-area {
+    position: relative; width: 85vw; height: 75vh; max-width: 550px; max-height: 500px;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.5s 0.3s ease-out;
+}
+#particle-heart-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    transition: opacity 0.8s ease-in;
+}
+#love-you-text {
+    position: absolute; bottom: 12%; color: #fce0ea; font-size: clamp(1.2em, 4vw, 1.7em);
+    z-index: 2; text-shadow: 0 0 8px rgba(0,0,0,0.7), 0 0 6px rgba(223,100,137,0.6);
+    font-family: 'STXingkai', 'KaiTi', 'SimSun', sans-serif; font-weight: bold;
+    transition: opacity 0.4s ease-out; pointer-events: none;
+}
+#particle-heart-interaction-area.splitting > #particle-heart-canvas,
+#particle-heart-interaction-area.splitting > #love-you-text {
+    opacity: 0 !important; pointer-events: none;
+}
+
+/* 情书 */
+#love-letter-content {
+    background-color: rgba(10, 25, 47, 0.75); 
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    position: relative; 
+    /* HTML内联样式: padding, color, font-size, border-radius, margin-top, line-height, max-width, max-height, overflow-y */
+    text-align: left; padding: 20px 30px; color: white; font-size: 1.1em; 
+    border-radius: 10px; margin-top: 20px; line-height: 1.9; 
+    max-width: 80vw; max-height: 75vh; overflow-y: auto;
+}
+#birthday-input {
+    padding: 8px 12px; margin: 10px 5px; border-radius: 5px; text-align:center;
+    border: 1px solid rgba(125, 249, 255, 0.5);
+    background-color: rgba(255,255,255,0.15); 
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    color: white; font-size: 1em;
+}
+#birthday-input::placeholder { color: #b0c4de; }
+#submit-birthday-btn { margin-left: 5px; }
+
+
+/* 漂流瓶界面 */
+#rewards-module {
+    position: absolute; top: 15px; right: 15px;
+    background-color: rgba(30, 50, 80, 0.8); 
+    backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%);
+    padding: 15px; padding-top: 35px; 
+    border-radius: 10px; border: 1px solid rgba(173, 216, 230, 0.35);
+    color: #e0e0e0; width: 230px; max-height: 280px; overflow-y: auto;
+    z-index: 1200; box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#rewards-module.hidden { /* 用于JS控制隐藏 */
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+#show-rewards-btn { /* 按钮样式 */
+    position: absolute; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 1199; /* 比奖励模块低一点，但高于一般内容 */
+    padding: 8px 15px; 
+    font-size: 0.9em;
+}
+
+.rewards-close-button {
+    position: absolute; top: 8px; right: 12px; background: none; border: none;
+    color: #e0e0e0; font-size: 24px; font-weight: bold; cursor: pointer;
+    padding: 0; line-height: 1; opacity: 0.8; transition: opacity 0.2s;
+}
+.rewards-close-button:hover { opacity: 1; color: #7df9ff; }
+#rewards-module h3 { margin-top: 0; margin-bottom: 10px; color: #82e0ff; text-align: center; font-size: 1.1em; }
+#rewards-module ul { list-style-type: none; padding: 0; margin: 0; font-size: 0.9em; }
+#rewards-module li { padding: 4px 0; border-bottom: 1px dashed rgba(173, 216, 230, 0.25); }
+#rewards-module li:last-child { border-bottom: none; }
+
+/* 漂流瓶容器毛玻璃效果 */
+#bottle-container-wrapper {
+    padding: 25px;
+    background-color: rgba(10, 25, 47, 0.55); /* 毛玻璃背景色 */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin-top: 20px; /* 与奖励模块的间距 */
+    width: 90vw;
+    max-width: 850px;
+    box-sizing: border-box;
+}
+
+#bottle-container {
+    width: 100%; 
+    height: 65vh; /* 调整高度以适应wrapper */
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto; /* 如果瓶子多于显示区域，允许滚动 */
+    position: relative; 
+    padding: 10px; /* 内部一些间距 */
+    box-sizing: border-box;
+}
+.bottle {
+    font-size: clamp(2.8rem, 7vw, 4rem); color: #7DF9FF;
+    text-shadow: 0 0 6px rgba(125, 249, 255, 0.75), 0 0 12px rgba(125, 249, 255, 0.55);
+    cursor: pointer; transition: transform 0.2s ease-in-out, opacity 0.3s;
+    animation: float 7s ease-in-out infinite alternate; position: absolute; 
+    padding: 5px; user-select: none; -webkit-user-select: none; 
+}
+.bottle:nth-child(odd) { animation-duration: 6s; } /* 动画错落感 */
+.bottle:hover { transform: scale(1.12) rotate(6deg); }
+.bottle.opened-bottle { opacity: 0.35; cursor: default; animation: none; }
+
+#bottle-message { 
+    text-align: center; color: white; margin-top: 15px; 
+    text-shadow: 0 1px 5px rgba(0,0,0,0.9); 
+    font-size: 1.05em; padding: 8px 12px;
+    background-color: rgba(0,0,0,0.25); 
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    border-radius: 8px; 
+}
+@keyframes float { 0% { transform: translateY(0px) rotate(-2deg); } 100% { transform: translateY(-12px) rotate(2deg); } }
+
+#enter-time-machine-prompt-btn { margin: 25px auto; }
+
+
+/* 模态框 (基本不变，确保z-index高于漂流瓶相关内容) */
+.modal {
+    position: fixed; z-index: 1300; 
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.65); display: none; 
+    justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;
+}
+.modal-content { 
+    position: relative; background-color: rgba(30, 50, 80, 0.8); 
+    backdrop-filter: blur(15px) saturate(170%); -webkit-backdrop-filter: blur(15px) saturate(170%);
+    padding: 25px; border: 1px solid rgba(173, 216, 230, 0.3);
+    border-radius: 15px; width: 90vw; max-width: 550px; color: #e0e0e0;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5); animation: fadeInModal 0.4s ease-out forwards;
+}
+@keyframes fadeInModal { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.close-button { color: #b0c4de; position: absolute; top: 12px; right: 22px; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s ease; z-index: 10; }
+.close-button:hover { color: #ffffff; }
+#bottle-modal-title { text-align: center; color: #82e0ff; font-size: clamp(1.4em, 4.5vw, 1.8em); margin-top: 0; margin-bottom: 20px; }
+.modal-body { display: flex; flex-direction: column; gap: 15px; max-height: 65vh; overflow-y: auto; font-size: clamp(1em, 3vw, 1.1em); line-height: 1.7; }
+#bottle-item-content { text-align: center; padding: 10px; }
+#bottle-item-content img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px; }
+#bottle-item-content .red-envelope { color: #ff5c5c; font-weight: bold; font-size: 1.2em; }
+#bottle-chat-log-display-area { width: 100%; margin-top: 0; display: flex; flex-direction: column; }
+.messages-container { width: 100%; box-sizing: border-box; max-height: 50vh; overflow-y: auto; padding: 10px 5px; border-radius: 10px; display: flex; flex-direction: column; gap: 10px; }
+.message-bubble { padding: 9px 15px; border-radius: 20px; max-width: 82%; word-wrap: break-word; line-height: 1.55; box-shadow: 0 1px 3px rgba(0,0,0,0.22); }
+.message-bubble p { margin: 0; }
+.message-bubble.me { background-color: #95EC69; color: black; margin-left: auto; border-top-right-radius: 8px; }
+.message-bubble.her { background-color: #FFFFFF; color: black; margin-right: auto; border-top-left-radius: 8px; }
+.message-bubble img { max-width: 100%; border-radius: 10px; display: block; margin-top: 5px; }
+
+/* 滚动条样式 (保持不变) */
+.modal-body::-webkit-scrollbar, .messages-container::-webkit-scrollbar, #rewards-module::-webkit-scrollbar,
+#story-text-area::-webkit-scrollbar, #ending-display-area::-webkit-scrollbar, #love-letter-content::-webkit-scrollbar, #bottle-container::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-body::-webkit-scrollbar-track, .messages-container::-webkit-scrollbar-track, #rewards-module::-webkit-scrollbar-track,
+#story-text-area::-webkit-scrollbar-track, #ending-display-area::-webkit-scrollbar-track, #love-letter-content::-webkit-scrollbar-track, #bottle-container::-webkit-scrollbar-track {
+    background: rgba(173, 216, 230, 0.1);
+    border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb, .messages-container::-webkit-scrollbar-thumb, #rewards-module::-webkit-scrollbar-thumb,
+#story-text-area::-webkit-scrollbar-thumb, #ending-display-area::-webkit-scrollbar-thumb, #love-letter-content::-webkit-scrollbar-thumb, #bottle-container::-webkit-scrollbar-thumb {
+    background: rgba(125, 249, 255, 0.4);
+    border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover, .messages-container::-webkit-scrollbar-thumb:hover, #rewards-module::-webkit-scrollbar-thumb:hover,
+#story-text-area::-webkit-scrollbar-thumb:hover, #ending-display-area::-webkit-scrollbar-thumb:hover, #love-letter-content::-webkit-scrollbar-thumb:hover, #bottle-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(125, 249, 255, 0.7);
+}
+
+
+/* 音乐播放器 */
+#music-controller {
+    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; padding: 8px 15px;
+    background-color: rgba(10, 25, 47, 0.75);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: 50px; box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    z-index: 1500; 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+#music-info { text-align: left; color: #cdd6f4; font-size: 0.8em; line-height: 1.3; }
+#music-title { font-weight: bold; font-size: 0.9em; color: #e6f1ff; }
+#music-controls { margin-left: 15px; }
+#music-play-pause-btn { background: none; border: none; color: #7df9ff; cursor: pointer; padding: 5px; }
+#music-play-pause-btn svg { width: 22px; height: 22px; vertical-align: middle; }
+
+
+/* 时光机游戏 */
+.game-area { 
+    width: 90vw; max-width: 700px;
+    background-color: rgba(10, 25, 47, 0.8); 
+    backdrop-filter: blur(12px) saturate(160%); -webkit-backdrop-filter: blur(12px) saturate(160%);
+    padding: 25px; border-radius: 15px;
+    border: 1px solid rgba(125, 249, 255, 0.25); 
+    box-shadow: 0 8px 35px rgba(0,0,0,0.45); 
+    color: #e0e0e0; display: flex; flex-direction: column; max-height: 90vh;
+    position: relative; 
+}
+#game-header { text-align: center; margin-bottom: 20px; }
+#time-machine-title { color: #7df9ff; font-size: clamp(1.6em, 5vw, 2.2em); text-shadow: 0 0 8px #7df9ff, 0 0 15px #7df9ff; }
+#player-attributes {
+    margin-top: 10px; font-size: clamp(0.9em, 2.5vw, 1.1em);
+    display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;
+    padding: 10px; 
+    background-color: rgba(0,0,0,0.35); 
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+}
+#player-attributes span { color: #f0f0f0; }
+#favorability-display { color: #ff7eb9; } #wealth-display { color: #f9ca24; } #reputation-display { color: #82ccdd; }
+#story-text-area {
+    background-color: rgba(0,0,0,0.45); 
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.15); padding: 15px; border-radius: 8px;
+    margin-bottom: 20px; min-height: 100px; max-height: 35vh; overflow-y: auto;
+    line-height: 1.7; font-size: clamp(1em, 3vw, 1.15em); color: #e8effc; 
+}
+#story-text-area p { margin: 0; white-space: pre-line; }
+#options-area { display: flex; flex-direction: column; gap: 12px; }
+#options-area button { /* 继承 .frosted-button */
+    padding: 12px 18px; font-size: clamp(0.95em, 2.8vw, 1.1em);
+    text-align: left;
+}
+#ending-display-area { 
+    margin-top: 20px; padding: 20px;
+    background-color: rgba(0,0,0,0.55); 
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+    text-align: center; max-height: 70vh; overflow-y: auto;
+}
+#ending-title { color: #ffc107; font-size: clamp(1.4em, 4vw, 1.8em); }
+#ending-description, #developer-comment { line-height: 1.6; font-size: clamp(1em, 3vw, 1.1em); }
+#restart-time-machine-btn {
+    background-color: rgba(255, 107, 107, 0.3); 
+    border: 1px solid rgba(255, 107, 107, 0.4);
+}
+#restart-time-machine-btn:hover { background-color: rgba(255, 107, 107, 0.45); }
+#enter-time-machine-prompt-btn { 
+    background-color: rgba(77, 184, 255, 0.25); 
+    border: 1px solid rgba(77, 184, 255, 0.3);
+}
+#enter-time-machine-prompt-btn:hover { background-color: rgba(77, 184, 255, 0.4); }
+
+
+/* 全局飘落物 */
+.falling-items-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 不阻挡下方元素的交互 */
+    overflow: hidden;
+    z-index: 1; /* 最高层级 */
+}
+
+.falling-item {
+    position: absolute;
+    top: -50px; /* 从屏幕外开始 */
+    font-size: 20px; /* 可调整大小 */
+    animation: fall linear infinite;
+    user-select: none;
+}
+
+.falling-item.heart {
+    color: #ff7eb9; /* 爱心颜色 */
+}
+
+.falling-item.ice-cream {
+    /* color: #f9d79c;  冰淇淋可以用emoji或者图片，这里用文字颜色示意 */
+    /* 如果用 emoji, JS 中直接设置 textContent */
+}
+
+
+@keyframes fall {
+    0% {
+        transform: translateY(0vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg); /* 落到屏幕外 */
+        opacity: 0;
+    }
+}

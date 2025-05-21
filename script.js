@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartTimeMachineBtn = document.getElementById('restart-time-machine-btn');
     const bottlesOpenedCountDisplay = document.getElementById('bottles-opened-count');
     const enterTimeMachinePromptBtn = document.getElementById('enter-time-machine-prompt-btn');
-
+let activeTypewriters = new Map(); // element -> currentTimeoutId
     // --- Game State Variables ---
     let particles = [];
     let fireflies = [];
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'ask_buy_milk_tea': dailyEventsTemplates.ask_buy_milk_tea,
         'ask_share_daily': dailyEventsTemplates.ask_share_daily,
         'ask_see_movie': dailyEventsTemplates.ask_see_movie,
-        'graduation_choice': { text: "2025年6月，我顺利拿到了湘西职院的毕业证书。站在人生的岔路口，微风拂过我的脸颊，带来了未来的气息。我决定……", onLoad: () => { playerStats.initialFavorabilityBeforeJishou = playerStats.favorability; }, options: [{ text: "留在吉首，寻求安稳。", favorability_change: -2, next: 'jishou_start' }, { text: "接受朝真的邀请，一起去长沙闯荡一番！", favorability_change: 1, next: 'changsha_start' }, { text: "相信命运的彩票，搏一个暴富的未来！", next: 'lottery_start' }] },
+        'graduation_choice': { text: "2025年7月，我顺利拿到了湘西职院的毕业证书。站在人生的岔路口，微风拂过我的脸颊，带来了未来的气息。我决定……", onLoad: () => { playerStats.initialFavorabilityBeforeJishou = playerStats.favorability; }, options: [{ text: "留在吉首，寻求安稳。", favorability_change: -2, next: 'jishou_start' }, { text: "接受朝真的邀请，一起去长沙闯荡一番！", favorability_change: 1, next: 'changsha_start' }, { text: "相信命运的彩票，搏一个暴富的未来！", next: 'lottery_start' }] },
         'jishou_start': { text: "我辞去了朝真舅妈家的工作，想在吉首找一份更稳定的幼师工作。这时，有两个机会摆在我面前……", options: [{ text: "进入一家看起来不错的私立幼儿园，薪资尚可。", action: () => { playerStats.jishouWorkType = 'private'; }, wealth_change: 1, feedbackText: "进入私立幼儿园，薪资高一些。财富+1💰", next: 'jishou_daily_interaction_after_work_choice' }, { text: "去了一家公立幼儿园，更稳定但收入较低。", action: () => { playerStats.jishouWorkType = 'public'; }, reputation_change: 1, feedbackText: "公立幼儿园工作稳定，受人尊敬。声望+1✨", next: 'jishou_daily_interaction_after_work_choice' }] },
         'jishou_daily_interaction_after_work_choice': { type: 'daily_pool', events: ['jishou_daily_call_parents', 'jishou_daily_read_book', 'jishou_daily_chaozhen_thought', 'jishou_private_career_boost', 'jishou_new_year_chaozhen_visit', 'jishou_learn_finance_invest_market', 'jishou_invest_chaozhen_remotely'], interactions_to_show: 3, next_major_event: 'jishou_emotional_choice_intro' },
         'jishou_daily_call_parents': dailyEventsTemplates.jishou_daily_call_parents,
@@ -529,57 +529,128 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateAttributeDisplay() { if (!favorabilityDisplay || !wealthDisplay || !reputationDisplay) return; let favorabilityHearts = ''; if (playerStats.favorability <= 0) { favorabilityHearts = '💔'; } else if (playerStats.favorability > 5) { favorabilityHearts = '❤️❤️❤️❤️❤️<span style="font-size:0.8em; vertical-align:super;">+</span>'; } else { favorabilityHearts = '❤️'.repeat(Math.max(0, playerStats.favorability)); if (playerStats.favorability <= 0 && favorabilityHearts === '') favorabilityHearts = '💔'; } favorabilityDisplay.innerHTML = favorabilityHearts; let wealthIcons = ''; if (playerStats.wealth <= 0) { wealthIcons = '💸'; } else if (playerStats.wealth >= 7) { wealthIcons = '💰💰💰💰<span style="font-size:0.8em; vertical-align:super;">+</span>'; } else if (playerStats.wealth >= 4) { wealthIcons = '💰💰💰<span style="font-size:0.8em; vertical-align:super;">+</span>'; } else if (playerStats.wealth >=3 ) { wealthIcons = '💰💰💰';} else { wealthIcons = '💰'.repeat(Math.max(0, playerStats.wealth)); if (playerStats.wealth <= 0 && wealthIcons === '') wealthIcons = '💸'; } wealthDisplay.innerHTML = wealthIcons; let reputationIcons = ''; if (playerStats.reputation <= 0) { reputationIcons = '😶'; } else if (playerStats.reputation >= 7) { reputationIcons = '✨✨✨✨<span style="font-size:0.8em; vertical-align:super;">+</span>'; } else if (playerStats.reputation >= 4) { reputationIcons = '✨✨✨<span style="font-size:0.8em; vertical-align:super;">+</span>'; } else if (playerStats.reputation >=3) { reputationIcons = '✨✨✨'; } else { reputationIcons = '✨'.repeat(Math.max(0, playerStats.reputation)); if (playerStats.reputation <= 0 && reputationIcons === '') reputationIcons = '😶'; } reputationDisplay.innerHTML = reputationIcons; }
-    function typeWriterEffect(text, element, callback) { let i = 0; if(element) element.innerHTML = ""; else return; if (typeof text !== 'string') { text = String(text); } const processedText = text.replace(/\\n/g, '\n'); function type() { if (i < processedText.length) { element.innerHTML += processedText.charAt(i); i++; setTimeout(type, 25); } else { if (callback) callback(); } } type(); }
-
-    function advanceToNode(nodeId) {
-        const initialNodeIdForThisCall = nodeId;
-        currentNodeId = nodeId;
-        let nodeToProcess = timeMachineStory[currentNodeId];
-
-        if (!nodeToProcess) { console.error("Error: Node not found:", nodeId); if (storyParagraph) storyParagraph.textContent = `错误：找不到节点 ${nodeId}`; if (optionsArea) optionsArea.innerHTML = ''; return; }
-        if (attributeFeedbackArea) attributeFeedbackArea.textContent = '';
-
-        // Handle endings triggered by onLoad first
-        if (nodeToProcess.onLoad) {
-            nodeToProcess.onLoad();
-            // If onLoad changed nodeId and it's an ending, display it and stop.
-            if (currentNodeId !== initialNodeIdForThisCall) {
-                const newNodeAfterLoad = timeMachineStory[currentNodeId];
-                if (newNodeAfterLoad && newNodeAfterLoad.type === 'ending') {
-                    displayEnding(newNodeAfterLoad);
-                    return;
-                }
-                // If it just changed to another regular node, update nodeToProcess
-                nodeToProcess = newNodeAfterLoad;
-                if (!nodeToProcess) { console.error("Error: Node became invalid after onLoad lead to new nodeId:", currentNodeId); return;}
-            }
-        }
-        // Now check type of potentially updated nodeToProcess
-        if (nodeToProcess.type === 'ending') { displayEnding(nodeToProcess); return; }
-
-
-        if (nodeToProcess.type === 'daily_pool') { handleDailyPool(nodeToProcess); return; }
-        let displayText = typeof nodeToProcess.text === 'function' ? nodeToProcess.text() : nodeToProcess.text;
-        if (typeof displayText === 'undefined') { console.error("Error: Text undefined for node:", currentNodeId); if (storyParagraph) storyParagraph.textContent = `错误：节点 ${currentNodeId} 文本未定义。`; if (optionsArea) optionsArea.innerHTML = ''; return; }
-
-        if (storyParagraph) {
-            typeWriterEffect(displayText, storyParagraph, () => {
-                if (optionsArea) optionsArea.innerHTML = '';
-                // Re-fetch node in case it was changed by an async text function or other logic
-                const currentNodeWithOptions = timeMachineStory[currentNodeId];
-                if (currentNodeWithOptions && currentNodeWithOptions.options) {
-                    currentNodeWithOptions.options.forEach((option, index) => {
-                        const button = document.createElement('button');
-                        let optionText = typeof option.text === 'function' ? option.text() : option.text;
-                        button.innerHTML = optionText;
-                        button.addEventListener('click', () => selectOption(index));
-                        if (optionsArea) optionsArea.appendChild(button);
-                    });
-                }
-            });
-        }
-        updateAttributeDisplay();
+function typeWriterEffect(text, element, callback) {
+    if (!element) {
+        console.error("typeWriterEffect: 元素为 null，文本内容：", text);
+        if (callback) callback();
+        return;
     }
+
+    // 如果此元素上已存在活动的打字机，则取消它
+    if (activeTypewriters.has(element)) {
+        clearTimeout(activeTypewriters.get(element));
+        activeTypewriters.delete(element);
+    }
+
+    let i = 0;
+    element.innerHTML = ""; // 清空元素内容
+    if (typeof text !== 'string') {
+        text = String(text);
+    }
+    const processedText = text.replace(/\\n/g, '\n');
+
+    function type() {
+        if (i < processedText.length) {
+            element.innerHTML += processedText.charAt(i);
+            i++;
+            let timeoutId = setTimeout(type, 25); // 延时调用自身以打印下一个字符
+            activeTypewriters.set(element, timeoutId); // 存储当前计时器ID
+        } else {
+            activeTypewriters.delete(element); // 完成后从活动映射中移除
+            if (callback) callback(); // 完成后调用回调函数
+        }
+    }
+    type();
+}
+  function advanceToNode(nodeId) {
+    // `nodeId` 是此特定调用旨在处理的ID。
+    // `currentNodeId` 是全局状态，可能会被 `onLoad` 更改。
+
+    let localNodeIdToProcess = nodeId; // 使用局部变量记录此实例正在处理的节点ID
+    currentNodeId = nodeId;           // 更新全局当前节点ID
+
+    let nodeToProcess = timeMachineStory[localNodeIdToProcess];
+
+    if (!nodeToProcess) {
+        console.error("错误：未找到节点：", localNodeIdToProcess);
+        if (storyParagraph) storyParagraph.textContent = `错误：找不到节点 ${localNodeIdToProcess}`;
+        if (optionsArea) optionsArea.innerHTML = '';
+        return;
+    }
+
+    if (attributeFeedbackArea) attributeFeedbackArea.textContent = '';
+
+    // 如果此节点是结局类型，则显示它并终止。
+    if (nodeToProcess.type === 'ending') {
+        displayEnding(nodeToProcess);
+        return;
+    }
+
+    // 如果存在，则执行 onLoad。
+    if (nodeToProcess.onLoad) {
+        nodeToProcess.onLoad(); // 这可能会递归调用 advanceToNode 并更改全局 `currentNodeId`
+
+        // onLoad之后，如果全局`currentNodeId`与此advanceToNode实例最初调用的`localNodeIdToProcess`不同，
+        // 则表示`onLoad`触发了到新节点的导航。
+        // 新的`advanceToNode`调用（递归的）将处理该新节点。
+        // 因此，此当前实例应终止。
+        if (currentNodeId !== localNodeIdToProcess) {
+            return; // 关键：如果 onLoad 导航到其他地方，则停止此实例。
+        }
+
+        // 如果 `currentNodeId` 仍为 `localNodeIdToProcess`，则表示 `onLoad`：
+        // 1. 未调用 `advanceToNode`。
+        // 2. 调用了 `advanceToNode` 但它最终返回了控制权，而没有永久更改为*不同*的节点ID。
+        // 3. 修改了当前节点 `localNodeIdToProcess` 的属性。
+        // 我们应该重新获取 `nodeToProcess`，以防其属性（如 `.type`）被 `onLoad` 更改。
+        nodeToProcess = timeMachineStory[localNodeIdToProcess];
+        if (!nodeToProcess) {
+            console.error("错误：节点在 onLoad 后对于 nodeId 失效：", localNodeIdToProcess);
+            return;
+        }
+        // 如果在 `onLoad` 之后，当前节点（`localNodeIdToProcess`）现在实际上已成为结局
+        // （例如，其类型已更改，或某些条件现在使其成为结局），则显示它。
+        if (nodeToProcess.type === 'ending') {
+            displayEnding(nodeToProcess);
+            return;
+        }
+    }
+
+    // 如果是每日事件池，则处理它。
+    if (nodeToProcess.type === 'daily_pool') {
+        handleDailyPool(nodeToProcess);
+        return;
+    }
+
+    // 具有文本和选项的常规节点
+    let displayText = typeof nodeToProcess.text === 'function' ? nodeToProcess.text() : nodeToProcess.text;
+    if (typeof displayText === 'undefined') {
+        console.error("错误：节点文本未定义：", localNodeIdToProcess);
+        if (storyParagraph) storyParagraph.textContent = `错误：节点 ${localNodeIdToProcess} 文本未定义。`;
+        if (optionsArea) optionsArea.innerHTML = '';
+        return;
+    }
+
+    if (storyParagraph) {
+        typeWriterEffect(displayText, storyParagraph, () => {
+            if (optionsArea) optionsArea.innerHTML = '';
+            // 此处使用 storyTimeMachine[currentNodeId] 是因为 typeWriterEffect 是异步的。
+            // 当回调运行时，如果发生了其他操作，全局 currentNodeId 可能是相关的。
+            // 但对于选项生成，它应严格针对刚显示其文本的节点。
+            const nodeForOptions = timeMachineStory[currentNodeId];
+            if (nodeForOptions && nodeForOptions.options) {
+                nodeForOptions.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    let optionText = typeof option.text === 'function' ? option.text() : option.text;
+                    button.innerHTML = optionText; // 使用 innerHTML 以允许富文本（如果将来需要）
+                    button.addEventListener('click', () => selectOption(index));
+                    if (optionsArea) optionsArea.appendChild(button);
+                });
+            }
+        });
+    }
+    updateAttributeDisplay();
+}
 
     function handleDailyPool(poolNode) { if (!poolNode || !Array.isArray(poolNode.events) || poolNode.events.length === 0) { if (poolNode && poolNode.next_major_event) { proceedToNextMajorEvent(poolNode); } else { advanceToNode('start'); } return; } if (dailyInteractionCounter < poolNode.interactions_to_show) { const availableEvents = poolNode.events.filter(eventId => { const eventNode = timeMachineStory[eventId] || dailyEventsTemplates[eventId]; return eventNode && !eventNode._playedThisRound; }); if (availableEvents.length > 0) { const eventId = availableEvents[Math.floor(Math.random() * availableEvents.length)]; const eventToPlay = timeMachineStory[eventId] || dailyEventsTemplates[eventId]; if (eventToPlay) { eventToPlay._playedThisRound = true; dailyInteractionCounter++; advanceToNode(eventId); } else { proceedToNextMajorEvent(poolNode); } } else { proceedToNextMajorEvent(poolNode); } } else { proceedToNextMajorEvent(poolNode); } }
     function proceedToNextMajorEvent(poolNode) { if (poolNode && Array.isArray(poolNode.events)) { poolNode.events.forEach(eventId => { const eventNode = timeMachineStory[eventId] || dailyEventsTemplates[eventId]; if (eventNode && typeof eventNode._playedThisRound !== 'undefined') { eventNode._playedThisRound = false; } }); } dailyInteractionCounter = 0; if (poolNode && poolNode.next_major_event) { advanceToNode(poolNode.next_major_event); } else { advanceToNode('start'); } }
